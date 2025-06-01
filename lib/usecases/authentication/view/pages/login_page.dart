@@ -1,3 +1,5 @@
+import 'package:demo_project/common/navigation/routes.dart';
+
 import '../../../../common/theme/color_pallete.dart';
 import '../../../../common/utilities/app_utilities.dart';
 import '../../../../common/widgets/custom_text_form_field.dart';
@@ -84,7 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                 width: screenWidth(context),
                 height: screenHeight(context) * 0.08,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.mainRoute);
+                  },
                   child: Text(
                     'Login',
                     style: TextStyle(color: Colors.white, fontSize: 18),

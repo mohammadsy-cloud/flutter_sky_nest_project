@@ -3,6 +3,9 @@ import 'package:demo_project/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import 'confirm_reservation_page.dart';
+import 'hotel_info_page.dart';
+
 class BrowseHotelsPage extends StatelessWidget {
   const BrowseHotelsPage({super.key});
 
@@ -72,98 +75,113 @@ class BrowseHotelsPage extends StatelessWidget {
                 itemExtent: screenHeight(context) * 0.19,
                 itemCount: 10,
                 itemBuilder: (_, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: screenWidth(context),
-                      height: screenHeight(context) * 0.18,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            blurStyle: BlurStyle.outer,
-                            color: Colors.black,
-                            spreadRadius: 0.2,
-                            offset: Offset(0.0, 4.5),
-                            blurRadius: 10,
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: screenWidth(context) * 0.28,
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                alignment: Alignment(-0.5, 0.0),
-                                image: AssetImage(
-                                  index % 2 == 0
-                                      ? 'assets/images/hotel_photo4.jpg'
-                                      : 'assets/images/hotel_image1.jpeg',
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (_) => ConfirmReservationPage(
+                                hotelName: 'Paradise mint $index',
+                              ),
+                          // (_) => HotelInfoPage(
+                          //   hotelName: 'Paradise mint $index',
+                          // ),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: screenWidth(context),
+                        height: screenHeight(context) * 0.18,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              blurStyle: BlurStyle.outer,
+                              color: Colors.black,
+                              spreadRadius: 0.2,
+                              offset: Offset(0.0, 4.5),
+                              blurRadius: 10,
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: screenWidth(context) * 0.28,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  alignment: Alignment(-0.5, 0.0),
+                                  image: AssetImage(
+                                    index % 2 == 0
+                                        ? 'assets/images/hotel_image4.jpg'
+                                        : 'assets/images/hotel_image1.jpeg',
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  RatingBar(
-                                    itemSize: 20,
-                                    updateOnDrag: false,
-                                    ratingWidget: RatingWidget(
-                                      full: Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    RatingBar(
+                                      itemSize: 20,
+                                      updateOnDrag: false,
+                                      ratingWidget: RatingWidget(
+                                        full: Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        half: Icon(
+                                          Icons.star_half_outlined,
+                                          color: Colors.amber,
+                                        ),
+                                        empty: Icon(
+                                          Icons.star_border,
+                                          color: Colors.amber,
+                                        ),
                                       ),
-                                      half: Icon(
-                                        Icons.star_half_outlined,
-                                        color: Colors.amber,
-                                      ),
-                                      empty: Icon(
-                                        Icons.star_border,
-                                        color: Colors.amber,
-                                      ),
-                                    ),
-                                    glowColor: Colors.amber,
-                                    initialRating: (5 - index % 5),
+                                      glowColor: Colors.amber,
+                                      initialRating: (5 - index % 5),
 
-                                    onRatingUpdate: (value) {},
+                                      onRatingUpdate: (value) {},
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  'Paradise Mint $index',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
-                              Text(
-                                'Paradise Mint $index',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.location_on_sharp),
-                                  Text('Damascus,Syria'),
-                                ],
-                              ),
-                              Text(
-                                '\$${index % 2 + index + 1}00/night',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                Row(
+                                  children: [
+                                    Icon(Icons.location_on_sharp),
+                                    Text('Damascus,Syria'),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Text(
+                                  '\$${index % 2 + index + 1}00/night',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

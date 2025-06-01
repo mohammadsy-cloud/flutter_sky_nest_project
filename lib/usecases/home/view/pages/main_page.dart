@@ -22,41 +22,48 @@ class _Maintate extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        title: Text('Bookings'),
-        toolbarHeight: screenHeight(context) * 0.1,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: SelectWidget(
-                titles: ['Upcoming', 'Canceled', 'Rejected'],
-                onSelected: (index) {},
+      appBar:
+          _currentIndex == 0
+              ? null
+              : AppBar(
+                forceMaterialTransparency: true,
+                title: Text('Bookings'),
+                toolbarHeight: screenHeight(context) * 0.1,
               ),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 30.0),
-                shrinkWrap: true,
-                itemExtent: screenHeight(context) * 0.28,
-                itemCount: 10,
-                itemBuilder: (_, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: BookingCard(isBooking: true),
-                  );
-                },
+      body:
+          _currentIndex == 0
+              ? HomeScreenWidget()
+              : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: SelectWidget(
+                        titles: ['Upcoming', 'Canceled', 'Rejected'],
+                        onSelected: (index) {},
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 30.0),
+                        shrinkWrap: true,
+                        itemExtent: screenHeight(context) * 0.28,
+                        itemCount: 10,
+                        itemBuilder: (_, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: BookingCard(isBooking: true),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
       bottomNavigationBar: ConvexAppBar(
+        // height: screenHeight(context) * 0.09,
         initialActiveIndex: _currentIndex,
 
         onTap: (index) {
@@ -65,10 +72,12 @@ class _Maintate extends State<MainPage> {
           });
         },
         backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-        style: TabStyle.fixedCircle,
+        style: TabStyle.flip,
         items: [
           TabItem(icon: Icon(Icons.home), title: 'Home'),
-          TabItem(icon: Icon(Icons.book), title: 'Bookings'),
+          TabItem(icon: Icon(Icons.book), title: 'Search'),
+          TabItem(icon: Icon(Icons.person), title: 'Reservations'),
+          TabItem(icon: Icon(Icons.person), title: 'Person'),
           TabItem(icon: Icon(Icons.person), title: 'Person'),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:demo_project/common/theme/color_pallete.dart';
 import 'package:demo_project/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,9 +20,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           PageView(
             controller: _pageController,
             children: [
-              Container(color: Colors.amber),
-              Container(color: Colors.green),
-              Container(color: Colors.red),
+              Container(
+                decoration: BoxDecoration(
+                  color: ColorPallete.grayColor1,
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/on_boarding_1.jpg'),
+                  ),
+                ),
+              ),
+              Container(color: ColorPallete.grayColor),
+              Container(color: ColorPallete.grayColor2),
             ],
           ),
           Positioned(
@@ -30,7 +38,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               width: screenWidth(context),
               height: screenHeight(context) * 0.32,
               decoration: BoxDecoration(
-                color: Colors.lime,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18),
                   topRight: Radius.circular(18),
@@ -43,12 +51,19 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   SmoothPageIndicator(
                     controller: _pageController,
                     count: 3,
-                    effect: WormEffect(
-                      type: WormType.underground,
-                      // dotWidth: 50,
-                      // spacing: 0,
-                      offset: 0.5,
-                      dotHeight: 10,
+                    effect: CustomizableEffect(
+                      activeDotDecoration: DotDecoration(
+                        width: 70,
+                        borderRadius: BorderRadius.circular(20),
+                        height: 8,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      dotDecoration: DotDecoration(
+                        width: 20,
+                        height: 8,
+                        color: ColorPallete.grayColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -67,7 +82,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       textAlign: TextAlign.center,
                       'It is a long established fact that a reader will be \n distracted by the readable content.',
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 13,
+                        color: ColorPallete.grayColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

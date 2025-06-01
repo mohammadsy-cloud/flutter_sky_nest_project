@@ -1,3 +1,4 @@
+import 'package:demo_project/common/navigation/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../common/utilities/app_utilities.dart';
@@ -14,8 +15,15 @@ class HomeScreenWidget extends StatefulWidget {
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [_buildHeader(context), _buildCountries(), _buildBody(context)],
+    return PopScope(
+      canPop: false,
+      child: CustomScrollView(
+        slivers: [
+          _buildHeader(context),
+          _buildCountries(),
+          _buildBody(context),
+        ],
+      ),
     );
   }
 
@@ -131,6 +139,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
 
   SliverAppBar _buildHeader(BuildContext context) {
     return SliverAppBar(
+      leading: null,
       toolbarHeight: screenHeight(context) * 0.31,
       titleSpacing: 0,
       stretch: true,
@@ -195,7 +204,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      //TODO navigate to hotel
+                      Navigator.of(context).pushNamed(Routes.browseHotelsRoute);
                     },
                     child: Container(
                       width: screenWidth(context) * 0.33,

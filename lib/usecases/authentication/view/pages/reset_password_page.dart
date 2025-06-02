@@ -1,3 +1,11 @@
+import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:demo_project/common/repos/requests/change_password_request.dart';
+import 'package:demo_project/common/widgets/loading_indicator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../../../common/navigation/routes.dart';
 import '../../../../common/theme/color_pallete.dart';
 import '../../../../common/widgets/blurred_dialog.dart';
 import '../../../../common/widgets/custom_text_form_field.dart';
@@ -16,6 +24,16 @@ class ResetPasswordPage extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  late final Size _screenSize;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (mounted) {
+      _screenSize = Size(screenWidth(context), screenHeight(context));
+    }
+  }
+
   @override
   void dispose() {
     _passwordController.dispose();
@@ -31,7 +49,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         padding: EdgeInsets.only(
           left: 20,
           right: 20,
-          top: screenHeight(context) * 0.03,
+          top: _screenSize.height * 0.03,
           bottom: MediaQuery.of(context).viewInsets.bottom * 0.3,
         ),
         child: Form(
@@ -49,8 +67,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 style: TextStyle(fontSize: 17, color: ColorPallete.grayColor),
               ),
               SizedBox(
-                width: screenWidth(context),
-                height: screenHeight(context) * 0.35,
+                width: _screenSize.width,
+                height: _screenSize.height * 0.35,
                 child: Image.asset(
                   filterQuality: FilterQuality.high,
                   'assets/images/enter_new_password.png',
@@ -73,6 +91,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               ),
               SizedBox(height: 15),
               CustomTextFormField(
+                textInputAction: TextInputAction.done,
                 label: 'Confirm Password',
                 obsecureText: true,
                 validator: (value) {
@@ -83,24 +102,47 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   }
                 },
               ),
-              SizedBox(height: screenHeight(context) * 0.1),
+              SizedBox(height: _screenSize.height * 0.1),
               SizedBox(
-                width: screenWidth(context),
-                height: screenHeight(context) * 0.08,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_submit()) {
-                      showDialog(
-                        context: context,
-                        builder: (_) {
-                          return _buildDialog();
-                        },
-                      );
+                width: _screenSize.width,
+                height: _screenSize.height * 0.08,
+                child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                  listenWhen: (previous, current) => !current.dataState.isEmpty,
+                  listener: (context, state) async {
+                    if (state.dataState.isLoading) {
+                      LoadingIndicator().show(context);
+                    } else {
+                      LoadingIndicator().hideAll();
+                      if (state.dataState.isDone) {
+                        await showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (_) {
+                            return _buildDialog();
+                          },
+                        );
+                      } else {
+                        myShowSnackBar(context, state.message);
+                      }
                     }
                   },
-                  child: Text(
-                    'Save',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_submit()) {
+                        context.read<AuthenticationBloc>().add(
+                          ChangePassword(
+                            request: ChangePasswordRequest(
+                              email: widget.email,
+                              password: _confirmPasswordController.text,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      'Save',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
               ),
@@ -119,10 +161,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: screenHeight(context) * 0.2,
-              width: screenWidth(context),
-              child: Image.asset(
-                'assets/images/password_updated_successfully.png',
+              height: _screenSize.height * 0.2,
+              width: _screenSize.width,
+              child: Lottie.asset(
+                'assets/lottie/reset_password_animation.json',
               ),
             ),
             Text(
@@ -138,15 +180,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
             SizedBox(height: 10),
             SizedBox(
-              width: screenWidth(context),
-              height: screenHeight(context) * 0.07,
+              width: _screenSize.width,
+              height: _screenSize.height * 0.07,
               child: ElevatedButton(
-                onPressed:
-                    () => Navigator.of(
-                      context,
-                    ).pushNamedAndRemoveUntil('/login', (_) => false),
+                onPressed: () => context.goNamed(Routes.loginRoute),
                 child: Text(
-                  'Back to home',
+                  'Back to login',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),

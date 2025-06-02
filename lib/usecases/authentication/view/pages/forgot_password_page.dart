@@ -1,3 +1,9 @@
+import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:demo_project/common/repos/requests/change_password_email_request.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../common/navigation/routes.dart';
 import '../../../../common/theme/color_pallete.dart';
 import 'verification_code_page.dart';
 import '../../../../common/widgets/custom_text_form_field.dart';
@@ -57,10 +63,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               SizedBox(height: 20),
               CustomTextFormField(
+                textInputAction: TextInputAction.done,
                 label: 'Email',
                 controller: _emailController,
                 validator: (value) {
-                  if (value!.trim().isEmpty) {
+                  if (!isValidEmail(value)) {
                     return 'Please Enter a valid email';
                   } else {
                     return null;
@@ -72,16 +79,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 width: screenWidth(context),
                 height: screenHeight(context) * 0.08,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (validateFormKey(_formKey)) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder:
-                              (_) => VerificationCodePage(
-                                email: _emailController.text,
-                              ),
+                      context.read<AuthenticationBloc>().add(
+                        ChangePasswordEmail(
+                          request: ChangePasswordEmailRequest(
+                            email: _emailController.text,
+                          ),
                         ),
                       );
+                      await for (final newState
+                          in context.read<AuthenticationBloc>().stream) {
+                        if (newState.dataState.isDone) {
+                          context.pushNamed(
+                            Routes.verificationCodeChangeRoute,
+                            pathParameters: {
+                              'email': _emailController.text,
+                              'code': '1',
+                            },
+                          );
+                          break;
+                        }
+                      }
                     }
                   },
                   child: Text(

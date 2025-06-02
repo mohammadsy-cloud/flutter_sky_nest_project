@@ -6,6 +6,15 @@ sealed class AuthenticationEvent with _$AuthenticationEvent {
       AuthSignUp;
   const factory AuthenticationEvent.login({required LoginRequest request}) =
       AuthLogIn;
+  const factory AuthenticationEvent.changePasswordEmail({
+    required ChangePasswordEmailRequest request,
+  }) = ChangePasswordEmail;
+  const factory AuthenticationEvent.changePasswordVerify({
+    required VerifyOtpRequest request,
+  }) = ChangePasswordVerify;
+  const factory AuthenticationEvent.changePassword({
+    required ChangePasswordRequest request,
+  }) = ChangePassword;
   const factory AuthenticationEvent.addLocation({
     required double lat,
     required double long,

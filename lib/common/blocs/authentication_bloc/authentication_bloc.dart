@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:demo_project/common/models/user.dart';
 import 'package:demo_project/common/repos/authentication_repo.dart';
+import 'package:demo_project/common/repos/requests/change_password_email_request.dart';
+import 'package:demo_project/common/repos/requests/change_password_request.dart';
 import 'package:demo_project/common/repos/requests/register_request.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +30,9 @@ class AuthenticationBloc
     });
     on<AuthSignUp>(_signUpUser);
     on<AuthLogIn>(_logInUser);
+    on<ChangePasswordEmail>(_changePasswordEmail);
+    on<ChangePasswordVerify>(_changePasswordVerify);
+    on<ChangePassword>(_changePassword);
     on<AuthAddLocation>(
       (event, emit) => emit(
         state.copyWith(
@@ -111,6 +116,84 @@ class AuthenticationBloc
         ),
         Right(value: final r) => state.copyWith(
           user: state.user?.copyWith(token: r.data),
+          dataState: Data.done,
+          message: r.message,
+          token: r.data,
+        ),
+      };
+      emit(nextState);
+    } catch (e) {
+      emit(state.copyWith(dataState: Data.error, message: e.toString()));
+    }
+  }
+
+  Future<void> _changePasswordEmail(
+    ChangePasswordEmail event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    try {
+      final response = await _authenticationRepo.changePasswordEmail(
+        event.request,
+      );
+
+      final nextState = switch (response) {
+        Left(value: final l) => state.copyWith(
+          dataState: Data.error,
+          message: l.message,
+        ),
+        Right(value: final r) => state.copyWith(
+          user: state.user?.copyWith(email: event.request.email),
+          dataState: Data.done,
+          message: r.message,
+          token: r.data,
+        ),
+      };
+      emit(nextState);
+    } catch (e) {
+      emit(state.copyWith(dataState: Data.error, message: e.toString()));
+    }
+  }
+
+  Future<void> _changePasswordVerify(
+    ChangePasswordVerify event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    try {
+      final response = await _authenticationRepo.changePasswordVerify(
+        event.request,
+      );
+
+      final nextState = switch (response) {
+        Left(value: final l) => state.copyWith(
+          dataState: Data.error,
+          message: l.message,
+        ),
+        Right(value: final r) => state.copyWith(
+          user: state.user?.copyWith(email: event.request.email),
+          dataState: Data.done,
+          message: r.message,
+          token: r.data,
+        ),
+      };
+      emit(nextState);
+    } catch (e) {
+      emit(state.copyWith(dataState: Data.error, message: e.toString()));
+    }
+  }
+
+  Future<void> _changePassword(
+    ChangePassword event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    try {
+      final response = await _authenticationRepo.changePassword(event.request);
+
+      final nextState = switch (response) {
+        Left(value: final l) => state.copyWith(
+          dataState: Data.error,
+          message: l.message,
+        ),
+        Right(value: final r) => state.copyWith(
           dataState: Data.done,
           message: r.message,
           token: r.data,

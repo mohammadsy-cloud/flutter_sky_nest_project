@@ -213,6 +213,249 @@ $LoginRequestCopyWith<$Res> get request {
 /// @nodoc
 
 
+class ChangePasswordEmail with DiagnosticableTreeMixin implements AuthenticationEvent {
+  const ChangePasswordEmail({required this.request});
+  
+
+ final  ChangePasswordEmailRequest request;
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChangePasswordEmailCopyWith<ChangePasswordEmail> get copyWith => _$ChangePasswordEmailCopyWithImpl<ChangePasswordEmail>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'AuthenticationEvent.changePasswordEmail'))
+    ..add(DiagnosticsProperty('request', request));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChangePasswordEmail&&(identical(other.request, request) || other.request == request));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,request);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'AuthenticationEvent.changePasswordEmail(request: $request)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChangePasswordEmailCopyWith<$Res> implements $AuthenticationEventCopyWith<$Res> {
+  factory $ChangePasswordEmailCopyWith(ChangePasswordEmail value, $Res Function(ChangePasswordEmail) _then) = _$ChangePasswordEmailCopyWithImpl;
+@useResult
+$Res call({
+ ChangePasswordEmailRequest request
+});
+
+
+$ChangePasswordEmailRequestCopyWith<$Res> get request;
+
+}
+/// @nodoc
+class _$ChangePasswordEmailCopyWithImpl<$Res>
+    implements $ChangePasswordEmailCopyWith<$Res> {
+  _$ChangePasswordEmailCopyWithImpl(this._self, this._then);
+
+  final ChangePasswordEmail _self;
+  final $Res Function(ChangePasswordEmail) _then;
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? request = null,}) {
+  return _then(ChangePasswordEmail(
+request: null == request ? _self.request : request // ignore: cast_nullable_to_non_nullable
+as ChangePasswordEmailRequest,
+  ));
+}
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ChangePasswordEmailRequestCopyWith<$Res> get request {
+  
+  return $ChangePasswordEmailRequestCopyWith<$Res>(_self.request, (value) {
+    return _then(_self.copyWith(request: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class ChangePasswordVerify with DiagnosticableTreeMixin implements AuthenticationEvent {
+  const ChangePasswordVerify({required this.request});
+  
+
+ final  VerifyOtpRequest request;
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChangePasswordVerifyCopyWith<ChangePasswordVerify> get copyWith => _$ChangePasswordVerifyCopyWithImpl<ChangePasswordVerify>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'AuthenticationEvent.changePasswordVerify'))
+    ..add(DiagnosticsProperty('request', request));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChangePasswordVerify&&(identical(other.request, request) || other.request == request));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,request);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'AuthenticationEvent.changePasswordVerify(request: $request)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChangePasswordVerifyCopyWith<$Res> implements $AuthenticationEventCopyWith<$Res> {
+  factory $ChangePasswordVerifyCopyWith(ChangePasswordVerify value, $Res Function(ChangePasswordVerify) _then) = _$ChangePasswordVerifyCopyWithImpl;
+@useResult
+$Res call({
+ VerifyOtpRequest request
+});
+
+
+$VerifyOtpRequestCopyWith<$Res> get request;
+
+}
+/// @nodoc
+class _$ChangePasswordVerifyCopyWithImpl<$Res>
+    implements $ChangePasswordVerifyCopyWith<$Res> {
+  _$ChangePasswordVerifyCopyWithImpl(this._self, this._then);
+
+  final ChangePasswordVerify _self;
+  final $Res Function(ChangePasswordVerify) _then;
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? request = null,}) {
+  return _then(ChangePasswordVerify(
+request: null == request ? _self.request : request // ignore: cast_nullable_to_non_nullable
+as VerifyOtpRequest,
+  ));
+}
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$VerifyOtpRequestCopyWith<$Res> get request {
+  
+  return $VerifyOtpRequestCopyWith<$Res>(_self.request, (value) {
+    return _then(_self.copyWith(request: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class ChangePassword with DiagnosticableTreeMixin implements AuthenticationEvent {
+  const ChangePassword({required this.request});
+  
+
+ final  ChangePasswordRequest request;
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ChangePasswordCopyWith<ChangePassword> get copyWith => _$ChangePasswordCopyWithImpl<ChangePassword>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'AuthenticationEvent.changePassword'))
+    ..add(DiagnosticsProperty('request', request));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChangePassword&&(identical(other.request, request) || other.request == request));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,request);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'AuthenticationEvent.changePassword(request: $request)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ChangePasswordCopyWith<$Res> implements $AuthenticationEventCopyWith<$Res> {
+  factory $ChangePasswordCopyWith(ChangePassword value, $Res Function(ChangePassword) _then) = _$ChangePasswordCopyWithImpl;
+@useResult
+$Res call({
+ ChangePasswordRequest request
+});
+
+
+$ChangePasswordRequestCopyWith<$Res> get request;
+
+}
+/// @nodoc
+class _$ChangePasswordCopyWithImpl<$Res>
+    implements $ChangePasswordCopyWith<$Res> {
+  _$ChangePasswordCopyWithImpl(this._self, this._then);
+
+  final ChangePassword _self;
+  final $Res Function(ChangePassword) _then;
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? request = null,}) {
+  return _then(ChangePassword(
+request: null == request ? _self.request : request // ignore: cast_nullable_to_non_nullable
+as ChangePasswordRequest,
+  ));
+}
+
+/// Create a copy of AuthenticationEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ChangePasswordRequestCopyWith<$Res> get request {
+  
+  return $ChangePasswordRequestCopyWith<$Res>(_self.request, (value) {
+    return _then(_self.copyWith(request: value));
+  });
+}
+}
+
+/// @nodoc
+
+
 class AuthAddLocation with DiagnosticableTreeMixin implements AuthenticationEvent {
   const AuthAddLocation({required this.lat, required this.long});
   

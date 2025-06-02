@@ -3,6 +3,7 @@ import 'package:demo_project/usecases/authentication/view/pages/forgot_password_
 import 'package:demo_project/usecases/authentication/view/pages/login_page.dart';
 import 'package:demo_project/usecases/authentication/view/pages/on_boarding_page.dart';
 import 'package:demo_project/usecases/authentication/view/pages/register_page.dart';
+import 'package:demo_project/usecases/authentication/view/pages/reset_password_page.dart';
 import 'package:demo_project/usecases/authentication/view/pages/verification_code_page.dart';
 import 'package:demo_project/usecases/home/view/pages/browse_hotels_page.dart';
 import 'package:demo_project/usecases/home/view/pages/main_page.dart';
@@ -11,6 +12,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../usecases/authentication/view/pages/choose_location_page.dart';
 import '../../usecases/authentication/view/pages/splash_page.dart';
+import '../../usecases/authentication/view/pages/verification_code_change_page.dart';
 
 class GlobalAppRouter {
   static final GoRouter _goRouter = GoRouter(
@@ -59,8 +61,24 @@ class GlobalAppRouter {
         pageBuilder: (context, state) {
           final code = int.tryParse(state.pathParameters['code'] ?? '1');
           final email = state.pathParameters['email'] ?? 'no email';
+
           return MaterialPage(
             child: VerificationCodePage(
+              email: email,
+              code: code == 1 ? null : code,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        name: Routes.verificationCodeChangeRoute,
+        path: '/verify_change/:code/:email',
+        pageBuilder: (context, state) {
+          final code = int.tryParse(state.pathParameters['code'] ?? '1');
+          final email = state.pathParameters['email'] ?? 'no email';
+
+          return MaterialPage(
+            child: VerificationCodeChangePage(
               email: email,
               code: code == 1 ? null : code,
             ),
@@ -72,6 +90,14 @@ class GlobalAppRouter {
         path: '/forgot_password',
         pageBuilder: (context, state) {
           return MaterialPage(child: ForgotPasswordPage());
+        },
+      ),
+      GoRoute(
+        name: Routes.resetPasswordRoute,
+        path: '/reset_password/:email',
+        pageBuilder: (context, state) {
+          final email = state.pathParameters['email'] ?? 'No email';
+          return MaterialPage(child: ResetPasswordPage(email: email));
         },
       ),
     ],

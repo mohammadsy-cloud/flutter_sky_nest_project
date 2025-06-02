@@ -12,6 +12,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:logger/logger.dart';
 
 import '../models/user.dart';
+import 'requests/change_password_email_request.dart';
+import 'requests/change_password_request.dart';
 import 'requests/login_request.dart';
 
 class AuthenticationRepo {
@@ -48,6 +50,94 @@ class AuthenticationRepo {
       return Left(
         CustomFailure(
           message: 'registration is not complete',
+          stackTrace: StackTrace.current,
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.message ?? 'Some error'));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<CustomFailure, CustomResponse>> changePasswordEmail(
+    ChangePasswordEmailRequest request,
+  ) async {
+    try {
+      final response = await _dio.post(
+        AuthenticationEndpoints.changePasswordEmail,
+        queryParameters: {'email': request.email},
+      );
+
+      if ((response.statusCode ?? 500) < 300) {
+        return Right(
+          CustomResponse(
+            message: 'we will send code to your email to be verified',
+            statusCode: response.statusCode!,
+          ),
+        );
+      }
+      return Left(
+        CustomFailure(
+          message: 'change password is not complete',
+          stackTrace: StackTrace.current,
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.message ?? 'Some error'));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<CustomFailure, CustomResponse>> changePasswordVerify(
+    VerifyOtpRequest request,
+  ) async {
+    try {
+      final response = await _dio.post(
+        AuthenticationEndpoints.changePasswordCode,
+        data: request.toJson(),
+      );
+      if ((response.statusCode ?? 500) < 300) {
+        return Right(
+          CustomResponse(
+            message: 'Email verified successfully',
+            statusCode: response.statusCode!,
+          ),
+        );
+      }
+      return Left(
+        CustomFailure(
+          message: 'registration is not complete',
+          stackTrace: StackTrace.current,
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.message ?? 'Some error'));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<CustomFailure, CustomResponse<String>>> changePassword(
+    ChangePasswordRequest request,
+  ) async {
+    try {
+      final response = await _dio.post(
+        AuthenticationEndpoints.changePassword,
+        queryParameters: {'email': request.email, 'password': request.password},
+      );
+      if ((response.statusCode ?? 500) < 300) {
+        return Right(
+          CustomResponse(
+            message: 'Password changed successfully',
+            statusCode: response.statusCode!,
+          ),
+        );
+      }
+      return Left(
+        CustomFailure(
+          message: 'change password is not complete',
           stackTrace: StackTrace.current,
         ),
       );

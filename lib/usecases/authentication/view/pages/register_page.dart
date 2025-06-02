@@ -1,3 +1,10 @@
+import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:demo_project/common/navigation/routes.dart';
+import 'package:demo_project/common/repos/requests/register_request.dart';
+import 'package:demo_project/common/widgets/loading_indicator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../../common/theme/color_pallete.dart';
 import '../../../../common/utilities/app_utilities.dart';
 import 'package:demo_project/common/widgets/custom_text_form_field.dart';
@@ -16,6 +23,17 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _locationController = TextEditingController();
+  late AuthenticationBloc _authenticationBloc;
+  String _currentAddress = '';
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationBloc = context.read<AuthenticationBloc>();
+    _fetchUserAddress();
+  }
+
   @override
   void dispose() {
     _fullNameController.dispose();
@@ -27,6 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    _authenticationBloc = context.read<AuthenticationBloc>();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -36,88 +55,185 @@ class _RegisterPageState extends State<RegisterPage> {
             top: screenHeight(context) * 0.08,
             bottom: MediaQuery.of(context).viewInsets.bottom * 0.3,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Transform.translate(
-                offset: Offset(-30.0, 0.0),
-                child: Image.asset(
-                  color: Theme.of(context).colorScheme.primary,
-                  'assets/images/app_logo_skynest.png',
-                  width: screenWidth(context) * 0.7,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Transform.translate(
+                  offset: Offset(-30.0, 0.0),
+                  child: Image.asset(
+                    color: Theme.of(context).colorScheme.primary,
+                    'assets/images/app_logo_skynest.png',
+                    width: screenWidth(context) * 0.7,
+                    height: screenHeight(context) * 0.08,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Register Now!',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Enter Your information below',
+                  style: TextStyle(fontSize: 17, color: ColorPallete.grayColor),
+                ),
+                SizedBox(height: 20),
+                CustomTextFormField(
+                  validator: (value) {
+                    if (checkIfEmpty(value)) {
+                      return 'Enter a valid name';
+                    } else {
+                      return null;
+                    }
+                  },
+                  label: 'Full Name',
+                  controller: _fullNameController,
+                ),
+                SizedBox(height: 20),
+                CustomTextFormField(
+                  validator: (value) {
+                    if (!isValidEmail(value)) {
+                      return 'Enter a valid email';
+                    } else {
+                      return null;
+                    }
+                  },
+                  label: 'Email',
+                  controller: _emailController,
+                ),
+                SizedBox(height: 20),
+                CustomTextFormField(
+                  validator: (value) {
+                    if (checkIfEmpty(value)) {
+                      return 'Enter a valid password';
+                    } else {
+                      return null;
+                    }
+                  },
+                  obsecureText: true,
+                  label: 'Password',
+                  controller: _passwordController,
+                ),
+                SizedBox(height: 20),
+                BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  builder: (context, state) {
+                    _fetchUserAddress();
+                    return CustomTextFormField(
+                      textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (checkIfEmpty(value) &&
+                            state.user?.latitude == null) {
+                          return 'Enter a valid location';
+                        } else {
+                          return null;
+                        }
+                      },
+                      readOnly: true,
+                      suffixIcon: Icon(Icons.location_on_outlined),
+                      label: 'Choose on map',
+                      controller: _locationController..text = _currentAddress,
+                      onTap: () {
+                        context.pushNamed(Routes.chooseLocationRoute);
+                      },
+                    );
+                  },
+                ),
+                SizedBox(height: 40),
+                SizedBox(
+                  width: screenWidth(context),
                   height: screenHeight(context) * 0.08,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Register Now!',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Text(
-                'Enter Your information below',
-                style: TextStyle(fontSize: 17, color: ColorPallete.grayColor),
-              ),
-              SizedBox(height: 20),
-              CustomTextFormField(
-                label: 'Full Name',
-                controller: _fullNameController,
-              ),
-              SizedBox(height: 20),
-              CustomTextFormField(label: 'Email', controller: _emailController),
-              SizedBox(height: 20),
-              CustomTextFormField(
-                obsecureText: true,
-                label: 'Password',
-                controller: _passwordController,
-              ),
-              SizedBox(height: 20),
-              CustomTextFormField(
-                label: 'Location',
-                controller: _locationController,
-              ),
-              SizedBox(height: 40),
-              SizedBox(
-                width: screenWidth(context),
-                height: screenHeight(context) * 0.08,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.center,
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Already a member? ',
-                    style: TextStyle(color: Colors.black, fontSize: 15),
-                    children: [
-                      TextSpan(
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap =
-                                  () => Navigator.of(
-                                    context,
-                                  ).pushReplacementNamed('/login'),
-                        text: 'Login',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 15,
+                  child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                    listenWhen:
+                        (previous, current) => !current.dataState.isEmpty,
+                    listener: (context, state) {
+                      if (state.dataState.isLoading) {
+                        LoadingIndicator().show(context);
+                      } else {
+                        LoadingIndicator().hideAll();
+
+                        myShowSnackBar(context, state.message);
+                        if (state.dataState.isData) {
+                          context.pushNamed(
+                            Routes.verificationCodeRoute,
+                            pathParameters: {
+                              "code": "1",
+                              "email": _emailController.text,
+                            },
+                          );
+                        }
+                      }
+                    },
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate() &&
+                              state.user != null) {
+                            context.read<AuthenticationBloc>().add(
+                              AuthSignUp(
+                                request: RegisterRequest(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  fullName: _fullNameController.text,
+                                  longitude: state.user!.longitude!,
+                                  latitude: state.user!.latitude!,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          'Register',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.center,
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Already a member? ',
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      children: [
+                        TextSpan(
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap =
+                                    () => context.goNamed(Routes.loginRoute),
+                          text: 'Login',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _fetchUserAddress() async {
+    if (_authenticationBloc.state.user?.latitude == null) {
+      return;
+    } else {
+      final addreess = await getAddressFromLatLng(
+        _authenticationBloc.state.user!.latitude!,
+        _authenticationBloc.state.user!.longitude!,
+      );
+      setState(() {
+        _currentAddress = addreess ?? '';
+      });
+    }
   }
 }

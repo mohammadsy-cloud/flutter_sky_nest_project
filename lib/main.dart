@@ -1,37 +1,41 @@
-import 'package:demo_project/usecases/authentication/view/pages/splash_page.dart';
-import 'package:demo_project/usecases/home/view/pages/main_page.dart';
+import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:demo_project/common/navigation/go_router_configuration.dart';
+import 'package:demo_project/common/repos/authentication_repo.dart';
+import 'package:demo_project/custom_bloc_observer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'common/navigation/routes.dart';
+import 'common/cubits/location_cubit/location_cubit.dart';
 import 'common/theme/global_theme.dart';
-import 'usecases/authentication/view/pages/forgot_password_page.dart';
-import 'usecases/authentication/view/pages/login_page.dart';
-import 'usecases/authentication/view/pages/on_boarding_page.dart';
-import 'usecases/authentication/view/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
-import 'usecases/home/view/pages/browse_hotels_by_country_page.dart';
-import 'usecases/home/view/pages/browse_hotels_page.dart';
-import 'usecases/home/view/pages/confirm_reservation_page.dart';
-import 'usecases/home/view/pages/hotel_info_page.dart';
-
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = CustomBlocObserver();
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: GlobalTheme.appLightTheme,
-      darkTheme: GlobalTheme.appDarkTheme,
-      initialRoute: Routes.onBoarding,
-      // home: ConfirmReservationPage(hotelName: 'Sheraton'),
-      routes: {
-        Routes.registerRoute: (_) => RegisterPage(),
-        Routes.loginRoute: (_) => LoginPage(),
-        Routes.forgotPasswordRoute: (_) => ForgotPasswordPage(),
-        Routes.mainRoute: (_) => MainPage(),
-        Routes.browseHotelsRoute: (_) => BrowseHotelsPage(),
-        Routes.splashRoute: (_) => SplashPage(),
-        Routes.onBoarding: (_) => OnBoardingPage(),
-      },
+    MultiRepositoryProvider(
+      providers: [RepositoryProvider(create: (_) => AuthenticationRepo())],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create:
+                (context) => AuthenticationBloc(
+                  authenticationRepo: context.read<AuthenticationRepo>(),
+                ),
+          ),
+          BlocProvider(
+            create:
+                (context) =>
+                    LocationCubit(authBloc: context.read<AuthenticationBloc>()),
+          ),
+        ],
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.system,
+          theme: GlobalTheme.appLightTheme,
+          darkTheme: GlobalTheme.appDarkTheme,
+          routerConfig: GlobalAppRouter.instance,
+        ),
+      ),
     ),
   );
 }

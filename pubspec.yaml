@@ -36,18 +36,29 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.1.0
   flutter_rating_bar: ^4.0.1
+  fpdart:
+  get_it:
   location: ^8.0.0
   flutter_map: ^8.1.1
+  go_router:
   latlong2: ^0.9.1
+  flutter_bloc:
   freezed_annotation:
   json_annotation:
+  geocoding:
+  lottie:
   table_calendar: ^3.2.0
   convex_bottom_bar: ^3.2.0
   smooth_page_indicator: ^1.2.1
+  retrofit: ^4.4.0
+  logger: ^2.4.0  # for logging purpose
+  dio:
+  pretty_dio_logger:
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: '>=8.0.0 <10.0.0'
   freezed:
   json_serializable:
   build_runner:
@@ -74,6 +85,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

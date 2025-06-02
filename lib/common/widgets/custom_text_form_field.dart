@@ -8,14 +8,20 @@ class CustomTextFormField extends StatefulWidget {
     this.obsecureText = false,
     this.validator,
     this.onChanged,
-    this.textInputAction = TextInputAction.done,
+    this.textInputAction = TextInputAction.next,
+    this.suffixIcon,
+    this.onTap,
+    this.readOnly,
   });
   final String label;
   final TextEditingController? controller;
   final bool obsecureText;
+  final Widget? suffixIcon;
   final String? Function(String? value)? validator;
   final void Function(String value)? onChanged;
   final TextInputAction? textInputAction;
+  final void Function()? onTap;
+  final bool? readOnly;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -40,6 +46,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: widget.readOnly ?? false,
+      onTap: widget.onTap,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
       onChanged: widget.onChanged,
@@ -47,14 +55,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: widget.controller,
       decoration: InputDecoration(
         suffixIcon:
-            _obsecure == null
+            widget.suffixIcon ??
+            (_obsecure == null
                 ? null
                 : GestureDetector(
                   onTap: _toggleObsecure,
                   child: Icon(
                     _obsecure! ? Icons.visibility : Icons.visibility_off,
                   ),
-                ),
+                )),
         labelText: widget.label,
         contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       ),

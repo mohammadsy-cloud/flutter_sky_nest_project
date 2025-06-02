@@ -1,3 +1,10 @@
+import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:demo_project/common/navigation/routes.dart' show Routes;
+import 'package:demo_project/common/widgets/blurred_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+
 import '../../../../common/theme/color_pallete.dart';
 import 'reset_password_page.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +13,9 @@ import '../../../../common/utilities/app_utilities.dart';
 import '../../../../common/widgets/otp_widget.dart';
 
 class VerificationCodePage extends StatefulWidget {
-  const VerificationCodePage({super.key, required this.email});
+  const VerificationCodePage({super.key, required this.email, this.code});
   final String email;
+  final int? code;
 
   @override
   State<VerificationCodePage> createState() => _VerificationCodePageState();
@@ -15,6 +23,9 @@ class VerificationCodePage extends StatefulWidget {
 
 class _VerificationCodePageState extends State<VerificationCodePage> {
   final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  int? d1, d2, d3, d4;
   @override
   void dispose() {
     _emailController.dispose();
@@ -45,27 +56,35 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
               style: TextStyle(fontSize: 17, color: ColorPallete.grayColor),
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                OTPWidget(onChanged: (value) {}),
-                OTPWidget(onChanged: (value) {}),
-                OTPWidget(onChanged: (value) {}),
-                OTPWidget(onChanged: (value) {}),
-              ],
-            ),
-            SizedBox(height: 10),
-            Align(
-              alignment: AlignmentDirectional.centerEnd,
-              child: GestureDetector(
-                child: Text(
-                  'Resend code',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+            Form(
+              key: _formKey,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  OTPWidget(
+                    onChanged: (value) {
+                      d1 = int.parse(value);
+                    },
                   ),
-                ),
+                  OTPWidget(
+                    onChanged: (value) {
+                      d2 = int.parse(value);
+                    },
+                  ),
+                  OTPWidget(
+                    onChanged: (value) {
+                      d3 = int.parse(value);
+                    },
+                  ),
+                  OTPWidget(
+                    onChanged: (value) {
+                      d4 = int.parse(value);
+                    },
+                  ),
+                ],
               ),
             ),
+
             SizedBox(height: 40),
             SizedBox(
               width: screenWidth(context),
@@ -81,19 +100,64 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
             SizedBox(
               width: screenWidth(context),
               height: screenHeight(context) * 0.08,
-              child: ElevatedButton(
-                onPressed: () {
-                  // TODO send verify request
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder:
-                          (_) =>
-                              ResetPasswordPage(email: _emailController.text),
-                    ),
-                  );
+              child: BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+                  if (state.token != null) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return _buildDialog();
+                      },
+                    );
+                  }
                 },
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (validateFormKey(_formKey)) {
+                      context.read<AuthenticationBloc>().add(
+                        VerifyOTP(otp: '$d1$d2$d3$d4'),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Verify',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDialog() {
+    return BlurredDialog(
+      child: AlertDialog(
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: screenHeight(context) * 0.16,
+              width: screenWidth(context),
+              child: Lottie.asset('assets/lottie/successfully_animation.json'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              textAlign: TextAlign.center,
+              'Email verified successfully!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: screenWidth(context) * 0.5,
+              height: screenHeight(context) * 0.06,
+              child: ElevatedButton(
+                onPressed: () => context.goNamed(Routes.mainRoute),
                 child: Text(
-                  'Verify',
+                  'Navigate to home',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),

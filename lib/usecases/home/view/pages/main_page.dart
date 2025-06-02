@@ -33,7 +33,8 @@ class _Maintate extends State<MainPage> {
       body:
           _currentIndex == 0
               ? HomeScreenWidget()
-              : Padding(
+              : _currentIndex == 1
+              ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Column(
                   children: [
@@ -61,24 +62,23 @@ class _Maintate extends State<MainPage> {
                     ),
                   ],
                 ),
-              ),
+              )
+              : Placeholder(),
       bottomNavigationBar: ConvexAppBar(
-        // height: screenHeight(context) * 0.09,
         initialActiveIndex: _currentIndex,
-
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
+        activeColor: Colors.black,
         backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-        style: TabStyle.flip,
+        style: TabStyle.react,
         items: [
           TabItem(icon: Icon(Icons.home), title: 'Home'),
-          TabItem(icon: Icon(Icons.book), title: 'Search'),
-          TabItem(icon: Icon(Icons.person), title: 'Reservations'),
-          TabItem(icon: Icon(Icons.person), title: 'Person'),
-          TabItem(icon: Icon(Icons.person), title: 'Person'),
+          TabItem(icon: Icon(Icons.book), title: 'Reservations'),
+          TabItem(icon: Icon(Icons.search), title: 'Search'),
+          TabItem(icon: Icon(Icons.person), title: 'Profile'),
         ],
       ),
     );

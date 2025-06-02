@@ -10,10 +10,17 @@ class OTPWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: screenWidth(context) * 0.15,
-      child: TextField(
+      child: TextFormField(
         onChanged: (value) {
           onChanged(value);
           FocusScope.of(context).nextFocus();
+        },
+        validator: (value) {
+          if (checkIfEmpty(value)) {
+            return '';
+          } else {
+            return null;
+          }
         },
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,

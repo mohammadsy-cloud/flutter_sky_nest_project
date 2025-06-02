@@ -1,6 +1,8 @@
+import 'package:demo_project/common/navigation/routes.dart';
 import 'package:demo_project/common/theme/color_pallete.dart';
 import 'package:demo_project/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -11,27 +13,24 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
+  @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      precacheImage(AssetImage('assets/images/on_boarding_1.jpg'), context);
+      precacheImage(AssetImage('assets/images/on_boarding_2.jpg'), context);
+      precacheImage(AssetImage('assets/images/on_boarding_3.jpg'), context);
+    });
+  }
+
   final _pageController = PageController();
+  int _currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          PageView(
-            controller: _pageController,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: ColorPallete.grayColor1,
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/on_boarding_1.jpg'),
-                  ),
-                ),
-              ),
-              Container(color: ColorPallete.grayColor),
-              Container(color: ColorPallete.grayColor2),
-            ],
-          ),
+          _pageViewUi(),
           Positioned(
             bottom: 0,
             child: Container(
@@ -66,6 +65,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                   SizedBox(
                     height: screenHeight(context) * 0.1,
                     child: Text(
@@ -77,6 +77,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                   SizedBox(
                     child: Text(
                       textAlign: TextAlign.center,
@@ -88,12 +89,104 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 15),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (_currentPageIndex != 0)
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(
+                              screenWidth(context) * 0.4,
+                              screenHeight(context) * 0.07,
+                            ),
+                            backgroundColor: ColorPallete.grayColor,
+                            foregroundColor: Colors.black,
+                          ),
+                          onPressed: _back,
+                          child: Text('Back'),
+                        ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(
+                            screenWidth(context) * 0.4,
+                            screenHeight(context) * 0.07,
+                          ),
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: _forward,
+                        child: Text('Next'),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  void _forward() {
+    if ((_currentPageIndex + 1) > 2) {
+      context.goNamed(Routes.loginRoute);
+    }
+    setState(() {
+      _currentPageIndex++;
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  void _back() {
+    if ((_currentPageIndex - 1) < 0) {
+      return;
+    }
+    setState(() {
+      _currentPageIndex--;
+      _pageController.previousPage(
+        duration: Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  PageView _pageViewUi() {
+    return PageView(
+      controller: _pageController,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: ColorPallete.grayColor1,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/on_boarding_1.jpg'),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: ColorPallete.grayColor,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/on_boarding_2.jpg'),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: ColorPallete.grayColor2,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/on_boarding_3.jpg'),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

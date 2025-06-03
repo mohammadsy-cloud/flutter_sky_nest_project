@@ -1,15 +1,15 @@
-import 'package:demo_project/common/navigation/routes.dart';
-import 'package:demo_project/usecases/authentication/view/pages/forgot_password_page.dart';
-import 'package:demo_project/usecases/authentication/view/pages/login_page.dart';
-import 'package:demo_project/usecases/authentication/view/pages/on_boarding_page.dart';
-import 'package:demo_project/usecases/authentication/view/pages/register_page.dart';
-import 'package:demo_project/usecases/authentication/view/pages/reset_password_page.dart';
-import 'package:demo_project/usecases/authentication/view/pages/verification_code_page.dart';
-import 'package:demo_project/usecases/home/view/pages/browse_hotels_by_country_page.dart';
-import 'package:demo_project/usecases/home/view/pages/browse_hotels_page.dart';
-import 'package:demo_project/usecases/home/view/pages/confirm_reservation_page.dart';
-import 'package:demo_project/usecases/home/view/pages/hotel_info_page.dart';
-import 'package:demo_project/usecases/home/view/pages/main_page.dart';
+import 'package:sky_nest/common/navigation/routes.dart';
+import 'package:sky_nest/usecases/authentication/view/pages/forgot_password_page.dart';
+import 'package:sky_nest/usecases/authentication/view/pages/login_page.dart';
+import 'package:sky_nest/usecases/authentication/view/pages/on_boarding_page.dart';
+import 'package:sky_nest/usecases/authentication/view/pages/register_page.dart';
+import 'package:sky_nest/usecases/authentication/view/pages/reset_password_page.dart';
+import 'package:sky_nest/usecases/authentication/view/pages/verification_code_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/browse_hotels_by_country_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/browse_hotels_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/confirm_reservation_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/hotel_info_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

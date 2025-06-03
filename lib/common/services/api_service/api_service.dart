@@ -1,4 +1,4 @@
-import 'package:demo_project/common/services/api_service/api_urls.dart';
+import 'package:sky_nest/common/services/api_service/api_urls.dart';
 
 import 'app_interceptors.dart';
 import 'package:dio/dio.dart';

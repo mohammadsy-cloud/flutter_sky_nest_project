@@ -1,7 +1,7 @@
-import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:demo_project/common/navigation/go_router_configuration.dart';
-import 'package:demo_project/common/repos/authentication_repo.dart';
-import 'package:demo_project/custom_bloc_observer.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/navigation/go_router_configuration.dart';
+import 'package:sky_nest/common/repos/authentication_repo.dart';
+import 'package:sky_nest/custom_bloc_observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'common/cubits/location_cubit/location_cubit.dart';

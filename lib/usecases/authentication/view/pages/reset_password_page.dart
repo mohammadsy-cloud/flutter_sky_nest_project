@@ -1,6 +1,6 @@
-import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:demo_project/common/repos/requests/change_password_request.dart';
-import 'package:demo_project/common/widgets/loading_indicator.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/repos/requests/change_password_request.dart';
+import 'package:sky_nest/common/widgets/loading_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';

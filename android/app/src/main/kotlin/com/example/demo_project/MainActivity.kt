@@ -1,4 +1,4 @@
-package com.example.demo_project
+package com.example.sky_nest
 
 import io.flutter.embedding.android.FlutterActivity
 

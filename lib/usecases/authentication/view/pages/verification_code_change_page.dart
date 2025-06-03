@@ -1,7 +1,7 @@
-import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:demo_project/common/navigation/routes.dart' show Routes;
-import 'package:demo_project/common/repos/requests/verify_otp_request.dart';
-import 'package:demo_project/common/widgets/blurred_dialog.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/navigation/routes.dart' show Routes;
+import 'package:sky_nest/common/repos/requests/verify_otp_request.dart';
+import 'package:sky_nest/common/widgets/blurred_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';

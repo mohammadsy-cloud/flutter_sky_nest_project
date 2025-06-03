@@ -1,4 +1,4 @@
-import 'package:demo_project/common/navigation/routes.dart';
+import 'package:sky_nest/common/navigation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

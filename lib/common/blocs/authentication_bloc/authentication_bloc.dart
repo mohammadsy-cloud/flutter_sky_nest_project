@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:demo_project/common/models/user.dart';
-import 'package:demo_project/common/repos/authentication_repo.dart';
-import 'package:demo_project/common/repos/requests/change_password_email_request.dart';
-import 'package:demo_project/common/repos/requests/change_password_request.dart';
-import 'package:demo_project/common/repos/requests/register_request.dart';
+import 'package:sky_nest/common/models/user.dart';
+import 'package:sky_nest/common/repos/authentication_repo.dart';
+import 'package:sky_nest/common/repos/requests/change_password_email_request.dart';
+import 'package:sky_nest/common/repos/requests/change_password_request.dart';
+import 'package:sky_nest/common/repos/requests/register_request.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';

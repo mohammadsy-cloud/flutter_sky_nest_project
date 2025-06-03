@@ -1,7 +1,7 @@
-import 'package:demo_project/common/utilities/app_utilities.dart';
-import 'package:demo_project/usecases/home/view/widgets/bookings/booking_card.dart';
-import 'package:demo_project/usecases/home/view/widgets/custom_card.dart';
-import 'package:demo_project/usecases/home/view/widgets/custom_hotel_card.dart';
+import 'package:sky_nest/common/utilities/app_utilities.dart';
+import 'package:sky_nest/usecases/home/view/widgets/bookings/booking_card.dart';
+import 'package:sky_nest/usecases/home/view/widgets/custom_card.dart';
+import 'package:sky_nest/usecases/home/view/widgets/custom_hotel_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

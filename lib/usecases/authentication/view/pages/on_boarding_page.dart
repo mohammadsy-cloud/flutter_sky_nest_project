@@ -1,6 +1,6 @@
-import 'package:demo_project/common/navigation/routes.dart';
-import 'package:demo_project/common/theme/color_pallete.dart';
-import 'package:demo_project/common/utilities/app_utilities.dart';
+import 'package:sky_nest/common/navigation/routes.dart';
+import 'package:sky_nest/common/theme/color_pallete.dart';
+import 'package:sky_nest/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

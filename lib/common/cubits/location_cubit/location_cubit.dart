@@ -1,4 +1,4 @@
-import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';

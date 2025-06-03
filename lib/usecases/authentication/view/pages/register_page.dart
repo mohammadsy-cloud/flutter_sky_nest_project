@@ -1,13 +1,13 @@
-import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:demo_project/common/navigation/routes.dart';
-import 'package:demo_project/common/repos/requests/register_request.dart';
-import 'package:demo_project/common/widgets/loading_indicator.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/navigation/routes.dart';
+import 'package:sky_nest/common/repos/requests/register_request.dart';
+import 'package:sky_nest/common/widgets/loading_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/theme/color_pallete.dart';
 import '../../../../common/utilities/app_utilities.dart';
-import 'package:demo_project/common/widgets/custom_text_form_field.dart';
+import 'package:sky_nest/common/widgets/custom_text_form_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

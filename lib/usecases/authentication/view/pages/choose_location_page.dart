@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:demo_project/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -50,9 +50,8 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
         ],
         toolbarHeight: screenHeight(context) * 0.1,
         title: Text('Choose location on map'),
-        titleTextStyle: TextStyle(
+        titleTextStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
           fontWeight: FontWeight.w600,
-          color: Colors.black,
           fontSize: 20,
         ),
       ),

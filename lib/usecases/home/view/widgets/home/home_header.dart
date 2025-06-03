@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:demo_project/common/widgets/clipping_widget.dart';
+import 'package:sky_nest/common/widgets/clipping_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeHeaderWidget extends ClippingWidget {

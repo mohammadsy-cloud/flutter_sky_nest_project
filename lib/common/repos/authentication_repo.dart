@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:demo_project/common/models/custom_failure.dart';
-import 'package:demo_project/common/models/custom_response.dart';
-import 'package:demo_project/common/navigation/routes.dart';
-import 'package:demo_project/common/repos/authentication_endpoints.dart';
-import 'package:demo_project/common/repos/requests/register_request.dart';
-import 'package:demo_project/common/repos/requests/verify_otp_request.dart';
-import 'package:demo_project/common/services/api_service/api_service.dart';
+import 'package:sky_nest/common/models/custom_failure.dart';
+import 'package:sky_nest/common/models/custom_response.dart';
+import 'package:sky_nest/common/navigation/routes.dart';
+import 'package:sky_nest/common/repos/authentication_endpoints.dart';
+import 'package:sky_nest/common/repos/requests/register_request.dart';
+import 'package:sky_nest/common/repos/requests/verify_otp_request.dart';
+import 'package:sky_nest/common/services/api_service/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:logger/logger.dart';
@@ -18,16 +18,6 @@ import 'requests/login_request.dart';
 
 class AuthenticationRepo {
   final Dio _dio;
-
-  Future<Either<CustomFailure, CustomResponse>?> login() async {
-    try {
-      return null;
-    } on DioException catch (e) {
-      return Left(CustomFailure(message: e.message ?? 'an error occurred'));
-    } catch (e) {
-      return Left(CustomFailure(message: e.toString()));
-    }
-  }
 
   Future<Either<CustomFailure, CustomResponse>> signUp(
     RegisterRequest request,

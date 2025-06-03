@@ -1,4 +1,4 @@
-import 'package:demo_project/common/theme/color_pallete.dart';
+import 'package:sky_nest/common/theme/color_pallete.dart';
 import 'package:flutter/material.dart';
 
 class CounterWidget extends StatelessWidget {

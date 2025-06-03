@@ -1,8 +1,8 @@
-import 'package:demo_project/common/theme/color_pallete.dart';
-import 'package:demo_project/common/utilities/app_utilities.dart';
-import 'package:demo_project/common/widgets/counter_widget.dart';
-import 'package:demo_project/common/widgets/custom_divider.dart';
-import 'package:demo_project/usecases/home/view/widgets/custom_date_table.dart';
+import 'package:sky_nest/common/theme/color_pallete.dart';
+import 'package:sky_nest/common/utilities/app_utilities.dart';
+import 'package:sky_nest/common/widgets/counter_widget.dart';
+import 'package:sky_nest/common/widgets/custom_divider.dart';
+import 'package:sky_nest/usecases/home/view/widgets/custom_date_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';

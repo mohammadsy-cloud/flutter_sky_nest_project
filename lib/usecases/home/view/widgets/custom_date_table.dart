@@ -1,4 +1,4 @@
-import 'package:demo_project/usecases/home/view/pages/hotel_info_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/hotel_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 

@@ -23,6 +23,11 @@ class GlobalTheme {
   static final appLightTheme = _globalThemeData.copyWith(
     colorScheme: lightColorScheme,
     scaffoldBackgroundColor: Colors.white,
+    textTheme: TextTheme().copyWith(
+      titleMedium: TextStyle(color: Colors.black),
+      labelSmall: TextStyle(color: Colors.black),
+    ),
+    cardColor: Colors.white,
     appBarTheme: AppBarTheme().copyWith(backgroundColor: Colors.white),
   );
   static final appDarkTheme = _globalThemeData.copyWith(
@@ -30,6 +35,11 @@ class GlobalTheme {
     scaffoldBackgroundColor: Color.fromRGBO(11, 12, 21, 1),
     appBarTheme: AppBarTheme().copyWith(
       backgroundColor: Color.fromRGBO(11, 12, 21, 1),
+    ),
+    cardColor: Color.fromRGBO(11, 12, 21, 1),
+    textTheme: TextTheme().copyWith(
+      titleMedium: TextStyle(color: Colors.white),
+      labelSmall: TextStyle(color: Colors.white),
     ),
   );
   static final _globalThemeData = ThemeData().copyWith(

@@ -29,9 +29,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (mounted) {
-      _screenSize = Size(screenWidth(context), screenHeight(context));
-    }
+    _screenSize = MediaQuery.sizeOf(context);
   }
 
   @override
@@ -183,9 +181,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               width: _screenSize.width,
               height: _screenSize.height * 0.07,
               child: ElevatedButton(
-                onPressed: () => context.goNamed(Routes.loginRoute),
+                onPressed: () {
+                  context.pop();
+                  context.goNamed(Routes.mainRoute);
+                },
                 child: Text(
-                  'Back to login',
+                  'Navigate to home',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),

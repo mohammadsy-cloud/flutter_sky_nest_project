@@ -2,14 +2,23 @@ import 'package:demo_project/common/theme/color_pallete.dart';
 import 'package:demo_project/common/utilities/app_utilities.dart';
 import 'package:demo_project/common/widgets/counter_widget.dart';
 import 'package:demo_project/common/widgets/custom_divider.dart';
+import 'package:demo_project/usecases/home/view/widgets/custom_date_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HotelInfoPage extends StatelessWidget {
-  HotelInfoPage({super.key, required this.hotelName});
+import '../../../../common/navigation/routes.dart';
+
+class HotelInfoPage extends StatefulWidget {
+  const HotelInfoPage({super.key, required this.hotelName});
   final String hotelName;
 
+  @override
+  State<HotelInfoPage> createState() => _HotelInfoPageState();
+}
+
+class _HotelInfoPageState extends State<HotelInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +75,7 @@ class HotelInfoPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    hotelName,
+                    widget.hotelName,
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -222,7 +231,7 @@ class HotelInfoPage extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
                 showModalBottomSheet(
                   context: context,
                   builder: (_) {
@@ -241,7 +250,7 @@ class HotelInfoPage extends StatelessWidget {
   Container _buildRoomsOverlay(BuildContext context) {
     return Container(
       width: screenWidth(context),
-      height: screenHeight(context) * 0.2,
+      height: screenHeight(context) * 0.24,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -276,6 +285,19 @@ class HotelInfoPage extends StatelessWidget {
                 CounterWidget(),
               ],
             ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
+              onPressed: () {
+                context.pop();
+
+                context.pushNamed(
+                  Routes.confirmReservationRoute,
+                  pathParameters: {'hotelName': widget.hotelName},
+                );
+              },
+              child: Text('Select rooms'),
+            ),
           ],
         ),
       ),
@@ -283,37 +305,4 @@ class HotelInfoPage extends StatelessWidget {
   }
 
   DateTime _selectedDay = DateTime.now();
-}
-
-class CustomDateTable extends StatefulWidget {
-  const CustomDateTable({super.key, required this.onSelectDate});
-  final void Function(DateTime selectedDate) onSelectDate;
-
-  @override
-  State<CustomDateTable> createState() => _CustomDateTableState();
-}
-
-class _CustomDateTableState extends State<CustomDateTable> {
-  @override
-  Widget build(BuildContext context) {
-    return TableCalendar(
-      selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay, day);
-      },
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-          _focusedDay = focusedDay;
-          widget.onSelectDate(selectedDay);
-        });
-      },
-      rowHeight: 50,
-      firstDay: DateTime.now(),
-      focusedDay: _focusedDay,
-      lastDay: DateTime(2027),
-    );
-  }
-
-  DateTime _selectedDay = DateTime.now();
-  DateTime _focusedDay = DateTime.now();
 }

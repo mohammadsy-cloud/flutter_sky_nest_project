@@ -37,7 +37,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               width: screenWidth(context),
               height: screenHeight(context) * 0.32,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18),
                   topRight: Radius.circular(18),
@@ -71,7 +71,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     child: Text(
                       textAlign: TextAlign.center,
                       'Easy way to book \n hotels with us',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
@@ -157,6 +157,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   PageView _pageViewUi() {
     return PageView(
+      onPageChanged: (value) {
+        setState(() {
+          _currentPageIndex = value;
+        });
+      },
       controller: _pageController,
       children: [
         Container(

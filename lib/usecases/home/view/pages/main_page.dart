@@ -73,11 +73,11 @@ class _Maintate extends State<MainPage> {
         },
         activeColor: Colors.black,
         backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
-        style: TabStyle.react,
+        style: TabStyle.textIn,
         items: [
           TabItem(icon: Icon(Icons.home), title: 'Home'),
           TabItem(icon: Icon(Icons.book), title: 'Reservations'),
-          TabItem(icon: Icon(Icons.search), title: 'Search'),
+          TabItem(icon: Icon(Icons.flight), title: 'Flights'),
           TabItem(icon: Icon(Icons.person), title: 'Profile'),
         ],
       ),

@@ -1,7 +1,9 @@
+import 'package:demo_project/common/navigation/routes.dart';
 import 'package:demo_project/common/theme/color_pallete.dart';
 import 'package:demo_project/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 
 import 'confirm_reservation_page.dart';
 import 'hotel_info_page.dart';
@@ -77,16 +79,9 @@ class BrowseHotelsPage extends StatelessWidget {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder:
-                              (_) => ConfirmReservationPage(
-                                hotelName: 'Paradise mint $index',
-                              ),
-                          // (_) => HotelInfoPage(
-                          //   hotelName: 'Paradise mint $index',
-                          // ),
-                        ),
+                      context.goNamed(
+                        Routes.hotelInfoRoute,
+                        pathParameters: {'hotelName': 'Paradise mint'},
                       );
                     },
                     child: Padding(

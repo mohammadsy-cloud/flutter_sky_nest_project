@@ -1,5 +1,6 @@
 import 'package:demo_project/common/navigation/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../common/utilities/app_utilities.dart';
 import '../custom_card.dart';
@@ -40,23 +41,33 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           itemBuilder: (_, index) {
             return Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: screenWidth(context) * 0.2,
-                    height: screenHeight(context) * 0.08,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/images/Balloon-Fiesta.webp'),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap:
+                    () => context.goNamed(
+                      Routes.browseHotelsByCountryRoute,
+                      pathParameters: {'country': 'Syria'},
+                    ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: screenWidth(context) * 0.2,
+                      height: screenHeight(context) * 0.08,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            'assets/images/Balloon-Fiesta.webp',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Text('Syria'),
-                ],
+                    Text('Syria'),
+                  ],
+                ),
               ),
             );
           },
@@ -174,7 +185,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      //TODO navigate to flight
+                      context.goNamed(Routes.browseHotelsRoute);
                     },
                     child: Container(
                       width: screenWidth(context) * 0.33,
@@ -204,7 +215,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      Navigator.of(context).pushNamed(Routes.browseHotelsRoute);
+                      context.goNamed(Routes.browseHotelsRoute);
                     },
                     child: Container(
                       width: screenWidth(context) * 0.33,

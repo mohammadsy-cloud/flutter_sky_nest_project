@@ -131,6 +131,7 @@ class AuthenticationRepo {
         return Right(
           CustomResponse(
             message: 'Password changed successfully',
+            data: response.data['token'],
             statusCode: response.statusCode!,
           ),
         );

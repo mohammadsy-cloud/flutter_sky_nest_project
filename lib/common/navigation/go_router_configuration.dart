@@ -5,7 +5,10 @@ import 'package:demo_project/usecases/authentication/view/pages/on_boarding_page
 import 'package:demo_project/usecases/authentication/view/pages/register_page.dart';
 import 'package:demo_project/usecases/authentication/view/pages/reset_password_page.dart';
 import 'package:demo_project/usecases/authentication/view/pages/verification_code_page.dart';
+import 'package:demo_project/usecases/home/view/pages/browse_hotels_by_country_page.dart';
 import 'package:demo_project/usecases/home/view/pages/browse_hotels_page.dart';
+import 'package:demo_project/usecases/home/view/pages/confirm_reservation_page.dart';
+import 'package:demo_project/usecases/home/view/pages/hotel_info_page.dart';
 import 'package:demo_project/usecases/home/view/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -98,6 +101,34 @@ class GlobalAppRouter {
         pageBuilder: (context, state) {
           final email = state.pathParameters['email'] ?? 'No email';
           return MaterialPage(child: ResetPasswordPage(email: email));
+        },
+      ),
+      GoRoute(
+        name: Routes.browseHotelsByCountryRoute,
+        path: '/browse_hotels_by_country/:country',
+        pageBuilder: (context, state) {
+          final countryName = state.pathParameters['country'] ?? 'No country';
+          return MaterialPage(
+            child: BrowseHotelsByCountryPage(countryName: countryName),
+          );
+        },
+      ),
+      GoRoute(
+        name: Routes.confirmReservationRoute,
+        path: '/confirm_reservation/:hotelName',
+        pageBuilder: (context, state) {
+          final hotelName = state.pathParameters['hotelName'] ?? 'No hotel';
+          return MaterialPage(
+            child: ConfirmReservationPage(hotelName: hotelName),
+          );
+        },
+      ),
+      GoRoute(
+        name: Routes.hotelInfoRoute,
+        path: '/hotel_info/:hotelName',
+        pageBuilder: (context, state) {
+          final hotelName = state.pathParameters['hotelName'] ?? 'No hotel';
+          return MaterialPage(child: HotelInfoPage(hotelName: hotelName));
         },
       ),
     ],

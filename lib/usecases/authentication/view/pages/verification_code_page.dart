@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../common/theme/color_pallete.dart';
-import 'reset_password_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/utilities/app_utilities.dart';
@@ -24,6 +23,13 @@ class VerificationCodePage extends StatefulWidget {
 class _VerificationCodePageState extends State<VerificationCodePage> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  late final Size _screenSize;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _screenSize = MediaQuery.sizeOf(context);
+  }
 
   int? d1, d2, d3, d4;
   @override
@@ -40,7 +46,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
         padding: EdgeInsets.only(
           left: 20,
           right: 20,
-          top: screenHeight(context) * 0.03,
+          top: _screenSize.height * 0.03,
           bottom: MediaQuery.of(context).viewInsets.bottom * 0.3,
         ),
         child: Column(
@@ -87,8 +93,8 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
 
             SizedBox(height: 40),
             SizedBox(
-              width: screenWidth(context),
-              height: screenHeight(context) * 0.35,
+              width: _screenSize.width,
+              height: _screenSize.height * 0.35,
               child: Image.asset(
                 filterQuality: FilterQuality.high,
                 'assets/images/otp_image.png',
@@ -96,10 +102,10 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: screenHeight(context) * 0.1),
+            SizedBox(height: _screenSize.height * 0.1),
             SizedBox(
-              width: screenWidth(context),
-              height: screenHeight(context) * 0.08,
+              width: _screenSize.width,
+              height: _screenSize.height * 0.08,
               child: BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (context, state) {
                   if (state.token != null) {
@@ -140,8 +146,8 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: screenHeight(context) * 0.16,
-              width: screenWidth(context),
+              height: _screenSize.height * 0.16,
+              width: _screenSize.width,
               child: Lottie.asset('assets/lottie/successfully_animation.json'),
             ),
             SizedBox(height: 20),
@@ -152,8 +158,8 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
             ),
             SizedBox(height: 20),
             SizedBox(
-              width: screenWidth(context) * 0.5,
-              height: screenHeight(context) * 0.06,
+              width: _screenSize.width * 0.5,
+              height: _screenSize.height * 0.06,
               child: ElevatedButton(
                 onPressed: () => context.goNamed(Routes.mainRoute),
                 child: Text(

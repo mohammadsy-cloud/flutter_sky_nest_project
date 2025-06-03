@@ -61,7 +61,10 @@ class _LoginPageState extends State<LoginPage> {
 
                 Text(
                   'Let\'s get you Login!',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -160,7 +163,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: RichText(
                     text: TextSpan(
                       text: 'Don\'t have an account? ',
-                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall!.copyWith(fontSize: 15),
+
                       children: [
                         TextSpan(
                           recognizer:

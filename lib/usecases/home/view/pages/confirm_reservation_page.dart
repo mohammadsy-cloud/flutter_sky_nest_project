@@ -3,6 +3,9 @@ import 'package:demo_project/usecases/home/view/widgets/bookings/booking_card.da
 import 'package:demo_project/usecases/home/view/widgets/custom_card.dart';
 import 'package:demo_project/usecases/home/view/widgets/custom_hotel_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../common/navigation/routes.dart';
 
 class ConfirmReservationPage extends StatelessWidget {
   const ConfirmReservationPage({super.key, required this.hotelName});
@@ -122,7 +125,9 @@ class ConfirmReservationPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed(Routes.mainRoute);
+                    },
                     child: Text('Pay now', style: TextStyle(fontSize: 16)),
                   ),
                 ),

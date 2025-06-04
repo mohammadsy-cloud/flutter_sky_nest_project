@@ -139,7 +139,7 @@ class AuthenticationRepo {
     }
   }
 
-  Future<Either<CustomFailure, CustomResponse>> logIn(
+  Future<Either<CustomFailure, CustomResponse<String>>> logIn(
     LoginRequest request,
   ) async {
     try {
@@ -149,10 +149,33 @@ class AuthenticationRepo {
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(
+          CustomResponse<String>(
+            data: response.data['token'],
+            message: 'Successfully logged in!',
+            statusCode: response.statusCode!,
+          ),
+        );
+      }
+      return Left(
+        CustomFailure(
+          message: 'login is not complete',
+          stackTrace: StackTrace.current,
+        ),
+      );
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.message ?? 'Some error'));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<CustomFailure, CustomResponse>> logout() async {
+    try {
+      final response = await _dio.delete(AuthenticationEndpoints.logout);
+      if ((response.statusCode ?? 500) < 300) {
+        return Right(
           CustomResponse(
-            message:
-                'Successfully logged in! \n'
-                'we will send code to your email to be verified',
+            message: 'Successfully logged out!',
             statusCode: response.statusCode!,
           ),
         );

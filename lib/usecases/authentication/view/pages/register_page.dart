@@ -167,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                     },
                     builder: (context, state) {
-                      return ElevatedButton(
+                      return FilledButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate() &&
                               state.user != null) {
@@ -184,10 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             );
                           }
                         },
-                        child: Text(
-                          'Register',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
+                        child: Text('Register', style: TextStyle(fontSize: 18)),
                       );
                     },
                   ),

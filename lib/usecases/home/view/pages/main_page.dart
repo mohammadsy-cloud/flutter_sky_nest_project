@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:sky_nest/common/utilities/app_utilities.dart';
 import 'package:sky_nest/usecases/home/view/widgets/bookings/booking_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
-import '../../../../common/theme/color_pallete.dart';
+import 'package:sky_nest/usecases/home/view/widgets/profile/profile_page.dart';
 import '../widgets/home/home_screen_widget.dart';
 import '../widgets/select_widget.dart';
 
@@ -25,6 +21,15 @@ class _Maintate extends State<MainPage> {
       appBar:
           _currentIndex == 0
               ? null
+              : _currentIndex == 3
+              ? AppBar(
+                foregroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                centerTitle: true,
+                title: Text('My profile'),
+                toolbarHeight: screenHeight(context) * 0.08,
+              )
               : AppBar(
                 forceMaterialTransparency: true,
                 title: Text('Bookings'),
@@ -63,6 +68,8 @@ class _Maintate extends State<MainPage> {
                   ],
                 ),
               )
+              : _currentIndex == 3
+              ? ProfilePage()
               : Placeholder(),
       bottomNavigationBar: ConvexAppBar(
         initialActiveIndex: _currentIndex,

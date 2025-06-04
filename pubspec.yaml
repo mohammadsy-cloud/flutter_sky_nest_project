@@ -54,6 +54,9 @@ dependencies:
   logger: ^2.4.0  # for logging purpose
   dio:
   pretty_dio_logger:
+  flutter_launcher_icons: ^0.14.3
+  flex_color_scheme: ^8.2.0
+  flutter_native_splash: ^2.4.6
   
 dev_dependencies:
   flutter_test:

@@ -213,6 +213,44 @@ $LoginRequestCopyWith<$Res> get request {
 /// @nodoc
 
 
+class AuthLogOut with DiagnosticableTreeMixin implements AuthenticationEvent {
+  const AuthLogOut();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'AuthenticationEvent.logout'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthLogOut);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'AuthenticationEvent.logout()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
 class ChangePasswordEmail with DiagnosticableTreeMixin implements AuthenticationEvent {
   const ChangePasswordEmail({required this.request});
   

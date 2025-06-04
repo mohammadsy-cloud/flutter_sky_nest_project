@@ -42,18 +42,23 @@ class _SplashPageState extends State<SplashPage> {
               fit: BoxFit.scaleDown,
             ),
             SizedBox(height: screenHeight(context) * 0.24),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
+            FilledButton.icon(
+              style: FilledButton.styleFrom(
                 fixedSize: Size(
                   screenWidth(context) * 0.45,
                   screenHeight(context) * 0.08,
                 ),
-                foregroundColor: Colors.white,
+                // backgroundColor: Theme.of(context).colorScheme.primary,
+                // foregroundColor: Theme.of(context).colorScheme.onPrimaryFixed,
               ),
               onPressed: () {
                 context.goNamed(Routes.onBoarding);
               },
-              icon: Icon(Icons.arrow_forward),
+              icon: Icon(
+                Icons.arrow_forward,
+                size: 30,
+                // color: Theme.of(context).colorScheme.onPrimaryFixed,
+              ),
               label: Text('Explore', style: TextStyle(fontSize: 20)),
             ),
           ],

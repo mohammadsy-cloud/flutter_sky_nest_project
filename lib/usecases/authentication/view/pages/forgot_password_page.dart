@@ -75,39 +75,38 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 },
               ),
               SizedBox(height: 20),
-              SizedBox(
-                width: screenWidth(context),
-                height: screenHeight(context) * 0.08,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (validateFormKey(_formKey)) {
-                      context.read<AuthenticationBloc>().add(
-                        ChangePasswordEmail(
-                          request: ChangePasswordEmailRequest(
-                            email: _emailController.text,
-                          ),
-                        ),
-                      );
-                      await for (final newState
-                          in context.read<AuthenticationBloc>().stream) {
-                        if (newState.dataState.isDone) {
-                          context.pushNamed(
-                            Routes.verificationCodeChangeRoute,
-                            pathParameters: {
-                              'email': _emailController.text,
-                              'code': '1',
-                            },
-                          );
-                          break;
-                        }
-                      }
-                    }
-                  },
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  fixedSize: Size(
+                    screenWidth(context),
+                    screenHeight(context) * 0.08,
                   ),
                 ),
+                onPressed: () async {
+                  if (validateFormKey(_formKey)) {
+                    context.read<AuthenticationBloc>().add(
+                      ChangePasswordEmail(
+                        request: ChangePasswordEmailRequest(
+                          email: _emailController.text,
+                        ),
+                      ),
+                    );
+                    await for (final newState
+                        in context.read<AuthenticationBloc>().stream) {
+                      if (newState.dataState.isDone) {
+                        context.pushNamed(
+                          Routes.verificationCodeChangeRoute,
+                          pathParameters: {
+                            'email': _emailController.text,
+                            'code': '1',
+                          },
+                        );
+                        break;
+                      }
+                    }
+                  }
+                },
+                child: Text('Continue', style: TextStyle(fontSize: 18)),
               ),
             ],
           ),

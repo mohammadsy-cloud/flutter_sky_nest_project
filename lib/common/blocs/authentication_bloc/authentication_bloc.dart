@@ -33,6 +33,7 @@ class AuthenticationBloc
     on<ChangePasswordEmail>(_changePasswordEmail);
     on<ChangePasswordVerify>(_changePasswordVerify);
     on<ChangePassword>(_changePassword);
+    on<AuthLogOut>(_logUserOut);
     on<AuthAddLocation>(
       (event, emit) => emit(
         state.copyWith(
@@ -86,7 +87,8 @@ class AuthenticationBloc
           message: l.message,
         ),
         Right(value: final r) => state.copyWith(
-          user: state.user?.copyWith(email: event.request.email),
+          token: r.data,
+          user: state.user?.copyWith(email: event.request.email, token: r.data),
           dataState: Data.data,
           message: r.message,
         ),
@@ -197,6 +199,29 @@ class AuthenticationBloc
           dataState: Data.done,
           message: r.message,
           token: r.data,
+        ),
+      };
+      emit(nextState);
+    } catch (e) {
+      emit(state.copyWith(dataState: Data.error, message: e.toString()));
+    }
+  }
+
+  Future<void> _logUserOut(
+    AuthLogOut event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    try {
+      final response = await _authenticationRepo.logout();
+
+      final nextState = switch (response) {
+        Left(value: final l) => state.copyWith(
+          dataState: Data.error,
+          message: l.message,
+        ),
+        Right(value: final r) => AuthenticationState.initial().copyWith(
+          message: r.message,
+          dataState: Data.done,
         ),
       };
       emit(nextState);

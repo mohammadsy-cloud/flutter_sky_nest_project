@@ -1,66 +1,68 @@
-import 'package:sky_nest/common/theme/color_pallete.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class GlobalTheme {
-  static final lightColorScheme = ColorScheme.fromSeed(
-    seedColor: Color.fromRGBO(85, 101, 255, 1),
-  ).copyWith(
-    brightness: Brightness.light,
-    primary: ColorPallete.primaryColor,
-    secondary: ColorPallete.secondaryColor,
-    tertiary: ColorPallete.tertiaryColor,
+/// The [AppTheme] defines light and dark themes for the app.
+///
+/// Theme setup for FlexColorScheme package v8.
+/// Use same major flex_color_scheme package version. If you use a
+/// lower minor version, some properties may not be supported.
+/// In that case, remove them after copying this theme to your
+/// app or upgrade the package to version 8.2.0.
+///
+/// Use it in a [MaterialApp] like this:
+///
+/// MaterialApp(
+///   theme: AppTheme.light,
+///   darkTheme: AppTheme.dark,
+/// );
+abstract final class AppTheme {
+  // The FlexColorScheme defined light mode ThemeData.
+  static ThemeData light = FlexThemeData.light(
+    // Using FlexColorScheme built-in FlexScheme enum based colors
+    scheme: FlexScheme.materialHc,
+    // Component theme configurations for light mode.
+    subThemesData: const FlexSubThemesData(
+      interactionEffects: true,
+      tintedDisabledControls: true,
+      useM2StyleDividerInM3: true,
+      filledButtonRadius: 5.0,
+      elevatedButtonRadius: 5.0,
+      inputDecoratorIsFilled: true,
+      inputDecoratorBorderType: FlexInputBorderType.outline,
+      inputDecoratorRadius: 9.0,
+      chipBlendColors: true,
+      alignedDropdown: true,
+      navigationRailUseIndicator: true,
+    ),
+    // Direct ThemeData properties.
+    visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
 
-  static final darkColorScheme = ColorScheme.fromSeed(
-    seedColor: Color.fromRGBO(85, 101, 255, 1),
-  ).copyWith(
-    brightness: Brightness.dark,
-    primary: ColorPallete.primaryColor,
-    secondary: ColorPallete.secondaryColor,
-    tertiary: ColorPallete.tertiaryColor,
+  // The FlexColorScheme defined dark mode ThemeData.
+  static ThemeData dark = FlexThemeData.dark(
+    // Using FlexColorScheme built-in FlexScheme enum based colors.
+    scheme: FlexScheme.materialHc,
+    // Surface color adjustments.
+    surfaceTint: const Color(0xFFFF00EA),
+    // Component theme configurations for dark mode.
+    subThemesData: const FlexSubThemesData(
+      interactionEffects: true,
+      tintedDisabledControls: true,
+      blendOnColors: true,
+      useM2StyleDividerInM3: true,
+      filledButtonRadius: 5.0,
+      elevatedButtonRadius: 5.0,
+      inputDecoratorIsFilled: true,
+      inputDecoratorBorderType: FlexInputBorderType.outline,
+      inputDecoratorRadius: 9.0,
+      chipBlendColors: true,
+      alignedDropdown: true,
+      navigationRailUseIndicator: true,
+    ),
+    // Direct ThemeData properties.
+    visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
-
-  static final appLightTheme = _globalThemeData.copyWith(
-    colorScheme: lightColorScheme,
-    scaffoldBackgroundColor: Colors.white,
-    textTheme: TextTheme().copyWith(
-      titleMedium: TextStyle(color: Colors.black),
-      labelSmall: TextStyle(color: Colors.black),
-    ),
-    cardColor: Colors.white,
-    appBarTheme: AppBarTheme().copyWith(backgroundColor: Colors.white),
-  );
-  static final appDarkTheme = _globalThemeData.copyWith(
-    colorScheme: darkColorScheme,
-    scaffoldBackgroundColor: Color.fromRGBO(11, 12, 21, 1),
-    appBarTheme: AppBarTheme().copyWith(
-      backgroundColor: Color.fromRGBO(11, 12, 21, 1),
-    ),
-    cardColor: Color.fromRGBO(11, 12, 21, 1),
-    textTheme: TextTheme().copyWith(
-      titleMedium: TextStyle(color: Colors.white),
-      labelSmall: TextStyle(color: Colors.white),
-    ),
-  );
-  static final _globalThemeData = ThemeData().copyWith(
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle().copyWith(
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        backgroundColor: WidgetStateProperty.all(ColorPallete.primaryColor),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme().copyWith(
-      border: _inputBorder(),
-      enabledBorder: _inputBorder().copyWith(
-        borderSide: BorderSide(color: ColorPallete.inactiveColor),
-      ),
-      focusedBorder: _inputBorder().copyWith(
-        borderSide: BorderSide(color: ColorPallete.primaryColor),
-      ),
-    ),
-  );
-  static OutlineInputBorder _inputBorder() =>
-      OutlineInputBorder(borderRadius: BorderRadius.circular(12));
 }

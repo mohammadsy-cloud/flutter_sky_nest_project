@@ -124,7 +124,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       }
                     }
                   },
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () async {
                       if (_submit()) {
                         context.read<AuthenticationBloc>().add(
@@ -137,10 +137,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         );
                       }
                     },
-                    child: Text(
-                      'Save',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text('Save', style: TextStyle(fontSize: 18)),
                   ),
                 ),
               ),
@@ -165,10 +162,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 'assets/lottie/reset_password_animation.json',
               ),
             ),
-            Text(
-              textAlign: TextAlign.center,
-              'Password updated successfully!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            SizedBox(
+              width: _screenSize.width * 0.5,
+              child: FittedBox(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  'Password updated \nsuccessfully!',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             SizedBox(height: 10),
             Text(
@@ -180,14 +182,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             SizedBox(
               width: _screenSize.width,
               height: _screenSize.height * 0.07,
-              child: ElevatedButton(
+              child: FilledButton(
                 onPressed: () {
                   context.pop();
                   context.goNamed(Routes.mainRoute);
                 },
-                child: Text(
-                  'Navigate to home',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                child: FittedBox(
+                  child: Text(
+                    'Navigate to home',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
               ),
             ),

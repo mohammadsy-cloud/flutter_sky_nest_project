@@ -125,18 +125,12 @@ class _LoginPageState extends State<LoginPage> {
 
                         myShowSnackBar(context, state.message);
                         if (state.dataState.isData) {
-                          context.pushNamed(
-                            Routes.verificationCodeRoute,
-                            pathParameters: {
-                              "code": "1",
-                              "email": _emailController.text,
-                            },
-                          );
+                          context.goNamed(Routes.mainRoute);
                         }
                       }
                     },
                     builder: (context, state) {
-                      return ElevatedButton(
+                      return FilledButton(
                         onPressed: () {
                           if (validateFormKey(_formKey)) {
                             context.read<AuthenticationBloc>().add(
@@ -149,10 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                             );
                           }
                         },
-                        child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
+                        child: Text('Login', style: TextStyle(fontSize: 18)),
                       );
                     },
                   ),

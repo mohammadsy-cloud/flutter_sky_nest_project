@@ -100,36 +100,35 @@ class _VerificationCodeChangePageState
               ),
             ),
             SizedBox(height: screenHeight(context) * 0.1),
-            SizedBox(
-              width: screenWidth(context),
-              height: screenHeight(context) * 0.08,
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (validateFormKey(_formKey)) {
-                    context.read<AuthenticationBloc>().add(
-                      ChangePasswordVerify(
-                        request: VerifyOtpRequest(
-                          email: widget.email,
-                          code: '$d1$d2$d3$d4',
-                        ),
-                      ),
-                    );
-                    await for (final newState
-                        in context.read<AuthenticationBloc>().stream) {
-                      if (newState.dataState.isDone) {
-                        context.goNamed(
-                          Routes.resetPasswordRoute,
-                          pathParameters: {'email': widget.email},
-                        );
-                      }
-                    }
-                  }
-                },
-                child: Text(
-                  'Verify',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                fixedSize: Size(
+                  screenWidth(context),
+                  screenHeight(context) * 0.08,
                 ),
               ),
+              onPressed: () async {
+                if (validateFormKey(_formKey)) {
+                  context.read<AuthenticationBloc>().add(
+                    ChangePasswordVerify(
+                      request: VerifyOtpRequest(
+                        email: widget.email,
+                        code: '$d1$d2$d3$d4',
+                      ),
+                    ),
+                  );
+                  await for (final newState
+                      in context.read<AuthenticationBloc>().stream) {
+                    if (newState.dataState.isDone) {
+                      context.goNamed(
+                        Routes.resetPasswordRoute,
+                        pathParameters: {'email': widget.email},
+                      );
+                    }
+                  }
+                }
+              },
+              child: Text('Verify', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

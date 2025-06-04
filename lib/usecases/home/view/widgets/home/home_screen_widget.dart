@@ -161,14 +161,14 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           children: [
             HomeHeaderWidget(
               size: Size(screenWidth(context), screenHeight(context) * 0.3),
-              backgroundColor: Theme.of(context).colorScheme.primaryFixed,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               child: Stack(
                 children: [
                   Positioned(
                     top: 70,
                     left: 90,
                     child: Image.asset(
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.secondaryContainer,
                       'assets/images/app_logo_skynest.png',
                       height: screenHeight(context) * 0.1,
                       width: screenWidth(context) * 0.5,

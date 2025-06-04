@@ -107,13 +107,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           onPressed: _back,
                           child: Text('Back'),
                         ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
+                      FilledButton(
+                        style: FilledButton.styleFrom(
                           fixedSize: Size(
                             screenWidth(context) * 0.4,
                             screenHeight(context) * 0.07,
                           ),
-                          foregroundColor: Colors.white,
+                          // foregroundColor: Colors.white,
                         ),
                         onPressed: _forward,
                         child: Text('Next'),

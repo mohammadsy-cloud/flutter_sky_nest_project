@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:sky_nest/common/services/dependency_manager/dependency_manager.dart';
 
 class CustomDioInterceptor extends Interceptor {
   static CustomDioInterceptor? _singleton;
@@ -16,8 +18,11 @@ class CustomDioInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (!options.headers.containsKey(HttpHeaders.authorizationHeader)) {
-      // final String token = '';
-      // options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      final String? token =
+          DependencyManager.instance<AuthenticationBloc>().state.token;
+      if (token != null) {
+        options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      }
     }
 
     return handler.next(options);

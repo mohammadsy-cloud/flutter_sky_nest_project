@@ -99,9 +99,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
             onPressed: () async {
               final userLocation = await getUserLocation();
               if (userLocation != null) {
-                setState(() {
-                  _choosenLocation = userLocation;
-                });
+                _resetRotation();
               }
             },
             child: Icon(Icons.compass_calibration),
@@ -123,7 +121,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
     );
   }
 
-  void resetRotation() {
+  void _resetRotation() {
     setState(() {
       _currentRotation = 0.0;
     });

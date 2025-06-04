@@ -117,7 +117,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                     );
                   }
                 },
-                child: ElevatedButton(
+                child: FilledButton(
                   onPressed: () {
                     if (validateFormKey(_formKey)) {
                       context.read<AuthenticationBloc>().add(
@@ -125,10 +125,7 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
                       );
                     }
                   },
-                  child: Text(
-                    'Verify',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
+                  child: Text('Verify', style: TextStyle(fontSize: 18)),
                 ),
               ),
             ),
@@ -160,12 +157,9 @@ class _VerificationCodePageState extends State<VerificationCodePage> {
             SizedBox(
               width: _screenSize.width * 0.5,
               height: _screenSize.height * 0.06,
-              child: ElevatedButton(
+              child: FilledButton(
                 onPressed: () => context.goNamed(Routes.mainRoute),
-                child: Text(
-                  'Navigate to home',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
+                child: Text('Navigate to home', style: TextStyle(fontSize: 18)),
               ),
             ),
           ],

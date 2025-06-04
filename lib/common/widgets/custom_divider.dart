@@ -13,12 +13,15 @@ class CustomDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: spacingTop ?? spacing),
-        Divider(color: Colors.black, thickness: 0.1),
-        SizedBox(height: spacingBottom ?? spacing),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          SizedBox(height: spacingTop ?? spacing),
+          Divider(height: 2),
+          SizedBox(height: spacingBottom ?? spacing),
+        ],
+      ),
     );
   }
 }

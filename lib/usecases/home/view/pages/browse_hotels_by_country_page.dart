@@ -13,8 +13,8 @@ class BrowseHotelsByCountryPage extends StatelessWidget {
         title: Text(countryName),
         centerTitle: true,
         titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
           fontWeight: FontWeight.w600,
-          color: Colors.black,
           fontSize: 23,
         ),
       ),

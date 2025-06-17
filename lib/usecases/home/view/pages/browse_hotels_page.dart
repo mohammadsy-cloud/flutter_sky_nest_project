@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 
-import 'confirm_reservation_page.dart';
-import 'hotel_info_page.dart';
-
 class BrowseHotelsPage extends StatelessWidget {
   const BrowseHotelsPage({super.key});
 
@@ -17,8 +14,8 @@ class BrowseHotelsPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.only(
           top: screenHeight(context) * 0.1,
-          left: 20,
-          right: 20,
+          left: 10,
+          right: 10,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,7 +24,7 @@ class BrowseHotelsPage extends StatelessWidget {
               alignment: Alignment.center,
               child: Container(
                 width: screenWidth(context) * 0.85,
-                height: screenHeight(context) * 0.08,
+                height: screenHeight(context) * 0.07,
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   color: ColorPallete.grayColor.withAlpha(100),
@@ -38,7 +35,7 @@ class BrowseHotelsPage extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pop();
+                        context.pop();
                       },
                       child: Icon(Icons.arrow_back_ios, size: 35),
                     ),
@@ -47,6 +44,9 @@ class BrowseHotelsPage extends StatelessWidget {
                       child: TextField(
                         style: TextStyle(fontSize: 20),
                         decoration: InputDecoration(
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
                           hintText: 'Search',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
@@ -57,6 +57,7 @@ class BrowseHotelsPage extends StatelessWidget {
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
+                          fillColor: Colors.transparent,
                         ),
                       ),
                     ),
@@ -79,7 +80,7 @@ class BrowseHotelsPage extends StatelessWidget {
                 itemBuilder: (_, index) {
                   return GestureDetector(
                     onTap: () {
-                      context.goNamed(
+                      context.pushNamed(
                         Routes.hotelInfoRoute,
                         pathParameters: {'hotelName': 'Paradise mint'},
                       );
@@ -88,15 +89,16 @@ class BrowseHotelsPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         width: screenWidth(context),
-                        height: screenHeight(context) * 0.18,
+                        height: screenHeight(context) * 0.19,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color:
+                              Theme.of(context).colorScheme.tertiaryContainer,
                           boxShadow: [
                             BoxShadow(
                               blurStyle: BlurStyle.outer,
-                              color: Colors.black,
+                              // color: Colors.black,
                               spreadRadius: 0.2,
-                              offset: Offset(0.0, 4.5),
+                              offset: Offset(0.0, 1.0),
                               blurRadius: 10,
                             ),
                           ],

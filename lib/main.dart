@@ -1,3 +1,4 @@
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/navigation/go_router_configuration.dart';
 import 'package:sky_nest/common/repos/authentication_repo.dart';
@@ -11,10 +12,8 @@ import 'package:flutter/material.dart';
 
 import 'usecases/home/view/widgets/profile/profile_page.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  DependencyManager.setup();
-  Bloc.observer = CustomBlocObserver();
+void main() async {
+  await DependencyManager.setup();
   runApp(
     MultiRepositoryProvider(
       providers: [

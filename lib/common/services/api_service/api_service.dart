@@ -22,7 +22,7 @@ class ApiService {
   Dio createApiService() {
     final dio = Dio(
       BaseOptions(
-        baseUrl: ApiUrls.ngrokServerUrl,
+        baseUrl: ApiUrls.mohammadNgrokServerUrl,
         connectTimeout: Duration(milliseconds: 16500),
         receiveTimeout: Duration(milliseconds: 16500),
         sendTimeout: Duration(milliseconds: 16500),

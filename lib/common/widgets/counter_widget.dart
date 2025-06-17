@@ -17,12 +17,16 @@ class CounterWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              backgroundColor: ColorPallete.grayColor2,
+              backgroundColor: Theme.of(context).colorScheme.primary,
             ),
-            icon: Icon(Icons.remove, size: 15),
+            icon: Icon(
+              Icons.remove,
+              size: 15,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ),
-        Text('0', style: TextStyle(fontSize: 18)),
+        Text('0', style: TextStyle(fontSize: 18, color: Colors.black)),
         Padding(
           padding: const EdgeInsets.only(right: 3.0, left: 5),
           child: IconButton(
@@ -30,10 +34,14 @@ class CounterWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             ),
             onPressed: () {},
-            icon: Icon(Icons.add, size: 15, color: Colors.white),
+            icon: Icon(
+              Icons.add,
+              size: 15,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
         ),
       ],

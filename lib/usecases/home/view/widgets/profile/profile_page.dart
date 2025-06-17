@@ -36,6 +36,7 @@ class ProfilePage extends StatelessWidget {
         } else {
           LoadingIndicator().hideAll();
           if (state.dataState.isDone) {
+            myShowSnackBar(context, state.message);
             context.goNamed(Routes.loginRoute);
           }
         }

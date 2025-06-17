@@ -162,23 +162,22 @@ class _HotelInfoPageState extends State<HotelInfoPage> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        width: screenWidth(context) * 0.4,
-                        height: screenHeight(context) * 0.06,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                          fixedSize: Size(
+                            screenWidth(context) * 0.4,
+                            screenHeight(context) * 0.06,
                           ),
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (_) {
-                                return _buildModalOverlayContent(context);
-                              },
-                            );
-                          },
-                          child: Text('Select Date'),
                         ),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (_) {
+                              return _buildModalOverlayContent(context);
+                            },
+                          );
+                        },
+                        child: Text('Select Date'),
                       ),
                     ],
                   ),
@@ -202,64 +201,7 @@ class _HotelInfoPageState extends State<HotelInfoPage> {
           topRight: Radius.circular(13),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 10),
-          Container(
-            width: 80,
-            height: 10,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(15),
-            ),
-          ),
-          SizedBox(height: 20),
-          SizedBox(
-            height: screenHeight(context) * 0.4,
-            width: screenWidth(context) * 0.9,
-            child: CustomDateTable(
-              onSelectDate: (selectedDate) {
-                _selectedDay = selectedDate;
-              },
-            ),
-          ),
-          SizedBox(height: 10),
-          SizedBox(
-            width: screenWidth(context) * 0.65,
-            height: screenHeight(context) * 0.06,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
-              onPressed: () {
-                context.pop();
-                showModalBottomSheet(
-                  context: context,
-                  builder: (_) {
-                    return _buildRoomsOverlay(context);
-                  },
-                );
-              },
-              child: Text('Select rooms'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _buildRoomsOverlay(BuildContext context) {
-    return Container(
-      width: screenWidth(context),
-      height: screenHeight(context) * 0.24,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(13),
-          topRight: Radius.circular(13),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -272,33 +214,101 @@ class _HotelInfoPageState extends State<HotelInfoPage> {
                 borderRadius: BorderRadius.circular(15),
               ),
             ),
-            SizedBox(height: 10),
-            Text(
-              'Select the number of rooms',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Rooms', style: TextStyle(fontSize: 18)),
-                CounterWidget(),
-              ],
+            SizedBox(
+              height: screenHeight(context) * 0.4,
+              width: screenWidth(context) * 0.9,
+              child: CustomDateTable(
+                onSelectDate: (selectedDate) {
+                  _selectedDay = selectedDate;
+                },
+              ),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                fixedSize: Size(
+                  screenWidth(context) * 0.65,
+                  screenHeight(context) * 0.06,
+                ),
+              ),
               onPressed: () {
                 context.pop();
-
-                context.pushNamed(
-                  Routes.confirmReservationRoute,
-                  pathParameters: {'hotelName': widget.hotelName},
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) {
+                    return _buildRoomsOverlay(context);
+                  },
                 );
               },
               child: Text('Select rooms'),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildRoomsOverlay(BuildContext context) {
+    return Container(
+      width: screenWidth(context),
+      height: screenHeight(context) * 0.27,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(13),
+          topRight: Radius.circular(13),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 10),
+              Container(
+                width: 80,
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Select the number of rooms',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Rooms',
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                  CounterWidget(),
+                ],
+              ),
+              SizedBox(height: 20),
+              FilledButton(
+                onPressed: () {
+                  context.pop();
+
+                  context.pushNamed(
+                    Routes.confirmReservationRoute,
+                    pathParameters: {'hotelName': widget.hotelName},
+                  );
+                },
+                child: Text('Confirm booking'),
+              ),
+            ],
+          ),
         ),
       ),
     );

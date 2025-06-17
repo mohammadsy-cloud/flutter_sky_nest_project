@@ -19,7 +19,7 @@ class BookingCard extends StatelessWidget {
             spreadRadius: 0.5,
           ),
         ],
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.tertiaryContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: EdgeInsets.all(15),

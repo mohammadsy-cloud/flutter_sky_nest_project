@@ -44,7 +44,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap:
-                    () => context.goNamed(
+                    () => context.pushNamed(
                       Routes.browseHotelsByCountryRoute,
                       pathParameters: {'country': 'Syria'},
                     ),
@@ -103,6 +103,12 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   return Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: CustomCard(
+                      onTap: () {
+                        context.pushNamed(
+                          Routes.hotelInfoRoute,
+                          pathParameters: {'hotelName': 'Sheraton $index'},
+                        );
+                      },
                       imagePath: 'assets/images/hotel_image1.jpeg',
                       title1: 'Popular Destinations',
                       title2: '12$index Destinations from',
@@ -185,7 +191,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      context.goNamed(Routes.browseHotelsRoute);
+                      context.pushNamed(Routes.browseHotelsRoute);
                     },
                     child: Container(
                       width: screenWidth(context) * 0.33,
@@ -215,7 +221,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      context.goNamed(Routes.browseHotelsRoute);
+                      context.pushNamed(Routes.browseHotelsRoute);
                     },
                     child: Container(
                       width: screenWidth(context) * 0.33,

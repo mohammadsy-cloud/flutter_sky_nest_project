@@ -121,10 +121,7 @@ class ConfirmReservationPage extends StatelessWidget {
                 child: SizedBox(
                   width: screenWidth(context) * 0.7,
                   height: screenHeight(context) * 0.07,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                    ),
+                  child: FilledButton(
                     onPressed: () {
                       context.goNamed(Routes.mainRoute);
                     },

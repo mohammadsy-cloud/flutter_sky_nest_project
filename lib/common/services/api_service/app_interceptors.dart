@@ -46,10 +46,10 @@ class CustomDioInterceptor extends Interceptor {
 
     /// Maps custom response
     final responseData = responseMapper(
-      requestOptions: err.requestOptions,
-      response: err.response,
-      customMessage: errorMessage,
       isError: true,
+      customMessage: errorMessage,
+      response: err.response,
+      requestOptions: err.requestOptions,
     );
 
     return handler.resolve(responseData);
@@ -59,9 +59,9 @@ class CustomDioInterceptor extends Interceptor {
 String getErrorMessage(DioExceptionType errorType, int? statusCode) {
   String errorMessage = "";
   switch (errorType) {
-    case DioExceptionType.connectionTimeout:
-    case DioExceptionType.sendTimeout:
     case DioExceptionType.receiveTimeout:
+    case DioExceptionType.sendTimeout:
+    case DioExceptionType.connectionTimeout:
       errorMessage = DioExceptionMessage.deadlineExceededException;
       break;
     case DioExceptionType.badResponse:
@@ -118,8 +118,6 @@ Response<dynamic> responseMapper({
   Map<String, dynamic>? responseData = {};
   if (response?.data is List<dynamic>) {
     responseData.addAll({"elements": response?.data});
-  } else if (response?.data is ResponseBody) {
-    responseData.addAll({'stream': response?.data.toString()});
   } else if (response?.data is String) {
     responseData.addAll({'message': response?.data});
   } else {

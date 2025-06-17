@@ -1,12 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:sky_nest/common/models/user.dart';
 import 'package:sky_nest/common/repos/authentication_repo.dart';
 import 'package:sky_nest/common/repos/requests/change_password_email_request.dart';
 import 'package:sky_nest/common/repos/requests/change_password_request.dart';
 import 'package:sky_nest/common/repos/requests/register_request.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -19,7 +20,7 @@ part 'authentication_state.dart';
 part 'authentication_bloc.freezed.dart';
 
 class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
+    extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({required AuthenticationRepo authenticationRepo})
     : _authenticationRepo = authenticationRepo,
       super(AuthenticationState.initial()) {
@@ -231,4 +232,36 @@ class AuthenticationBloc
   }
 
   final AuthenticationRepo _authenticationRepo;
+
+  @override
+  AuthenticationState? fromJson(Map<String, dynamic> json) {
+    try {
+      return AuthenticationState(
+        dataState: Data.values.firstWhere(
+          (status) => status.name == json['dataState'],
+        ),
+        message: json['message'],
+        token: json['token'],
+        user: User.fromJson(json['user']),
+      );
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(AuthenticationState state) {
+    try {
+      return {
+        'user': state.user?.toJson(),
+        'token': state.token,
+        'dataState': state.dataState.name,
+        'message': state.message,
+      };
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
 }

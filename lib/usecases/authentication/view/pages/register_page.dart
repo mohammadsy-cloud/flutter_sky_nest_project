@@ -195,7 +195,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: RichText(
                     text: TextSpan(
                       text: 'Already a member? ',
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
                       children: [
                         TextSpan(
                           recognizer:

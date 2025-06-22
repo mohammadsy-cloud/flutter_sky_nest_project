@@ -11,6 +11,7 @@ sealed class User with _$User {
     String? email,
     double? longitude,
     double? latitude,
+    int? level,
     String? token,
   }) = _User;
 

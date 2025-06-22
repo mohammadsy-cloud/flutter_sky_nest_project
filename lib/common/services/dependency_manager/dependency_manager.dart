@@ -5,7 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/cubits/location_cubit/location_cubit.dart';
-import 'package:sky_nest/common/repos/authentication_repo.dart';
+import 'package:sky_nest/common/repos/authentication/authentication_repo.dart';
 
 import '../../../custom_bloc_observer.dart';
 

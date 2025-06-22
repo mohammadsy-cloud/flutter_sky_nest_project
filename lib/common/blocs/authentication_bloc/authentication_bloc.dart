@@ -3,16 +3,16 @@ import 'dart:developer';
 
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:sky_nest/common/models/user.dart';
-import 'package:sky_nest/common/repos/authentication_repo.dart';
-import 'package:sky_nest/common/repos/requests/change_password_email_request.dart';
-import 'package:sky_nest/common/repos/requests/change_password_request.dart';
-import 'package:sky_nest/common/repos/requests/register_request.dart';
+import 'package:sky_nest/common/repos/authentication/authentication_repo.dart';
+import 'package:sky_nest/common/repos/authentication/requests/change_password_email_request.dart';
+import 'package:sky_nest/common/repos/authentication/requests/change_password_request.dart';
+import 'package:sky_nest/common/repos/authentication/requests/register_request.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../repos/requests/login_request.dart';
-import '../../repos/requests/verify_otp_request.dart';
+import '../../repos/authentication/requests/login_request.dart';
+import '../../repos/authentication/requests/verify_otp_request.dart';
 import '../../utilities/enumirations.dart';
 
 part 'authentication_event.dart';

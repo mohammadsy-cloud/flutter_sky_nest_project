@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
@@ -37,20 +38,42 @@ Future<LatLng?> getUserLocation() async {
 
 Future<String?> getAddressFromLatLng(double lat, double lng) async {
   try {
-    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+    final url = 'https://nominatim.openstreetmap.org/reverse';
 
-    if (placemarks.isNotEmpty) {
-      final Placemark place = placemarks.first;
+    final response = await Dio(
+      BaseOptions(
+        headers: {'User-Agent': 'flutter-app'},
+        connectTimeout: const Duration(seconds: 12),
+        receiveTimeout: const Duration(seconds: 12),
+      ),
+    ).get(
+      url,
+      queryParameters: {
+        'lat': lat,
+        'format': 'jsonv2',
+        'lon': lng,
+        'accept-language': 'en',
+      },
+    );
 
-      String address = '${place.administrativeArea}, ${place.country}';
+    final data = response.data;
+    log(data.toString());
 
-      return address;
-    } else {
-      return null;
+    if (data != null && data['address'] != null) {
+      final addr = data['address'];
+
+      final country = addr['country'];
+      final district = addr['city'] ?? addr['suburb'];
+      final state = addr['state'];
+
+      // Build the custom formatted address
+      return [district, state, country].where((e) => e != null).join(', ');
     }
   } catch (e) {
-    return null;
+    log(e.toString());
   }
+
+  return null;
 }
 
 bool checkIfEmpty(String? string) {

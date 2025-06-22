@@ -12,6 +12,7 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   email: json['email'] as String?,
   longitude: (json['longitude'] as num?)?.toDouble(),
   latitude: (json['latitude'] as num?)?.toDouble(),
+  level: (json['level'] as num?)?.toInt(),
   token: json['token'] as String?,
 );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'email': instance.email,
   'longitude': instance.longitude,
   'latitude': instance.latitude,
+  'level': instance.level,
   'token': instance.token,
 };

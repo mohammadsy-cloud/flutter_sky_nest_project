@@ -3,15 +3,13 @@ import 'dart:developer';
 import 'package:sky_nest/common/models/custom_failure.dart';
 import 'package:sky_nest/common/models/custom_response.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
-import 'package:sky_nest/common/repos/authentication_endpoints.dart';
-import 'package:sky_nest/common/repos/requests/register_request.dart';
-import 'package:sky_nest/common/repos/requests/verify_otp_request.dart';
+import 'package:sky_nest/common/repos/authentication/authentication_endpoints.dart';
+import 'package:sky_nest/common/repos/authentication/requests/register_request.dart';
+import 'package:sky_nest/common/repos/authentication/requests/verify_otp_request.dart';
 import 'package:sky_nest/common/services/api_service/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:logger/logger.dart';
 
-import '../models/user.dart';
 import 'requests/change_password_email_request.dart';
 import 'requests/change_password_request.dart';
 import 'requests/login_request.dart';

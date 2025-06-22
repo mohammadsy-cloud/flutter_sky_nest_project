@@ -1,5 +1,5 @@
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:sky_nest/common/repos/requests/change_password_request.dart';
+import 'package:sky_nest/common/repos/authentication/requests/change_password_request.dart';
 import 'package:sky_nest/common/widgets/loading_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,12 +24,17 @@ class ResetPasswordPage extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  late final Size _screenSize;
+  late final Size? _screenSize;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _screenSize = MediaQuery.sizeOf(context);
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _screenSize = MediaQuery.sizeOf(context);
+      });
+    });
   }
 
   @override
@@ -47,7 +52,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         padding: EdgeInsets.only(
           left: 20,
           right: 20,
-          top: _screenSize.height * 0.03,
+          top: (_screenSize?.height ?? 0) * 0.03,
           bottom: MediaQuery.of(context).viewInsets.bottom * 0.3,
         ),
         child: Form(
@@ -65,8 +70,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 style: TextStyle(fontSize: 17, color: ColorPallete.grayColor),
               ),
               SizedBox(
-                width: _screenSize.width,
-                height: _screenSize.height * 0.35,
+                width: (_screenSize?.width ?? 0),
+                height: (_screenSize?.height ?? 0) * 0.35,
                 child: Image.asset(
                   filterQuality: FilterQuality.high,
                   'assets/images/enter_new_password.png',
@@ -89,6 +94,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               ),
               SizedBox(height: 15),
               CustomTextFormField(
+                controller: _confirmPasswordController,
                 textInputAction: TextInputAction.done,
                 label: 'Confirm Password',
                 obsecureText: true,
@@ -100,10 +106,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   }
                 },
               ),
-              SizedBox(height: _screenSize.height * 0.1),
+              SizedBox(height: (_screenSize?.height ?? 0) * 0.1),
               SizedBox(
-                width: _screenSize.width,
-                height: _screenSize.height * 0.08,
+                width: (_screenSize?.width ?? 0),
+                height: (_screenSize?.height ?? 0) * 0.08,
                 child: BlocListener<AuthenticationBloc, AuthenticationState>(
                   listenWhen: (previous, current) => !current.dataState.isEmpty,
                   listener: (context, state) async {
@@ -120,7 +126,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           },
                         );
                       } else {
-                        myShowSnackBar(context, state.message);
+                        if (mounted) {
+                          myShowSnackBar(context, state.message);
+                        }
                       }
                     }
                   },
@@ -156,14 +164,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: _screenSize.height * 0.2,
-              width: _screenSize.width,
+              height: (_screenSize?.height ?? 0) * 0.2,
+              width: (_screenSize?.width ?? 0),
               child: Lottie.asset(
                 'assets/lottie/reset_password_animation.json',
               ),
             ),
             SizedBox(
-              width: _screenSize.width * 0.5,
+              width: (_screenSize?.width ?? 0) * 0.5,
               child: FittedBox(
                 child: Text(
                   textAlign: TextAlign.center,
@@ -180,8 +188,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ),
             SizedBox(height: 10),
             SizedBox(
-              width: _screenSize.width,
-              height: _screenSize.height * 0.07,
+              width: (_screenSize?.width ?? 0),
+              height: (_screenSize?.height ?? 0) * 0.07,
               child: FilledButton(
                 onPressed: () {
                   context.pop();

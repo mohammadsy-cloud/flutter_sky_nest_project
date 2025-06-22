@@ -1,6 +1,6 @@
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
-import 'package:sky_nest/common/repos/requests/register_request.dart';
+import 'package:sky_nest/common/repos/authentication/requests/register_request.dart';
 import 'package:sky_nest/common/widgets/loading_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -120,8 +120,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 20),
                 BlocBuilder<AuthenticationBloc, AuthenticationState>(
                   builder: (context, state) {
-                    _fetchUserAddress();
+                    if (state.user?.latitude == null) {
+                      _fetchUserAddress();
+                    }
                     return CustomTextFormField(
+                      key: ValueKey(_currentAddress),
                       textInputAction: TextInputAction.done,
                       validator: (value) {
                         if (checkIfEmpty(value) &&
@@ -231,9 +234,8 @@ class _RegisterPageState extends State<RegisterPage> {
         _authenticationBloc.state.user!.latitude!,
         _authenticationBloc.state.user!.longitude!,
       );
-      setState(() {
-        _currentAddress = addreess ?? '';
-      });
+      _currentAddress = addreess ?? '';
+      _locationController.text = _currentAddress;
     }
   }
 }

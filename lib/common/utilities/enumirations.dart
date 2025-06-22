@@ -11,3 +11,13 @@ enum Data {
   bool get isLoading => this == Data.loading;
   bool get isData => this == Data.data;
 }
+
+enum BookingStatus {
+  active,
+  incorrect,
+  canceled;
+
+  bool get isActive => this == BookingStatus.active;
+  bool get isCanceled => this == BookingStatus.canceled;
+  bool get isIncorrect => this == BookingStatus.incorrect;
+}

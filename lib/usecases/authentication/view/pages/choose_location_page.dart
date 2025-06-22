@@ -65,14 +65,14 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
           onTap: (tapPosition, point) {
             setState(() {
               _choosenLocation = point;
+              _mapController.moveAndRotate(point, 20, 0);
               log(_choosenLocation.toString());
             });
           },
         ),
         children: [
           TileLayer(
-            urlTemplate:
-                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             tileProvider: NetworkTileProvider(),
           ),
           if (_choosenLocation != null)

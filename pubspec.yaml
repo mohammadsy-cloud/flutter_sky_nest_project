@@ -60,6 +60,8 @@ dependencies:
   hydrated_bloc: ^10.0.0
   path_provider: ^2.1.5
   cached_network_image: ^3.4.1
+  skeletonizer: ^1.4.3
+  fluttertoast: ^8.2.12
   
 dev_dependencies:
   flutter_test:

@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:sky_nest/common/models/custom_response.dart';
 import 'package:sky_nest/common/models/user.dart';
-import 'package:sky_nest/common/repos/profile/profile_endpoints.dart';
+import 'package:sky_nest/usecases/home/repo/profile/profile_endpoints.dart';
 import 'package:sky_nest/common/services/api_service/api_service.dart';
 
-import '../../models/custom_failure.dart';
+import '../../../../common/models/custom_failure.dart';
 import 'requests/edit_profile_request.dart';
 
 class ProfileRepo {
@@ -13,7 +15,8 @@ class ProfileRepo {
 
   Future<Either<CustomFailure, CustomResponse<User>>> getMyProfile() async {
     try {
-      final response = await _dio.get(ProfileEndpoints.prefix);
+      final response = await _dio.get(ProfileEndpoints.profile);
+      log(response.data.toString());
       if ((response.statusCode ?? 500) < 300) {
         return Right(
           CustomResponse<User>(
@@ -55,9 +58,8 @@ class ProfileRepo {
     }
   }
 
-  Future<Either<CustomFailure, CustomResponse<double>>> viewTotalBalance(
-    int userId,
-  ) async {
+  Future<Either<CustomFailure, CustomResponse<double>>>
+  viewTotalBalance() async {
     try {
       final response = await _dio.get(ProfileEndpoints.viewTotalBalance);
       if ((response.statusCode ?? 500) < 300) {

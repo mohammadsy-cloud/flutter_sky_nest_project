@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'image_model.dart';
+
 part 'hotel.freezed.dart';
 part 'hotel.g.dart';
 
@@ -12,7 +14,7 @@ sealed class Hotel with _$Hotel {
     String? address,
     double? avgRating,
     int? ratingCount,
-    List? imageDTOList,
+    List<ImageModel>? imageDTOList,
   }) = _Hotel;
 
   factory Hotel.fromJson(Map<String, dynamic> json) => _$HotelFromJson(json);

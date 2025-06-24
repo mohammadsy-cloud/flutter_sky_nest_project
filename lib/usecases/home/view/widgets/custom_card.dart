@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/theme/color_pallete.dart';
 import 'package:sky_nest/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:sky_nest/common/widgets/custom_network_image.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard({
@@ -39,11 +43,10 @@ class CustomCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              fit: BoxFit.cover,
-              imagePath,
-              height: screenHeight(context) * 0.13,
-              width: screenWidth(context),
+            CustomNetworkImage(
+              imagePath:
+                  'user/hotel/hotelImage/0039dd89-4921-4db6-851b'
+                  '-b86eb4651c6c_1-Flutter%20architecture.png',
             ),
             SizedBox(height: 10),
             Padding(

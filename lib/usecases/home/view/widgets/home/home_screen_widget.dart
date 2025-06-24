@@ -1,8 +1,13 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sky_nest/common/widgets/delayed_display.dart';
+import 'package:sky_nest/usecases/home/view/widgets/empty_widget.dart';
 
 import '../../../../../common/utilities/app_utilities.dart';
+import '../../../viewmodel/home_bloc/home_bloc.dart';
 import '../custom_card.dart';
 import 'home_header.dart';
 
@@ -15,15 +20,28 @@ class HomeScreenWidget extends StatefulWidget {
 
 class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<HomeBloc>().add(NearbyHotelsFetched()),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      child: CustomScrollView(
-        slivers: [
-          _buildHeader(context),
-          _buildCountries(),
-          _buildBody(context),
-        ],
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<HomeBloc>().add(NearbyHotelsFetched());
+        },
+        child: CustomScrollView(
+          slivers: [
+            _buildHeader(context),
+            _buildCountries(),
+            _buildBody(context),
+          ],
+        ),
       ),
     );
   }
@@ -88,31 +106,73 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Hotels near you', style: TextStyle(fontSize: 20)),
-                Icon(Icons.arrow_forward_ios, size: 25),
+                Icon(Icons.arrow_forward_ios, size: 20),
               ],
             ),
             SizedBox(height: 10),
             SizedBox(
               width: screenWidth(context),
               height: screenHeight(context) * 0.25,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemExtent: screenWidth(context) * 0.5,
-                itemCount: 5,
-                itemBuilder: (_, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: CustomCard(
-                      onTap: () {
-                        context.pushNamed(
-                          Routes.hotelInfoRoute,
-                          pathParameters: {'hotelName': 'Sheraton $index'},
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state.hotelsList.isEmpty &&
+                      !state.hotelsListStatus.isLoading) {
+                    return EmptyWidget();
+                  }
+                  return Skeletonizer(
+                    enabled: state.hotelsListStatus.isLoading,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemExtent: screenWidth(context) * 0.5,
+                      itemCount:
+                          state.hotelsListStatus.isLoading
+                              ? 5
+                              : state.hotelsList.length,
+                      itemBuilder: (_, index) {
+                        if (state.hotelsListStatus.isLoading) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CustomCard(
+                              imagePath: 'assets/images/hotel_image1.jpeg',
+                              title1: 'Popular Destinations',
+                              title2: '12$index Destinations from',
+                              title3: 'US\$${index + 1}50',
+                            ),
+                          );
+                        }
+                        final hotel = state.hotelsList[index];
+                        return TweenAnimationBuilder(
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          duration: Duration(milliseconds: 500),
+                          builder: (context, value, child) {
+                            return Opacity(opacity: value, child: child);
+                          },
+                          child: DelayedDisplay(
+                            delay: 100 * index,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: CustomCard(
+                                onTap: () {
+                                  context.pushNamed(
+                                    Routes.hotelInfoRoute,
+                                    pathParameters: {
+                                      'hotelName': hotel.name ?? 'No hotel',
+                                    },
+                                  );
+                                },
+                                imagePath:
+                                    (hotel.imageDTOList ?? []).isEmpty
+                                        ? ''
+                                        : hotel.imageDTOList?.first.imageUrl ??
+                                            '',
+                                title1: hotel.name ?? 'No name',
+                                title2: hotel.description ?? 'No description',
+                                title3: 'US\$${index + 1}50',
+                              ),
+                            ),
+                          ),
                         );
                       },
-                      imagePath: 'assets/images/hotel_image1.jpeg',
-                      title1: 'Popular Destinations',
-                      title2: '12$index Destinations from',
-                      title3: 'US\$${index + 1}50',
                     ),
                   );
                 },
@@ -124,7 +184,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Airports near you', style: TextStyle(fontSize: 20)),
-                Icon(Icons.arrow_forward_ios, size: 25),
+                Icon(Icons.arrow_forward_ios, size: 20),
               ],
             ),
             SizedBox(height: 10),

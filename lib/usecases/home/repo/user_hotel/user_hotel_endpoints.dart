@@ -1,5 +1,5 @@
 class UserHotelEndpoints {
-  static const prefix = 'user/hotel';
+  static const prefix = '/user/hotel';
   static const showAllHotels = '$prefix/all_hotel';
   static const hotelEvaluation = '$prefix/hotelEvaluation';
   static const showHotelById = '$prefix/show-hotel';

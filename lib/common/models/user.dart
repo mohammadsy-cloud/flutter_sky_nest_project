@@ -7,7 +7,7 @@ part 'user.g.dart';
 sealed class User with _$User {
   factory User({
     int? id,
-    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'fullName') String? fullName,
     String? email,
     double? longitude,
     double? latitude,

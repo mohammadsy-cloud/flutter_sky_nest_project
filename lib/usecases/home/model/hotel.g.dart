@@ -13,7 +13,10 @@ _Hotel _$HotelFromJson(Map<String, dynamic> json) => _Hotel(
   address: json['address'] as String?,
   avgRating: (json['avgRating'] as num?)?.toDouble(),
   ratingCount: (json['ratingCount'] as num?)?.toInt(),
-  imageDTOList: json['imageDTOList'] as List<dynamic>?,
+  imageDTOList:
+      (json['imageDTOList'] as List<dynamic>?)
+          ?.map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
 );
 
 Map<String, dynamic> _$HotelToJson(_Hotel instance) => <String, dynamic>{

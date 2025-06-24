@@ -7,6 +7,7 @@ import 'package:sky_nest/usecases/authentication/view/pages/reset_password_page.
 import 'package:sky_nest/usecases/authentication/view/pages/verification_code_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/browse_hotels_by_country_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/browse_hotels_page.dart';
+import 'package:sky_nest/usecases/home/view/pages/change_password_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/confirm_reservation_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/hotel_info_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/main_page.dart';
@@ -16,6 +17,7 @@ import 'package:go_router/go_router.dart';
 import '../../usecases/authentication/view/pages/choose_location_page.dart';
 import '../../usecases/authentication/view/pages/splash_page.dart';
 import '../../usecases/authentication/view/pages/verification_code_change_page.dart';
+import '../../usecases/home/view/pages/my_wallet_page.dart';
 
 class GlobalAppRouter {
   static final GoRouter _goRouter = GoRouter(
@@ -129,6 +131,20 @@ class GlobalAppRouter {
         pageBuilder: (context, state) {
           final hotelName = state.pathParameters['hotelName'] ?? 'No hotel';
           return MaterialPage(child: HotelInfoPage(hotelName: hotelName));
+        },
+      ),
+      GoRoute(
+        name: Routes.changePassword,
+        path: '/change_password',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: ChangePasswordPage());
+        },
+      ),
+      GoRoute(
+        name: Routes.myWallet,
+        path: '/my_wallet',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: MyWalletPage());
         },
       ),
     ],

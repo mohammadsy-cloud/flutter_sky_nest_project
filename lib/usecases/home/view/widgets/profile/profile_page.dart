@@ -7,22 +7,43 @@ import 'package:sky_nest/common/utilities/app_utilities.dart';
 import 'package:sky_nest/common/widgets/custom_divider.dart';
 import 'package:sky_nest/common/widgets/loading_indicator.dart';
 import 'package:sky_nest/usecases/home/view/widgets/profile/profile_item_widget.dart';
+import 'package:sky_nest/usecases/home/viewmodel/profile_bloc/profile_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _profileBloc = context.read<ProfileBloc>(),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _buildHeader(context),
-          SizedBox(height: 20),
-          _buildProfileItems(),
-          SizedBox(height: screenHeight(context) * 0.05),
-          _buildButton(context),
-          // SizedBox(height: screenHeight(context) * 0.15),
-        ],
+    return RefreshIndicator(
+      triggerMode: RefreshIndicatorTriggerMode.anywhere,
+      onRefresh: () async {
+        _profileBloc.add(ProfileFetched());
+      },
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            _buildHeader(context),
+            SizedBox(height: 20),
+            _buildProfileItems(),
+            SizedBox(height: screenHeight(context) * 0.25),
+            _buildButton(context),
+            // SizedBox(height: screenHeight(context) * 0.15),
+          ],
+        ),
       ),
     );
   }
@@ -67,31 +88,19 @@ class ProfilePage extends StatelessWidget {
     return Column(
       children: [
         ProfileItemWidget(
-          title: 'Profile item',
-
-          icon: Icons.edit_square,
-          onTap: () {},
+          title: 'Total Balance',
+          icon: Icons.account_balance_wallet_rounded,
+          onTap: () {
+            context.pushNamed(Routes.myWallet);
+          },
         ),
         CustomDivider(spacing: 0, spacingBottom: 10),
         ProfileItemWidget(
-          title: 'Profile item',
-
-          icon: Icons.edit_square,
-          onTap: () {},
-        ),
-        CustomDivider(spacing: 0, spacingBottom: 10),
-        ProfileItemWidget(
-          title: 'Profile item',
-
-          icon: Icons.edit_square,
-          onTap: () {},
-        ),
-        CustomDivider(spacing: 0, spacingBottom: 10),
-        ProfileItemWidget(
-          title: 'Profile item',
-
-          icon: Icons.edit_square,
-          onTap: () {},
+          title: 'Change password',
+          icon: Icons.lock,
+          onTap: () {
+            context.pushNamed(Routes.changePassword);
+          },
         ),
       ],
     );
@@ -112,25 +121,28 @@ class ProfilePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: [
-              Text(
-                'Mohammad Dakhlallah',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                ),
-              ),
-              Text(
-                context.read<AuthenticationBloc>().state.user?.email ??
-                    'noemail.gmail.com',
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                ),
-              ),
-            ],
+          BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  Text(
+                    state.user?.fullName ?? 'No user',
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                    ),
+                  ),
+                  Text(
+                    state.user?.email ?? 'noemail.gmail.com',
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           IconButton.outlined(
             style: IconButton.styleFrom(
@@ -147,4 +159,6 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  late final ProfileBloc _profileBloc;
 }

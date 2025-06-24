@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:sky_nest/common/models/custom_failure.dart';
-import 'package:sky_nest/common/models/custom_response.dart';
-import 'package:sky_nest/common/repos/user_hotel/user_hotel_endpoints.dart';
-import 'package:sky_nest/common/services/api_service/api_service.dart';
-import 'package:sky_nest/common/utilities/enumirations.dart';
-import 'package:sky_nest/usecases/home/models/hotel.dart';
+import '../../../../common/models/custom_failure.dart';
+import '../../../../common/models/custom_response.dart';
+import '../../../../usecases/home/repo/user_hotel/user_hotel_endpoints.dart';
+import '../../../../common/services/api_service/api_service.dart';
+import '../../../../common/utilities/enumirations.dart';
+import '../../../../usecases/home/model/hotel.dart';
 
 import 'requests/booking_rooms_request.dart';
 
@@ -22,7 +22,9 @@ class UserHotelRepo {
         return Right(
           CustomResponse<List<Hotel>>(
             data:
-                (response.data['elements'] ?? []).map((hotel) {
+                ((response.data['elements'] ?? []) as List<dynamic>).map((
+                  hotel,
+                ) {
                   return Hotel.fromJson(hotel);
                 }).toList(),
             message: 'Hotels fetched succesfully',
@@ -152,7 +154,9 @@ class UserHotelRepo {
         return Right(
           CustomResponse<List<Hotel>>(
             data:
-                (response.data['elements'] ?? []).map((hotel) {
+                ((response.data['elements'] ?? []) as List<dynamic>).map((
+                  hotel,
+                ) {
                   return Hotel.fromJson(hotel);
                 }).toList(),
             message: 'Hotels fetched succesfully',

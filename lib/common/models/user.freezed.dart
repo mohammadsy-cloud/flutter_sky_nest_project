@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
- int? get id;@JsonKey(name: 'full_name') String? get fullName; String? get email; double? get longitude; double? get latitude; int? get level; String? get token;
+ int? get id;@JsonKey(name: 'fullName') String? get fullName; String? get email; double? get longitude; double? get latitude; int? get level; String? get token;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
- int? id,@JsonKey(name: 'full_name') String? fullName, String? email, double? longitude, double? latitude, int? level, String? token
+ int? id,@JsonKey(name: 'fullName') String? fullName, String? email, double? longitude, double? latitude, int? level, String? token
 });
 
 
@@ -86,11 +86,11 @@ as String?,
 @JsonSerializable()
 
 class _User implements User {
-   _User({this.id, @JsonKey(name: 'full_name') this.fullName, this.email, this.longitude, this.latitude, this.level, this.token});
+   _User({this.id, @JsonKey(name: 'fullName') this.fullName, this.email, this.longitude, this.latitude, this.level, this.token});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  int? id;
-@override@JsonKey(name: 'full_name') final  String? fullName;
+@override@JsonKey(name: 'fullName') final  String? fullName;
 @override final  String? email;
 @override final  double? longitude;
 @override final  double? latitude;
@@ -130,7 +130,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
 @override @useResult
 $Res call({
- int? id,@JsonKey(name: 'full_name') String? fullName, String? email, double? longitude, double? latitude, int? level, String? token
+ int? id,@JsonKey(name: 'fullName') String? fullName, String? email, double? longitude, double? latitude, int? level, String? token
 });
 
 

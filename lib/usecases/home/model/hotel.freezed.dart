@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Hotel {
 
- int? get id; String? get name; String? get description; String? get address; double? get avgRating; int? get ratingCount; List? get imageDTOList;
+ int? get id; String? get name; String? get description; String? get address; double? get avgRating; int? get ratingCount; List<ImageModel>? get imageDTOList;
 /// Create a copy of Hotel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $HotelCopyWith<$Res>  {
   factory $HotelCopyWith(Hotel value, $Res Function(Hotel) _then) = _$HotelCopyWithImpl;
 @useResult
 $Res call({
- int? id, String? name, String? description, String? address, double? avgRating, int? ratingCount, List? imageDTOList
+ int? id, String? name, String? description, String? address, double? avgRating, int? ratingCount, List<ImageModel>? imageDTOList
 });
 
 
@@ -75,7 +75,7 @@ as String?,address: freezed == address ? _self.address : address // ignore: cast
 as String?,avgRating: freezed == avgRating ? _self.avgRating : avgRating // ignore: cast_nullable_to_non_nullable
 as double?,ratingCount: freezed == ratingCount ? _self.ratingCount : ratingCount // ignore: cast_nullable_to_non_nullable
 as int?,imageDTOList: freezed == imageDTOList ? _self.imageDTOList : imageDTOList // ignore: cast_nullable_to_non_nullable
-as List?,
+as List<ImageModel>?,
   ));
 }
 
@@ -86,7 +86,7 @@ as List?,
 @JsonSerializable()
 
 class _Hotel implements Hotel {
-   _Hotel({this.id, this.name, this.description, this.address, this.avgRating, this.ratingCount, final  List? imageDTOList}): _imageDTOList = imageDTOList;
+   _Hotel({this.id, this.name, this.description, this.address, this.avgRating, this.ratingCount, final  List<ImageModel>? imageDTOList}): _imageDTOList = imageDTOList;
   factory _Hotel.fromJson(Map<String, dynamic> json) => _$HotelFromJson(json);
 
 @override final  int? id;
@@ -95,8 +95,8 @@ class _Hotel implements Hotel {
 @override final  String? address;
 @override final  double? avgRating;
 @override final  int? ratingCount;
- final  List? _imageDTOList;
-@override List? get imageDTOList {
+ final  List<ImageModel>? _imageDTOList;
+@override List<ImageModel>? get imageDTOList {
   final value = _imageDTOList;
   if (value == null) return null;
   if (_imageDTOList is EqualUnmodifiableListView) return _imageDTOList;
@@ -138,7 +138,7 @@ abstract mixin class _$HotelCopyWith<$Res> implements $HotelCopyWith<$Res> {
   factory _$HotelCopyWith(_Hotel value, $Res Function(_Hotel) _then) = __$HotelCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, String? name, String? description, String? address, double? avgRating, int? ratingCount, List? imageDTOList
+ int? id, String? name, String? description, String? address, double? avgRating, int? ratingCount, List<ImageModel>? imageDTOList
 });
 
 
@@ -164,7 +164,7 @@ as String?,address: freezed == address ? _self.address : address // ignore: cast
 as String?,avgRating: freezed == avgRating ? _self.avgRating : avgRating // ignore: cast_nullable_to_non_nullable
 as double?,ratingCount: freezed == ratingCount ? _self.ratingCount : ratingCount // ignore: cast_nullable_to_non_nullable
 as int?,imageDTOList: freezed == imageDTOList ? _self._imageDTOList : imageDTOList // ignore: cast_nullable_to_non_nullable
-as List?,
+as List<ImageModel>?,
   ));
 }
 

@@ -1,8 +1,10 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sky_nest/common/utilities/app_utilities.dart';
 import 'package:sky_nest/usecases/home/view/widgets/bookings/booking_card.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_nest/usecases/home/view/widgets/profile/profile_page.dart';
+import 'package:sky_nest/usecases/home/viewmodel/profile_bloc/profile_bloc.dart';
 import '../widgets/home/home_screen_widget.dart';
 import '../widgets/select_widget.dart';
 
@@ -15,6 +17,15 @@ class MainPage extends StatefulWidget {
 
 class _Maintate extends State<MainPage> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => context.read<ProfileBloc>().add(ProfileFetched()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +90,7 @@ class _Maintate extends State<MainPage> {
           });
         },
         activeColor: Colors.black,
-        backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         style: TabStyle.textIn,
         items: [
           TabItem(icon: Icon(Icons.home), title: 'Home'),

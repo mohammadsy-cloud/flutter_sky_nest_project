@@ -10,7 +10,9 @@ import 'package:flutter_map/flutter_map.dart';
 import '../../../../common/utilities/app_utilities.dart';
 
 class ChooseLocationPage extends StatefulWidget {
-  const ChooseLocationPage({super.key});
+  const ChooseLocationPage({super.key, this.initialLong, this.initialLat});
+  final double? initialLong;
+  final double? initialLat;
 
   @override
   State<ChooseLocationPage> createState() => _ChooseLocationPageState();
@@ -20,29 +22,21 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   @override
   void initState() {
     super.initState();
-    _authenticationBloc = context.read<AuthenticationBloc>();
-    _choosenLocation = LatLng(
-      _authenticationBloc!.state.user?.latitude ?? 33.513591,
-      _authenticationBloc!.state.user?.longitude ?? 36.304103,
-    );
+    _fetchUserLocation();
+    // _choosenLocation = LatLng(
+    //   widget.initialLat ?? 33.513591,
+    //   widget.initialLong ?? 36.304103,
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    _authenticationBloc = context.read<AuthenticationBloc>();
-
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             onPressed: () {
-              _authenticationBloc!.add(
-                AuthAddLocation(
-                  lat: _choosenLocation!.latitude,
-                  long: _choosenLocation!.longitude,
-                ),
-              );
-              context.pop();
+              context.pop<LatLng>(_choosenLocation);
             },
             iconSize: 30,
             icon: Icon(Icons.check),
@@ -59,13 +53,12 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
         mapController: _mapController,
         key: _choosenLocation == null ? null : ObjectKey(_choosenLocation!),
         options: MapOptions(
-          initialCenter: _choosenLocation ?? LatLng(33.513591, 36.304103),
+          initialCenter: _choosenLocation ?? LatLng(33.399146, 36.37048),
           initialZoom: 15.0,
-          initialRotation: _currentRotation,
           onTap: (tapPosition, point) {
             setState(() {
               _choosenLocation = point;
-              _mapController.moveAndRotate(point, 20, 0);
+              _mapController.moveAndRotate(point, 15, 0);
               log(_choosenLocation.toString());
             });
           },
@@ -107,12 +100,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
 
           FloatingActionButton(
             onPressed: () async {
-              final userLocation = await getUserLocation();
-              if (userLocation != null) {
-                setState(() {
-                  _choosenLocation = userLocation;
-                });
-              }
+              await _fetchUserLocation();
             },
             child: Icon(Icons.my_location_outlined),
           ),
@@ -122,14 +110,20 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   }
 
   void _resetRotation() {
-    setState(() {
-      _currentRotation = 0.0;
-    });
+    _mapController.rotate(0.0);
+  }
+
+  Future<void> _fetchUserLocation() async {
+    final userLocation = await getUserLocation();
+    if (userLocation != null) {
+      _mapController.move(userLocation, 15.0);
+      setState(() {
+        _choosenLocation = userLocation;
+      });
+    }
   }
 
   LatLng? _choosenLocation;
-  double _currentRotation = 0.0;
 
   final _mapController = MapController();
-  AuthenticationBloc? _authenticationBloc;
 }

@@ -8,9 +8,11 @@ class SelectWidget extends StatefulWidget {
     super.key,
     required this.titles,
     required this.onSelected,
+    this.selectedIndex,
   });
   final List<String> titles;
   final void Function(int index) onSelected;
+  final int? selectedIndex;
 
   @override
   State<SelectWidget> createState() => _SelectWidgetState();
@@ -40,7 +42,7 @@ class _SelectWidgetState extends State<SelectWidget> {
           },
           child: Container(
             width: screenWidth(context) * 0.8,
-            height: screenHeight(context) * 0.07,
+            height: screenHeight(context) * 0.06,
             decoration: BoxDecoration(
               color: ColorPallete.grayColor2,
               borderRadius: BorderRadius.circular(12),
@@ -63,14 +65,14 @@ class _SelectWidgetState extends State<SelectWidget> {
 
           child: Container(
             width: screenWidth(context) * 0.28,
-            height: screenHeight(context) * 0.07,
+            height: screenHeight(context) * 0.06,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              widget.titles[_currentIndex],
+              widget.titles[widget.selectedIndex ?? _currentIndex],
               style: TextStyle(color: Colors.white, fontSize: 15),
             ),
           ),

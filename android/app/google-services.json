@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "248083220663",
+    "project_id": "fir-project-b8d31",
+    "storage_bucket": "fir-project-b8d31.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248083220663:android:c37e2fe9be111ab7b82532",
+        "android_client_info": {
+          "package_name": "com.example.sky_nest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDslxg6xyQ03Ni2CqBvt5W0O4Ym1j_qMIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

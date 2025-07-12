@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart' as l;
 
@@ -36,7 +37,7 @@ Future<LatLng?> getUserLocation() async {
   return LatLng(locationData.latitude!, locationData.longitude!);
 }
 
-Future<String?> getAddressFromLatLng(double lat, double lng) async {
+Future<String?> getAddressFromLatLng(double lng, double lat) async {
   try {
     final url = 'https://nominatim.openstreetmap.org/reverse';
 
@@ -95,4 +96,32 @@ void myShowSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context)
     ..clearSnackBars()
     ..showSnackBar(SnackBar(content: Text(message)));
+}
+
+String getMapSnapshot(LatLng location) {
+  final lat = location.latitude;
+  final long = location.longitude;
+  return 'https://static-maps.yandex.ru'
+      '/1.x/?ll=$lat,$long&size=650,450&z=15'
+      '&l=map&pt=$lat,$long,pm2rdl';
+}
+
+Future<String?> pickDateAndFormatIt(
+  BuildContext context, [
+  DateTime? startDate,
+]) async {
+  final date = await showDatePicker(
+    context: context,
+    firstDate: (startDate ?? DateTime.now()).add(Duration(days: 1)),
+    lastDate: (startDate ?? DateTime.now()).add(Duration(days: 30)),
+  );
+  if (date != null) {
+    return formatDate(date);
+  } else {
+    return null;
+  }
+}
+
+String formatDate(DateTime date) {
+  return DateFormat.yMMMMEEEEd().format(date);
 }

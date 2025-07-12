@@ -29,8 +29,9 @@ class CustomNetworkImage extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         );
       },
-      imageUrl: '${ApiUrls.apiServerUrl}/$imagePath',
+      imageUrl: '${ApiUrls.apiServerUrl}$imagePath',
       height: height ?? screenHeight(context) * 0.13,
+      width: screenWidth(context),
       fit: BoxFit.cover,
     );
   }

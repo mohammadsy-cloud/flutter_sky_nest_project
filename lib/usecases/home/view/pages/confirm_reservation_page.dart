@@ -1,4 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sky_nest/common/utilities/app_utilities.dart';
+import 'package:sky_nest/common/widgets/loading_indicator.dart';
+import 'package:sky_nest/usecases/home/model/reservation.dart';
 import 'package:sky_nest/usecases/home/view/widgets/bookings/booking_card.dart';
 import 'package:sky_nest/usecases/home/view/widgets/custom_card.dart';
 import 'package:sky_nest/usecases/home/view/widgets/custom_hotel_card.dart';
@@ -6,11 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../common/navigation/routes.dart';
+import '../../repo/user_hotel/requests/booking_rooms_request.dart';
+import '../../viewmodel/cart_bloc/cart_bloc.dart';
 
-class ConfirmReservationPage extends StatelessWidget {
+class ConfirmReservationPage extends StatefulWidget {
   const ConfirmReservationPage({super.key, required this.hotelName});
   final String hotelName;
 
+  @override
+  State<ConfirmReservationPage> createState() => _ConfirmReservationPageState();
+}
+
+class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +39,7 @@ class ConfirmReservationPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BookingCard(),
+              BookingCard(reservation: Reservation()),
               SizedBox(height: 20),
               Text(
                 'Your Booking details',
@@ -121,11 +132,33 @@ class ConfirmReservationPage extends StatelessWidget {
                 child: SizedBox(
                   width: screenWidth(context) * 0.7,
                   height: screenHeight(context) * 0.07,
-                  child: FilledButton(
-                    onPressed: () {
-                      context.goNamed(Routes.mainRoute);
+                  child: BlocConsumer<CartBloc, CartState>(
+                    listener: (context, state) {
+                      if (state.status.isLoading) {
+                        LoadingIndicator().show(context);
+                      } else {
+                        LoadingIndicator().hideAll();
+                        if (state.status.isError) {
+                          Fluttertoast.showToast(msg: state.statusMessage);
+                        }
+                        if (state.status.isDone) {
+                          Fluttertoast.showToast(msg: state.statusMessage);
+                          context.goNamed(Routes.mainRoute);
+                        }
+                      }
                     },
-                    child: Text('Pay now', style: TextStyle(fontSize: 16)),
+                    builder: (context, state) {
+                      return FilledButton(
+                        onPressed: () {
+                          // context.read<CartBloc>().add(
+                          //   ReservationCompleted(
+                          //     request: BookingRoomsRequest(),
+                          //   ),
+                          // );
+                        },
+                        child: Text('Pay now', style: TextStyle(fontSize: 16)),
+                      );
+                    },
                   ),
                 ),
               ),

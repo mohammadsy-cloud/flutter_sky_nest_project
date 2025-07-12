@@ -14,7 +14,10 @@ class UserHotelEndpoints {
   static const showIncorrectReservation = '$prefix/incorrectReservation';
 
   //? Rooms
-  static const booking = '$prefix/booking';
+  static const booking = '$prefix/reservation';
   static const bookingDirect = '$prefix/bookingDirect';
   static const bookingCansel = '$prefix/bookingCansel';
+
+  //? Places
+  static const showHotelPlaces = '$prefix/showHotelPlace';
 }

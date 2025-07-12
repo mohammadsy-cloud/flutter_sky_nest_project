@@ -251,6 +251,44 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
+class LogInWithToken with DiagnosticableTreeMixin implements AuthenticationEvent {
+  const LogInWithToken();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'AuthenticationEvent.logInWithToken'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogInWithToken);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'AuthenticationEvent.logInWithToken()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
 class ChangePasswordEmail with DiagnosticableTreeMixin implements AuthenticationEvent {
   const ChangePasswordEmail({required this.request});
   
@@ -640,7 +678,7 @@ as String,
 /// @nodoc
 mixin _$AuthenticationState implements DiagnosticableTreeMixin {
 
- User? get user; String? get token; Data get dataState; String get message;
+ User? get user; String? get token; Data get dataState; String get message; bool get isAuthenticated;
 /// Create a copy of AuthenticationState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -652,21 +690,21 @@ $AuthenticationStateCopyWith<AuthenticationState> get copyWith => _$Authenticati
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AuthenticationState'))
-    ..add(DiagnosticsProperty('user', user))..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('dataState', dataState))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('user', user))..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('dataState', dataState))..add(DiagnosticsProperty('message', message))..add(DiagnosticsProperty('isAuthenticated', isAuthenticated));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthenticationState&&(identical(other.user, user) || other.user == user)&&(identical(other.token, token) || other.token == token)&&(identical(other.dataState, dataState) || other.dataState == dataState)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthenticationState&&(identical(other.user, user) || other.user == user)&&(identical(other.token, token) || other.token == token)&&(identical(other.dataState, dataState) || other.dataState == dataState)&&(identical(other.message, message) || other.message == message)&&(identical(other.isAuthenticated, isAuthenticated) || other.isAuthenticated == isAuthenticated));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user,token,dataState,message);
+int get hashCode => Object.hash(runtimeType,user,token,dataState,message,isAuthenticated);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AuthenticationState(user: $user, token: $token, dataState: $dataState, message: $message)';
+  return 'AuthenticationState(user: $user, token: $token, dataState: $dataState, message: $message, isAuthenticated: $isAuthenticated)';
 }
 
 
@@ -677,7 +715,7 @@ abstract mixin class $AuthenticationStateCopyWith<$Res>  {
   factory $AuthenticationStateCopyWith(AuthenticationState value, $Res Function(AuthenticationState) _then) = _$AuthenticationStateCopyWithImpl;
 @useResult
 $Res call({
- User? user, String? token, Data dataState, String message
+ User? user, String? token, Data dataState, String message, bool isAuthenticated
 });
 
 
@@ -694,13 +732,14 @@ class _$AuthenticationStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthenticationState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? user = freezed,Object? token = freezed,Object? dataState = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? user = freezed,Object? token = freezed,Object? dataState = null,Object? message = null,Object? isAuthenticated = null,}) {
   return _then(_self.copyWith(
 user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as User?,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String?,dataState: null == dataState ? _self.dataState : dataState // ignore: cast_nullable_to_non_nullable
 as Data,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+as String,isAuthenticated: null == isAuthenticated ? _self.isAuthenticated : isAuthenticated // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of AuthenticationState
@@ -723,13 +762,14 @@ $UserCopyWith<$Res>? get user {
 
 
 class _AuthenticationBlocState with DiagnosticableTreeMixin implements AuthenticationState {
-  const _AuthenticationBlocState({this.user, this.token, required this.dataState, required this.message});
+  const _AuthenticationBlocState({this.user, this.token, required this.dataState, required this.message, required this.isAuthenticated});
   
 
 @override final  User? user;
 @override final  String? token;
 @override final  Data dataState;
 @override final  String message;
+@override final  bool isAuthenticated;
 
 /// Create a copy of AuthenticationState
 /// with the given fields replaced by the non-null parameter values.
@@ -742,21 +782,21 @@ _$AuthenticationBlocStateCopyWith<_AuthenticationBlocState> get copyWith => __$A
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AuthenticationState'))
-    ..add(DiagnosticsProperty('user', user))..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('dataState', dataState))..add(DiagnosticsProperty('message', message));
+    ..add(DiagnosticsProperty('user', user))..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('dataState', dataState))..add(DiagnosticsProperty('message', message))..add(DiagnosticsProperty('isAuthenticated', isAuthenticated));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthenticationBlocState&&(identical(other.user, user) || other.user == user)&&(identical(other.token, token) || other.token == token)&&(identical(other.dataState, dataState) || other.dataState == dataState)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthenticationBlocState&&(identical(other.user, user) || other.user == user)&&(identical(other.token, token) || other.token == token)&&(identical(other.dataState, dataState) || other.dataState == dataState)&&(identical(other.message, message) || other.message == message)&&(identical(other.isAuthenticated, isAuthenticated) || other.isAuthenticated == isAuthenticated));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user,token,dataState,message);
+int get hashCode => Object.hash(runtimeType,user,token,dataState,message,isAuthenticated);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AuthenticationState(user: $user, token: $token, dataState: $dataState, message: $message)';
+  return 'AuthenticationState(user: $user, token: $token, dataState: $dataState, message: $message, isAuthenticated: $isAuthenticated)';
 }
 
 
@@ -767,7 +807,7 @@ abstract mixin class _$AuthenticationBlocStateCopyWith<$Res> implements $Authent
   factory _$AuthenticationBlocStateCopyWith(_AuthenticationBlocState value, $Res Function(_AuthenticationBlocState) _then) = __$AuthenticationBlocStateCopyWithImpl;
 @override @useResult
 $Res call({
- User? user, String? token, Data dataState, String message
+ User? user, String? token, Data dataState, String message, bool isAuthenticated
 });
 
 
@@ -784,13 +824,14 @@ class __$AuthenticationBlocStateCopyWithImpl<$Res>
 
 /// Create a copy of AuthenticationState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,Object? token = freezed,Object? dataState = null,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,Object? token = freezed,Object? dataState = null,Object? message = null,Object? isAuthenticated = null,}) {
   return _then(_AuthenticationBlocState(
 user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as User?,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String?,dataState: null == dataState ? _self.dataState : dataState // ignore: cast_nullable_to_non_nullable
 as Data,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
+as String,isAuthenticated: null == isAuthenticated ? _self.isAuthenticated : isAuthenticated // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

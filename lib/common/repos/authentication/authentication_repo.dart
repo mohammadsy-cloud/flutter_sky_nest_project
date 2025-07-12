@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sky_nest/common/models/custom_failure.dart';
 import 'package:sky_nest/common/models/custom_response.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
@@ -10,6 +11,7 @@ import 'package:sky_nest/common/services/api_service/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 
+import '../../models/user.dart';
 import 'requests/change_password_email_request.dart';
 import 'requests/change_password_request.dart';
 import 'requests/login_request.dart';
@@ -17,13 +19,39 @@ import 'requests/login_request.dart';
 class AuthenticationRepo {
   final Dio _dio;
 
+  Future<Either<CustomFailure, CustomResponse<User>>> authWithToken() async {
+    try {
+      final response = await _dio.get(AuthenticationEndpoints.profile);
+      log(response.data.toString());
+      if ((response.statusCode ?? 500) < 300) {
+        return Right(
+          CustomResponse<User>(
+            data: User.fromJson(response.data),
+            message: 'Authenticated successfully',
+            statusCode: response.statusCode ?? 500,
+          ),
+        );
+      } else {
+        throw Exception('Authentication Failure');
+      }
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.message ?? 'Error'));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
   Future<Either<CustomFailure, CustomResponse>> signUp(
     RegisterRequest request,
   ) async {
     try {
+      final token = Hive.box('my_box').get('fcm_token');
+      if (token == null) {
+        throw Exception('Some error occurred');
+      }
       final response = await _dio.post(
         AuthenticationEndpoints.signUp,
-        data: request.toJson(),
+        data: request.toJson()..addAll({'fcmToken': token}),
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(
@@ -141,9 +169,13 @@ class AuthenticationRepo {
     LoginRequest request,
   ) async {
     try {
+      final token = Hive.box('my_box').get('fcm_token');
+      if (token == null) {
+        throw Exception('Some error occurred');
+      }
       final response = await _dio.post(
         AuthenticationEndpoints.login,
-        data: request.toJson(),
+        data: request.toJson()..addAll({'fcmToken': token}),
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(

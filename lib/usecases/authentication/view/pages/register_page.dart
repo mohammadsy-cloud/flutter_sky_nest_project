@@ -1,3 +1,4 @@
+import 'package:latlong2/latlong.dart';
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
 import 'package:sky_nest/common/repos/authentication/requests/register_request.dart';
@@ -138,8 +139,22 @@ class _RegisterPageState extends State<RegisterPage> {
                       suffixIcon: Icon(Icons.location_on_outlined),
                       label: 'Choose on map',
                       controller: _locationController..text = _currentAddress,
-                      onTap: () {
-                        context.pushNamed(Routes.chooseLocationRoute);
+                      onTap: () async {
+                        final newLocation = await context.pushNamed<LatLng>(
+                          Routes.chooseLocationRoute,
+                          pathParameters: {
+                            'lat': '${state.user?.latitude ?? 33.47469}',
+                            'long': '${state.user?.latitude ?? 36.290594}',
+                          },
+                        );
+                        if (newLocation != null) {
+                          _authenticationBloc.add(
+                            AuthAddLocation(
+                              lat: newLocation.latitude,
+                              long: newLocation.longitude,
+                            ),
+                          );
+                        }
                       },
                     );
                   },
@@ -231,10 +246,14 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     } else {
       final addreess = await getAddressFromLatLng(
-        _authenticationBloc.state.user!.latitude!,
         _authenticationBloc.state.user!.longitude!,
+        _authenticationBloc.state.user!.latitude!,
       );
-      _currentAddress = addreess ?? '';
+      if (addreess != null && addreess.trim().isNotEmpty) {
+        _currentAddress = addreess;
+      } else {
+        _currentAddress = 'Location fetched';
+      }
       _locationController.text = _currentAddress;
     }
   }

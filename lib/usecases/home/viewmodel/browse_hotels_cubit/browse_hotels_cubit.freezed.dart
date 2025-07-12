@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BrowseHotelsState {
 
- Data get status; String get statusMessage; List<Hotel> get hotels;
+ Data get status; String get statusMessage; List<Hotel> get hotels; Filter get currentFilter;
 /// Create a copy of BrowseHotelsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $BrowseHotelsStateCopyWith<BrowseHotelsState> get copyWith => _$BrowseHotelsStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BrowseHotelsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other.hotels, hotels));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BrowseHotelsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other.hotels, hotels)&&(identical(other.currentFilter, currentFilter) || other.currentFilter == currentFilter));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(hotels));
+int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(hotels),currentFilter);
 
 @override
 String toString() {
-  return 'BrowseHotelsState(status: $status, statusMessage: $statusMessage, hotels: $hotels)';
+  return 'BrowseHotelsState(status: $status, statusMessage: $statusMessage, hotels: $hotels, currentFilter: $currentFilter)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $BrowseHotelsStateCopyWith<$Res>  {
   factory $BrowseHotelsStateCopyWith(BrowseHotelsState value, $Res Function(BrowseHotelsState) _then) = _$BrowseHotelsStateCopyWithImpl;
 @useResult
 $Res call({
- Data status, String statusMessage, List<Hotel> hotels
+ Data status, String statusMessage, List<Hotel> hotels, Filter currentFilter
 });
 
 
@@ -63,12 +63,13 @@ class _$BrowseHotelsStateCopyWithImpl<$Res>
 
 /// Create a copy of BrowseHotelsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? statusMessage = null,Object? hotels = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? statusMessage = null,Object? hotels = null,Object? currentFilter = null,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
 as String,hotels: null == hotels ? _self.hotels : hotels // ignore: cast_nullable_to_non_nullable
-as List<Hotel>,
+as List<Hotel>,currentFilter: null == currentFilter ? _self.currentFilter : currentFilter // ignore: cast_nullable_to_non_nullable
+as Filter,
   ));
 }
 
@@ -79,7 +80,7 @@ as List<Hotel>,
 
 
 class _BrowseHotelsState implements BrowseHotelsState {
-  const _BrowseHotelsState({required this.status, required this.statusMessage, required final  List<Hotel> hotels}): _hotels = hotels;
+  const _BrowseHotelsState({required this.status, required this.statusMessage, required final  List<Hotel> hotels, required this.currentFilter}): _hotels = hotels;
   
 
 @override final  Data status;
@@ -91,6 +92,7 @@ class _BrowseHotelsState implements BrowseHotelsState {
   return EqualUnmodifiableListView(_hotels);
 }
 
+@override final  Filter currentFilter;
 
 /// Create a copy of BrowseHotelsState
 /// with the given fields replaced by the non-null parameter values.
@@ -102,16 +104,16 @@ _$BrowseHotelsStateCopyWith<_BrowseHotelsState> get copyWith => __$BrowseHotelsS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BrowseHotelsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other._hotels, _hotels));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BrowseHotelsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other._hotels, _hotels)&&(identical(other.currentFilter, currentFilter) || other.currentFilter == currentFilter));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(_hotels));
+int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(_hotels),currentFilter);
 
 @override
 String toString() {
-  return 'BrowseHotelsState(status: $status, statusMessage: $statusMessage, hotels: $hotels)';
+  return 'BrowseHotelsState(status: $status, statusMessage: $statusMessage, hotels: $hotels, currentFilter: $currentFilter)';
 }
 
 
@@ -122,7 +124,7 @@ abstract mixin class _$BrowseHotelsStateCopyWith<$Res> implements $BrowseHotelsS
   factory _$BrowseHotelsStateCopyWith(_BrowseHotelsState value, $Res Function(_BrowseHotelsState) _then) = __$BrowseHotelsStateCopyWithImpl;
 @override @useResult
 $Res call({
- Data status, String statusMessage, List<Hotel> hotels
+ Data status, String statusMessage, List<Hotel> hotels, Filter currentFilter
 });
 
 
@@ -139,12 +141,13 @@ class __$BrowseHotelsStateCopyWithImpl<$Res>
 
 /// Create a copy of BrowseHotelsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? statusMessage = null,Object? hotels = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? statusMessage = null,Object? hotels = null,Object? currentFilter = null,}) {
   return _then(_BrowseHotelsState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
 as String,hotels: null == hotels ? _self._hotels : hotels // ignore: cast_nullable_to_non_nullable
-as List<Hotel>,
+as List<Hotel>,currentFilter: null == currentFilter ? _self.currentFilter : currentFilter // ignore: cast_nullable_to_non_nullable
+as Filter,
   ));
 }
 

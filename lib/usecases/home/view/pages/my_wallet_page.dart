@@ -66,7 +66,9 @@ class _MyWalletPageState extends State<MyWalletPage> {
                             LoadingIndicator().show(context);
                           } else {
                             LoadingIndicator().hideAll();
-                            Fluttertoast.showToast(msg: state.statusMessage);
+                            if (state.status.isError) {
+                              Fluttertoast.showToast(msg: state.statusMessage);
+                            }
                           }
                         },
                         builder: (context, state) {

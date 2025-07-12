@@ -5,6 +5,7 @@ import 'package:sky_nest/common/repos/authentication/authentication_repo.dart';
 import 'package:sky_nest/common/services/dependency_manager/dependency_manager.dart';
 import 'package:sky_nest/custom_bloc_observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sky_nest/usecases/home/viewmodel/cart_bloc/cart_bloc.dart';
 import 'package:sky_nest/usecases/home/viewmodel/home_bloc/home_bloc.dart';
 import 'package:sky_nest/usecases/home/viewmodel/profile_bloc/profile_bloc.dart';
 
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import 'usecases/home/view/pages/change_password_page.dart';
 import 'usecases/home/view/widgets/profile/profile_page.dart';
+import 'usecases/home/viewmodel/hotel_reservations_bloc/hotel_reservations_bloc.dart';
 
 void main() async {
   await DependencyManager.setup();
@@ -26,6 +28,10 @@ void main() async {
         BlocProvider.value(value: DependencyManager.instance<LocationCubit>()),
         BlocProvider.value(value: DependencyManager.instance<HomeBloc>()),
         BlocProvider.value(value: DependencyManager.instance<ProfileBloc>()),
+        BlocProvider.value(value: DependencyManager.instance<CartBloc>()),
+        BlocProvider.value(
+          value: DependencyManager.instance<HotelReservationsBloc>(),
+        ),
       ],
       child:
       //  MaterialApp(

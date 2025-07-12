@@ -17,4 +17,12 @@ class Routes {
   static final String onBoarding = '/on_boarding';
   static final String changePassword = '/change_password';
   static final String myWallet = '/my_wallet';
+  static final String editPrfile = '/edit_profile';
+  static final String completeReservation = '/complete_reservation';
+  static final String hotelRooms = '/hotel_rooms';
+  static final String hotelPlaces = '/hotel_places';
+  static final String cartHotelRooms = '/cart_hotel_rooms';
+  static final String roomDetails = '/room_details';
+  static final String photos = '/photos';
+  static final String notifications = '/notifications';
 }

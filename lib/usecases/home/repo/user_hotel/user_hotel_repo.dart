@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:sky_nest/usecases/home/model/place.dart';
+import 'package:sky_nest/usecases/home/model/reservation.dart';
 import '../../../../common/models/custom_failure.dart';
 import '../../../../common/models/custom_response.dart';
 import '../../../../usecases/home/repo/user_hotel/user_hotel_endpoints.dart';
@@ -72,9 +77,9 @@ class UserHotelRepo {
     String comment,
   ) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.post(
         '${UserHotelEndpoints.hotelEvaluation}/$id',
-        queryParameters: {'rating': ratingCount, 'comment': comment},
+        queryParameters: {"rating": ratingCount, "comment": comment},
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(
@@ -82,6 +87,10 @@ class UserHotelRepo {
             message: 'Hotel rated succesfully',
             statusCode: response.statusCode ?? 500,
           ),
+        );
+      } else if ((response.statusCode ?? 500) == 400) {
+        return Left(
+          CustomFailure(message: 'You must book in this hotel first'),
         );
       } else {
         throw Exception('Some error happened');
@@ -104,7 +113,9 @@ class UserHotelRepo {
         return Right(
           CustomResponse<List<Hotel>>(
             data:
-                (response.data['elements'] ?? []).map((hotel) {
+                ((response.data['elements'] ?? []) as List<dynamic>).map((
+                  hotel,
+                ) {
                   return Hotel.fromJson(hotel);
                 }).toList(),
             message: 'Hotels fetched succesfully',
@@ -122,16 +133,20 @@ class UserHotelRepo {
   }
 
   Future<Either<CustomFailure, CustomResponse<List<Hotel>>>>
-  filterHotelsByRating(String location) async {
+  filterHotelsByRating() async {
     try {
       final response = await _dio.get(UserHotelEndpoints.filterByRating);
       if ((response.statusCode ?? 500) < 300) {
         return Right(
           CustomResponse<List<Hotel>>(
             data:
-                (response.data['elements'] ?? []).map((hotel) {
-                  return Hotel.fromJson(hotel);
-                }).toList(),
+                ((response.data['elements'] ?? []) as List<dynamic>)
+                    .map((hotel) {
+                      return Hotel.fromJson(hotel);
+                    })
+                    .toList()
+                    .reversed
+                    .toList(),
             message: 'Hotels filtered succesfully',
             statusCode: response.statusCode ?? 500,
           ),
@@ -174,12 +189,12 @@ class UserHotelRepo {
   }
 
   Future<Either<CustomFailure, CustomResponse>> bookRooms(
-    int hotelID,
     BookingRoomsRequest request,
   ) async {
     try {
+      log(request.toJson().toString());
       final response = await _dio.post(
-        '${UserHotelEndpoints.booking}/$hotelID',
+        UserHotelEndpoints.booking,
         data: request.toJson(),
       );
       if ((response.statusCode ?? 500) < 300) {
@@ -249,12 +264,39 @@ class UserHotelRepo {
     }
   }
 
-  Future<Either<CustomFailure, CustomResponse>> showReservations(
-    BookingStatus status,
+  Future<Either<CustomFailure, CustomResponse<List<Place>>>> showHotelPlaces(
+    int hotelID,
   ) async {
     try {
+      final response = await _dio.get(
+        '${UserHotelEndpoints.showHotelPlaces}/$hotelID',
+      );
+      if ((response.statusCode ?? 500) < 300) {
+        return Right(
+          CustomResponse<List<Place>>(
+            message: 'booking canceled succesfully',
+            statusCode: response.statusCode ?? 500,
+            data:
+                (response.data['elements'] as List<dynamic>).map((place) {
+                  return Place.fromJson(place);
+                }).toList(),
+          ),
+        );
+      } else {
+        throw Exception('Some error happened');
+      }
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<CustomFailure, CustomResponse<List<Reservation>>>>
+  showReservations(BookingStatus status) async {
+    try {
       final path =
-          status.isActive
+          status.isActivated
               ? UserHotelEndpoints.showActiveReservation
               : status.isCanceled
               ? UserHotelEndpoints.showCanceledReservation
@@ -262,9 +304,15 @@ class UserHotelRepo {
       final response = await _dio.get(path);
       if ((response.statusCode ?? 500) < 300) {
         return Right(
-          CustomResponse(
+          CustomResponse<List<Reservation>>(
             message: 'Reservations fetched succesfully',
             statusCode: response.statusCode ?? 500,
+            data:
+                ((response.data['elements'] as List<dynamic>)).map((
+                  reservation,
+                ) {
+                  return Reservation.fromJson(reservation);
+                }).toList(),
           ),
         );
       } else {

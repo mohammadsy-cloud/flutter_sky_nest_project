@@ -36,59 +36,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
           context.read<HomeBloc>().add(NearbyHotelsFetched());
         },
         child: CustomScrollView(
-          slivers: [
-            _buildHeader(context),
-            _buildCountries(),
-            _buildBody(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  SliverToBoxAdapter _buildCountries() {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        width: screenWidth(context),
-        height: screenHeight(context) * 0.13,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemExtent: screenWidth(context) * 0.2,
-          padding: EdgeInsets.only(left: 10),
-          itemCount: 10,
-          itemBuilder: (_, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap:
-                    () => context.pushNamed(
-                      Routes.browseHotelsByCountryRoute,
-                      pathParameters: {'country': 'Syria'},
-                    ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: screenWidth(context) * 0.2,
-                      height: screenHeight(context) * 0.08,
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            'assets/images/Balloon-Fiesta.webp',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text('Syria'),
-                  ],
-                ),
-              ),
-            );
-          },
+          slivers: [_buildHeader(context), _buildBody(context)],
         ),
       ),
     );
@@ -155,9 +103,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                 onTap: () {
                                   context.pushNamed(
                                     Routes.hotelInfoRoute,
-                                    pathParameters: {
-                                      'hotelName': hotel.name ?? 'No hotel',
-                                    },
+                                    extra: hotel,
                                   );
                                 },
                                 imagePath:
@@ -230,6 +176,43 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               backgroundColor: Theme.of(context).colorScheme.primary,
               child: Stack(
                 children: [
+                  Positioned(
+                    right: 13,
+                    top: 25,
+                    child: InkWell(
+                      onTap: () {
+                        context.pushNamed(Routes.notifications);
+                      },
+                      child: Stack(
+                        children: [
+                          Icon(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            size: 30,
+                            Icons.notifications,
+                          ),
+                          BlocBuilder<HomeBloc, HomeState>(
+                            builder: (context, state) {
+                              return Visibility(
+                                visible: state.notificationCount != 0,
+                                child: Positioned(
+                                  top: 22,
+                                  right: 10,
+                                  child: Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Positioned(
                     top: 70,
                     left: 90,
@@ -313,3 +296,52 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
     );
   }
 }
+
+
+  // SliverToBoxAdapter _buildCountries() {
+  //   return SliverToBoxAdapter(
+  //     child: SizedBox(
+  //       width: screenWidth(context),
+  //       height: screenHeight(context) * 0.13,
+  //       child: ListView.builder(
+  //         scrollDirection: Axis.horizontal,
+  //         itemExtent: screenWidth(context) * 0.2,
+  //         padding: EdgeInsets.only(left: 10),
+  //         itemCount: 10,
+  //         itemBuilder: (_, index) {
+  //           return Padding(
+  //             padding: const EdgeInsets.only(right: 8.0),
+  //             child: GestureDetector(
+  //               behavior: HitTestBehavior.opaque,
+  //               onTap:
+  //                   () => context.pushNamed(
+  //                     Routes.browseHotelsByCountryRoute,
+  //                     pathParameters: {'country': 'Syria'},
+  //                   ),
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                 children: [
+  //                   Container(
+  //                     width: screenWidth(context) * 0.2,
+  //                     height: screenHeight(context) * 0.08,
+  //                     decoration: BoxDecoration(
+  //                       color: Colors.amber,
+  //                       borderRadius: BorderRadius.circular(12),
+  //                       image: DecorationImage(
+  //                         fit: BoxFit.cover,
+  //                         image: AssetImage(
+  //                           'assets/images/Balloon-Fiesta.webp',
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Text('Syria'),
+  //                 ],
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }

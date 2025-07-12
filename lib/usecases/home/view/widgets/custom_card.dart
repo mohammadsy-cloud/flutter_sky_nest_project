@@ -43,11 +43,7 @@ class CustomCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomNetworkImage(
-              imagePath:
-                  'user/hotel/hotelImage/0039dd89-4921-4db6-851b'
-                  '-b86eb4651c6c_1-Flutter%20architecture.png',
-            ),
+            CustomNetworkImage(imagePath: imagePath),
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
@@ -60,9 +56,11 @@ class CustomCard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Padding(
+            Container(
+              height: 20,
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
+                overflow: TextOverflow.ellipsis,
                 title2,
                 style: TextStyle(
                   fontSize: 13,
@@ -74,6 +72,8 @@ class CustomCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 title3,
                 style: TextStyle(fontSize: 15, color: Colors.green[400]),
               ),

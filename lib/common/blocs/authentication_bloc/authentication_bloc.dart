@@ -29,6 +29,8 @@ class AuthenticationBloc
         emit(state.copyWith(dataState: Data.loading, message: 'Loading'));
       }
     });
+
+    on<LogInWithToken>(_logInWithToken);
     on<AuthSignUp>(_signUpUser);
     on<AuthLogIn>(_logInUser);
     on<ChangePasswordEmail>(_changePasswordEmail);
@@ -92,6 +94,7 @@ class AuthenticationBloc
           user: state.user?.copyWith(email: event.request.email, token: r.data),
           dataState: Data.data,
           message: r.message,
+          isAuthenticated: true,
         ),
       };
       emit(nextState);
@@ -122,6 +125,7 @@ class AuthenticationBloc
           dataState: Data.done,
           message: r.message,
           token: r.data,
+          isAuthenticated: true,
         ),
       };
       emit(nextState);
@@ -213,19 +217,25 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     try {
-      final response = await _authenticationRepo.logout();
-
-      final nextState = switch (response) {
-        Left(value: final l) => state.copyWith(
-          dataState: Data.error,
-          message: l.message,
-        ),
-        Right(value: final r) => AuthenticationState.initial().copyWith(
-          message: r.message,
+      emit(
+        AuthenticationState.initial().copyWith(
           dataState: Data.done,
+          message: 'Logged out',
         ),
-      };
-      emit(nextState);
+      );
+      // final response = await _authenticationRepo.logout();
+
+      // final nextState = switch (response) {
+      //   Left(value: final l) => state.copyWith(
+      //     dataState: Data.error,
+      //     message: l.message,
+      //   ),
+      //   Right(value: final r) => AuthenticationState.initial().copyWith(
+      //     message: r.message,
+      //     dataState: Data.done,
+      //   ),
+      // };
+      // emit(nextState);
     } catch (e) {
       emit(state.copyWith(dataState: Data.error, message: e.toString()));
     }
@@ -237,6 +247,7 @@ class AuthenticationBloc
   AuthenticationState? fromJson(Map<String, dynamic> json) {
     try {
       return AuthenticationState(
+        isAuthenticated: json['isAuth'],
         dataState: Data.values.firstWhere(
           (status) => status.name == json['dataState'],
         ),
@@ -254,6 +265,7 @@ class AuthenticationBloc
   Map<String, dynamic>? toJson(AuthenticationState state) {
     try {
       return {
+        'isAuth': state.isAuthenticated,
         'user': state.user?.toJson(),
         'token': state.token,
         'dataState': state.dataState.name,
@@ -262,6 +274,30 @@ class AuthenticationBloc
     } catch (e) {
       log(e.toString());
       return null;
+    }
+  }
+
+  Future<void> _logInWithToken(
+    LogInWithToken event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(isAuthenticated: false));
+      final response = await _authenticationRepo.authWithToken();
+      final futureState = switch (response) {
+        Left(value: final l) => state.copyWith(
+          message: l.message,
+          dataState: Data.error,
+        ),
+        Right(value: final r) => state.copyWith(
+          dataState: Data.done,
+          isAuthenticated: true,
+          message: r.message,
+        ),
+      };
+      emit(futureState);
+    } catch (e) {
+      emit(state.copyWith(dataState: Data.error, message: e.toString()));
     }
   }
 }

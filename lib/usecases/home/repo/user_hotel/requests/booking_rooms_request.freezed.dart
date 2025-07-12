@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BookingRoomsRequest {
 
- int get numberOfPerson; int get numberOfRoom; String get roomType; DateTime get launchDate; DateTime get departureDate; int get paymentRatio;
+ int get numberOfPerson; int get numberOfRoom; Set<int>? get setOfRooms; int? get hotelId;@DateOnlyConverter() DateTime get launchDate;@DateOnlyConverter() DateTime get departureDate; int get paymentRatio;
 /// Create a copy of BookingRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $BookingRoomsRequestCopyWith<BookingRoomsRequest> get copyWith => _$BookingRooms
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookingRoomsRequest&&(identical(other.numberOfPerson, numberOfPerson) || other.numberOfPerson == numberOfPerson)&&(identical(other.numberOfRoom, numberOfRoom) || other.numberOfRoom == numberOfRoom)&&(identical(other.roomType, roomType) || other.roomType == roomType)&&(identical(other.launchDate, launchDate) || other.launchDate == launchDate)&&(identical(other.departureDate, departureDate) || other.departureDate == departureDate)&&(identical(other.paymentRatio, paymentRatio) || other.paymentRatio == paymentRatio));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BookingRoomsRequest&&(identical(other.numberOfPerson, numberOfPerson) || other.numberOfPerson == numberOfPerson)&&(identical(other.numberOfRoom, numberOfRoom) || other.numberOfRoom == numberOfRoom)&&const DeepCollectionEquality().equals(other.setOfRooms, setOfRooms)&&(identical(other.hotelId, hotelId) || other.hotelId == hotelId)&&(identical(other.launchDate, launchDate) || other.launchDate == launchDate)&&(identical(other.departureDate, departureDate) || other.departureDate == departureDate)&&(identical(other.paymentRatio, paymentRatio) || other.paymentRatio == paymentRatio));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,numberOfPerson,numberOfRoom,roomType,launchDate,departureDate,paymentRatio);
+int get hashCode => Object.hash(runtimeType,numberOfPerson,numberOfRoom,const DeepCollectionEquality().hash(setOfRooms),hotelId,launchDate,departureDate,paymentRatio);
 
 @override
 String toString() {
-  return 'BookingRoomsRequest(numberOfPerson: $numberOfPerson, numberOfRoom: $numberOfRoom, roomType: $roomType, launchDate: $launchDate, departureDate: $departureDate, paymentRatio: $paymentRatio)';
+  return 'BookingRoomsRequest(numberOfPerson: $numberOfPerson, numberOfRoom: $numberOfRoom, setOfRooms: $setOfRooms, hotelId: $hotelId, launchDate: $launchDate, departureDate: $departureDate, paymentRatio: $paymentRatio)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $BookingRoomsRequestCopyWith<$Res>  {
   factory $BookingRoomsRequestCopyWith(BookingRoomsRequest value, $Res Function(BookingRoomsRequest) _then) = _$BookingRoomsRequestCopyWithImpl;
 @useResult
 $Res call({
- int numberOfPerson, int numberOfRoom, String roomType, DateTime launchDate, DateTime departureDate, int paymentRatio
+ int numberOfPerson, int numberOfRoom, Set<int>? setOfRooms, int? hotelId,@DateOnlyConverter() DateTime launchDate,@DateOnlyConverter() DateTime departureDate, int paymentRatio
 });
 
 
@@ -66,12 +66,13 @@ class _$BookingRoomsRequestCopyWithImpl<$Res>
 
 /// Create a copy of BookingRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? numberOfPerson = null,Object? numberOfRoom = null,Object? roomType = null,Object? launchDate = null,Object? departureDate = null,Object? paymentRatio = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? numberOfPerson = null,Object? numberOfRoom = null,Object? setOfRooms = freezed,Object? hotelId = freezed,Object? launchDate = null,Object? departureDate = null,Object? paymentRatio = null,}) {
   return _then(_self.copyWith(
 numberOfPerson: null == numberOfPerson ? _self.numberOfPerson : numberOfPerson // ignore: cast_nullable_to_non_nullable
 as int,numberOfRoom: null == numberOfRoom ? _self.numberOfRoom : numberOfRoom // ignore: cast_nullable_to_non_nullable
-as int,roomType: null == roomType ? _self.roomType : roomType // ignore: cast_nullable_to_non_nullable
-as String,launchDate: null == launchDate ? _self.launchDate : launchDate // ignore: cast_nullable_to_non_nullable
+as int,setOfRooms: freezed == setOfRooms ? _self.setOfRooms : setOfRooms // ignore: cast_nullable_to_non_nullable
+as Set<int>?,hotelId: freezed == hotelId ? _self.hotelId : hotelId // ignore: cast_nullable_to_non_nullable
+as int?,launchDate: null == launchDate ? _self.launchDate : launchDate // ignore: cast_nullable_to_non_nullable
 as DateTime,departureDate: null == departureDate ? _self.departureDate : departureDate // ignore: cast_nullable_to_non_nullable
 as DateTime,paymentRatio: null == paymentRatio ? _self.paymentRatio : paymentRatio // ignore: cast_nullable_to_non_nullable
 as int,
@@ -85,14 +86,23 @@ as int,
 @JsonSerializable()
 
 class _BookingRoomsRequest implements BookingRoomsRequest {
-   _BookingRoomsRequest({required this.numberOfPerson, required this.numberOfRoom, required this.roomType, required this.launchDate, required this.departureDate, required this.paymentRatio});
+   _BookingRoomsRequest({required this.numberOfPerson, required this.numberOfRoom, final  Set<int>? setOfRooms, this.hotelId, @DateOnlyConverter() required this.launchDate, @DateOnlyConverter() required this.departureDate, required this.paymentRatio}): _setOfRooms = setOfRooms;
   factory _BookingRoomsRequest.fromJson(Map<String, dynamic> json) => _$BookingRoomsRequestFromJson(json);
 
 @override final  int numberOfPerson;
 @override final  int numberOfRoom;
-@override final  String roomType;
-@override final  DateTime launchDate;
-@override final  DateTime departureDate;
+ final  Set<int>? _setOfRooms;
+@override Set<int>? get setOfRooms {
+  final value = _setOfRooms;
+  if (value == null) return null;
+  if (_setOfRooms is EqualUnmodifiableSetView) return _setOfRooms;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(value);
+}
+
+@override final  int? hotelId;
+@override@DateOnlyConverter() final  DateTime launchDate;
+@override@DateOnlyConverter() final  DateTime departureDate;
 @override final  int paymentRatio;
 
 /// Create a copy of BookingRoomsRequest
@@ -108,16 +118,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookingRoomsRequest&&(identical(other.numberOfPerson, numberOfPerson) || other.numberOfPerson == numberOfPerson)&&(identical(other.numberOfRoom, numberOfRoom) || other.numberOfRoom == numberOfRoom)&&(identical(other.roomType, roomType) || other.roomType == roomType)&&(identical(other.launchDate, launchDate) || other.launchDate == launchDate)&&(identical(other.departureDate, departureDate) || other.departureDate == departureDate)&&(identical(other.paymentRatio, paymentRatio) || other.paymentRatio == paymentRatio));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BookingRoomsRequest&&(identical(other.numberOfPerson, numberOfPerson) || other.numberOfPerson == numberOfPerson)&&(identical(other.numberOfRoom, numberOfRoom) || other.numberOfRoom == numberOfRoom)&&const DeepCollectionEquality().equals(other._setOfRooms, _setOfRooms)&&(identical(other.hotelId, hotelId) || other.hotelId == hotelId)&&(identical(other.launchDate, launchDate) || other.launchDate == launchDate)&&(identical(other.departureDate, departureDate) || other.departureDate == departureDate)&&(identical(other.paymentRatio, paymentRatio) || other.paymentRatio == paymentRatio));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,numberOfPerson,numberOfRoom,roomType,launchDate,departureDate,paymentRatio);
+int get hashCode => Object.hash(runtimeType,numberOfPerson,numberOfRoom,const DeepCollectionEquality().hash(_setOfRooms),hotelId,launchDate,departureDate,paymentRatio);
 
 @override
 String toString() {
-  return 'BookingRoomsRequest(numberOfPerson: $numberOfPerson, numberOfRoom: $numberOfRoom, roomType: $roomType, launchDate: $launchDate, departureDate: $departureDate, paymentRatio: $paymentRatio)';
+  return 'BookingRoomsRequest(numberOfPerson: $numberOfPerson, numberOfRoom: $numberOfRoom, setOfRooms: $setOfRooms, hotelId: $hotelId, launchDate: $launchDate, departureDate: $departureDate, paymentRatio: $paymentRatio)';
 }
 
 
@@ -128,7 +138,7 @@ abstract mixin class _$BookingRoomsRequestCopyWith<$Res> implements $BookingRoom
   factory _$BookingRoomsRequestCopyWith(_BookingRoomsRequest value, $Res Function(_BookingRoomsRequest) _then) = __$BookingRoomsRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int numberOfPerson, int numberOfRoom, String roomType, DateTime launchDate, DateTime departureDate, int paymentRatio
+ int numberOfPerson, int numberOfRoom, Set<int>? setOfRooms, int? hotelId,@DateOnlyConverter() DateTime launchDate,@DateOnlyConverter() DateTime departureDate, int paymentRatio
 });
 
 
@@ -145,12 +155,13 @@ class __$BookingRoomsRequestCopyWithImpl<$Res>
 
 /// Create a copy of BookingRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? numberOfPerson = null,Object? numberOfRoom = null,Object? roomType = null,Object? launchDate = null,Object? departureDate = null,Object? paymentRatio = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? numberOfPerson = null,Object? numberOfRoom = null,Object? setOfRooms = freezed,Object? hotelId = freezed,Object? launchDate = null,Object? departureDate = null,Object? paymentRatio = null,}) {
   return _then(_BookingRoomsRequest(
 numberOfPerson: null == numberOfPerson ? _self.numberOfPerson : numberOfPerson // ignore: cast_nullable_to_non_nullable
 as int,numberOfRoom: null == numberOfRoom ? _self.numberOfRoom : numberOfRoom // ignore: cast_nullable_to_non_nullable
-as int,roomType: null == roomType ? _self.roomType : roomType // ignore: cast_nullable_to_non_nullable
-as String,launchDate: null == launchDate ? _self.launchDate : launchDate // ignore: cast_nullable_to_non_nullable
+as int,setOfRooms: freezed == setOfRooms ? _self._setOfRooms : setOfRooms // ignore: cast_nullable_to_non_nullable
+as Set<int>?,hotelId: freezed == hotelId ? _self.hotelId : hotelId // ignore: cast_nullable_to_non_nullable
+as int?,launchDate: null == launchDate ? _self.launchDate : launchDate // ignore: cast_nullable_to_non_nullable
 as DateTime,departureDate: null == departureDate ? _self.departureDate : departureDate // ignore: cast_nullable_to_non_nullable
 as DateTime,paymentRatio: null == paymentRatio ? _self.paymentRatio : paymentRatio // ignore: cast_nullable_to_non_nullable
 as int,

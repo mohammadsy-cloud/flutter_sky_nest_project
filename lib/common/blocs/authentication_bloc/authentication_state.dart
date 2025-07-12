@@ -7,10 +7,12 @@ sealed class AuthenticationState with _$AuthenticationState {
     String? token,
     required Data dataState,
     required String message,
+    required bool isAuthenticated,
   }) = _AuthenticationBlocState;
 
   factory AuthenticationState.initial() {
     return AuthenticationState(
+      isAuthenticated: false,
       dataState: Data.empty,
       message: 'no data',
       user: User(),

@@ -22,6 +22,7 @@ class _SplashPageState extends State<SplashPage> {
 
     if (mounted) {
       context.read<LocationCubit>().fetchUserLocation();
+      context.read<AuthenticationBloc>().add(LogInWithToken());
     }
   }
 
@@ -54,10 +55,17 @@ class _SplashPageState extends State<SplashPage> {
               onPressed: () {
                 context.goNamed(Routes.onBoarding);
               },
-              icon: Icon(
-                Icons.arrow_forward,
-                size: 30,
-                // color: Theme.of(context).colorScheme.onPrimaryFixed,
+              icon: BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+                  if (state.isAuthenticated) {
+                    context.goNamed(Routes.mainRoute);
+                  }
+                },
+                child: Icon(
+                  Icons.arrow_forward,
+                  size: 30,
+                  // color: Theme.of(context).colorScheme.onPrimaryFixed,
+                ),
               ),
               label: Text('Explore', style: TextStyle(fontSize: 20)),
             ),

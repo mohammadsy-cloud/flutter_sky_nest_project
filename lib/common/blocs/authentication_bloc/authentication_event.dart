@@ -7,6 +7,7 @@ sealed class AuthenticationEvent with _$AuthenticationEvent {
   const factory AuthenticationEvent.login({required LoginRequest request}) =
       AuthLogIn;
   const factory AuthenticationEvent.logout() = AuthLogOut;
+  const factory AuthenticationEvent.logInWithToken() = LogInWithToken;
   const factory AuthenticationEvent.changePasswordEmail({
     required ChangePasswordEmailRequest request,
   }) = ChangePasswordEmail;

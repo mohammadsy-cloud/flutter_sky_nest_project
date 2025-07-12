@@ -2,10 +2,16 @@ import 'package:sky_nest/common/theme/color_pallete.dart';
 import 'package:sky_nest/common/utilities/app_utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:sky_nest/usecases/home/model/reservation.dart';
 
 class BookingCard extends StatelessWidget {
-  const BookingCard({super.key, this.isBooking = false});
+  const BookingCard({
+    super.key,
+    this.isBooking = false,
+    required this.reservation,
+  });
   final bool isBooking;
+  final Reservation reservation;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +37,11 @@ class BookingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Booking ID : 098876543',
+                  'Booking ID : ${reservation.bookingId}',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'lorem ipsum dolor sit amet something',
+                  '${reservation.bookingType}',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 SizedBox(height: 5),
@@ -87,13 +93,16 @@ class BookingCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Malon Greens',
+                    reservation.hotelName ?? 'No hotel',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Row(
                     children: [
                       Icon(Icons.location_on_sharp, size: 15),
-                      Text('Damascus,Syria', style: TextStyle(fontSize: 13)),
+                      Text(
+                        reservation.address ?? '',
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ],
                   ),
                 ],
@@ -129,7 +138,12 @@ class BookingCard extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            foregroundColor:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryContainer,
                           ),
                           child: Text('View Details'),
                         ),

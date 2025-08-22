@@ -206,49 +206,11 @@ class _AllRoomsPageState extends State<AllRoomsPage> {
                                                     room.roomType ?? 'No Room',
                                                   ),
                                                 ),
-                                                Text.rich(
-                                                  TextSpan(
-                                                    style:
-                                                        ((room.currentPrice ??
-                                                                    -1) <
-                                                                (room.basePrice ??
-                                                                    0))
-                                                            ? TextStyle(
-                                                              decorationThickness:
-                                                                  2,
-
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
-                                                            )
-                                                            : null,
-                                                    text:
-                                                        ((room.currentPrice ??
-                                                                    -1) <
-                                                                (room.basePrice ??
-                                                                    0))
-                                                            ? '\$ ${room.basePrice ?? 0.0}'
-                                                            : '\$ ${room.currentPrice ?? 0.0}',
-                                                    children:
-                                                        ((room.currentPrice ??
-                                                                    -1) <
-                                                                (room.basePrice ??
-                                                                    0))
-                                                            ? [
-                                                              TextSpan(
-                                                                text:
-                                                                    ' \$ ${room.currentPrice ?? 0.0}',
-                                                                style: TextStyle(
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .none,
-                                                                ),
-                                                              ),
-                                                            ]
-                                                            : null,
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                bestPriceWidget(
+                                                  basePrice:
+                                                      room.basePrice ?? -1,
+                                                  currentPrice:
+                                                      room.currentPrice ?? 0,
                                                 ),
                                               ],
                                             ),

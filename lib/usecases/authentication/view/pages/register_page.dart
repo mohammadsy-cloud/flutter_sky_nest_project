@@ -108,13 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: 20),
                 CustomTextFormField(
-                  validator: (value) {
-                    if (checkIfEmpty(value)) {
-                      return 'Enter a valid password';
-                    } else {
-                      return null;
-                    }
-                  },
+                  validator: validatePasswordWithFeedback,
                   obsecureText: true,
                   label: 'Password',
                   controller: _passwordController,

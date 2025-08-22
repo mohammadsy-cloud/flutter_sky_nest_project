@@ -206,7 +206,7 @@ class UserAirportRepo {
     try {
       final response = await _dio.post(
         UserAirportEndpoints.cancelFlightBooking,
-        data: {'fightBookingId': fightBookingId},
+        queryParameters: {'fightBookingId': fightBookingId},
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(

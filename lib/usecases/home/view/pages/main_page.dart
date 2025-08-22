@@ -8,6 +8,7 @@ import 'package:sky_nest/usecases/home/view/widgets/bookings/resevations_page.da
 import 'package:sky_nest/usecases/home/view/widgets/profile/profile_page.dart';
 import 'package:sky_nest/usecases/home/viewmodel/profile_bloc/profile_bloc.dart';
 import '../../../../common/navigation/routes.dart';
+import '../widgets/bookings/flights_booking_page.dart';
 import '../widgets/cart/my_cart_page.dart';
 import '../widgets/home/home_screen_widget.dart';
 import '../widgets/select_widget.dart';
@@ -68,7 +69,9 @@ class _Maintate extends State<MainPage> {
               )
               : AppBar(
                 forceMaterialTransparency: true,
-                title: Text('Bookings'),
+                title: Text(
+                  _currentIndex == 1 ? 'Bookings' : 'Flight bookings',
+                ),
                 toolbarHeight: screenHeight(context) * 0.1,
               ),
       body:
@@ -78,9 +81,9 @@ class _Maintate extends State<MainPage> {
               ? ResevationsPage()
               : _currentIndex == 2
               ? MyCartPage()
-              : _currentIndex == 4
-              ? ProfilePage()
-              : Placeholder(),
+              : _currentIndex == 3
+              ? FlightsBookingPage()
+              : ProfilePage(),
       bottomNavigationBar: ConvexAppBar(
         initialActiveIndex: _currentIndex,
         onTap: (index) {

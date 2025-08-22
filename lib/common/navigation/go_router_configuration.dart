@@ -6,6 +6,7 @@ import 'package:sky_nest/usecases/authentication/view/pages/register_page.dart';
 import 'package:sky_nest/usecases/authentication/view/pages/reset_password_page.dart';
 import 'package:sky_nest/usecases/authentication/view/pages/verification_code_page.dart';
 import 'package:sky_nest/usecases/home/model/airport.dart';
+import 'package:sky_nest/usecases/home/model/flight.dart';
 import 'package:sky_nest/usecases/home/model/room.dart';
 import 'package:sky_nest/usecases/home/view/pages/all_rooms_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/browse_hotels_by_country_page.dart';
@@ -27,6 +28,7 @@ import '../../usecases/home/view/pages/booking_detais_screen.dart';
 import '../../usecases/home/view/pages/browse_airports_page.dart';
 import '../../usecases/home/view/pages/cart_hotel_rooms_page.dart';
 import '../../usecases/home/view/pages/edit_profile_page.dart';
+import '../../usecases/home/view/pages/flight_details_page.dart';
 import '../../usecases/home/view/pages/hotel_places_page.dart';
 import '../../usecases/home/view/pages/hotel_rooms_page.dart';
 import '../../usecases/home/view/pages/my_wallet_page.dart';
@@ -188,6 +190,14 @@ class GlobalAppRouter {
         pageBuilder: (context, state) {
           final booking = state.extra as Reservation;
           return MaterialPage(child: BookingDetaisScreen(booking: booking));
+        },
+      ),
+      GoRoute(
+        name: Routes.flightDetails,
+        path: '/flight_details',
+        pageBuilder: (context, state) {
+          final flight = state.extra as Flight;
+          return MaterialPage(child: FlightDetailsPage(flight: flight));
         },
       ),
       GoRoute(

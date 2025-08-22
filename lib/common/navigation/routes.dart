@@ -26,6 +26,7 @@ class Routes {
   static final String cartHotelRooms = '/cart_hotel_rooms';
   static final String allRooms = '/all_rooms';
   static final String roomDetails = '/room_details';
+  static final String flightDetails = '/flight_details';
   static final String bookingDetails = '/booking_details';
   static final String photos = '/photos';
   static final String notifications = '/notifications';

@@ -231,7 +231,6 @@ class AuthenticationRepo {
         AuthenticationEndpoints.verifyOTP,
         data: request.toJson(),
       );
-      log(response.data.toString());
       if ((response.statusCode ?? 500) < 300) {
         return Right(
           CustomResponse(

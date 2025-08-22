@@ -6,6 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart' as l;
 
+import '../../usecases/home/model/image_model.dart';
+
+String higherFirstChar(String str) {
+  return str[0].toUpperCase() + str.substring(1);
+}
+
 double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
 double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;
 bool validateFormKey(GlobalKey<FormState> key) => key.currentState!.validate();
@@ -91,6 +97,55 @@ bool isValidEmail(String? email) {
   return regex.hasMatch(email);
 }
 
+String? validatePasswordWithFeedback(String? password) {
+  if (password == null) {
+    return 'You must enter a valid password';
+  } else {
+    // Check minimum length
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters long';
+    }
+
+    // Check for uppercase letters
+    if (!password.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one uppercase letter';
+    }
+
+    // Check for lowercase letters
+    if (!password.contains(RegExp(r'[a-z]'))) {
+      return 'Password must contain at least one lowercase letter';
+    }
+
+    // Check for numbers
+    if (!password.contains(RegExp(r'[0-9]'))) {
+      return 'Password must contain at least one number';
+    }
+
+    // Check for special characters
+    if (!password.contains(RegExp(r'[@$!%*?&]'))) {
+      return 'Password must contain at least one special character (@, \$, !, %, *, ?, &)';
+    }
+
+    // Check for maximum length (common practice)
+    if (password.length > 128) {
+      return 'Password cannot exceed 128 characters';
+    }
+
+    // // Check for common weak patterns
+    // if (RegExp(r'(.)\1{2,}').hasMatch(password)) {
+    //   return 'Password contains repeated characters';
+    // }
+
+    // if (RegExp(
+    //   r'(123|abc|qwerty|password|admin)',
+    // ).hasMatch(password.toLowerCase())) {
+    //   return 'Password contains common weak patterns';
+    // }
+  }
+
+  return null; // Password is valid
+}
+
 void myShowSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context)
     ..clearSnackBars()
@@ -103,6 +158,44 @@ String getMapSnapshot(LatLng location) {
   return 'https://static-maps.yandex.ru'
       '/1.x/?ll=$lat,$long&size=650,450&z=15'
       '&l=map&pt=$lat,$long,pm2rdl';
+}
+
+String findFirstImageUrl(List<ImageModel>? images) {
+  if (images == null || images.isEmpty) {
+    return '';
+  } else {
+    return images.first.imageUrl ?? '';
+  }
+}
+
+Widget bestPriceWidget({
+  required double basePrice,
+  required double currentPrice,
+  FontWeight fontWeight = FontWeight.normal,
+}) {
+  return Text.rich(
+    style: TextStyle(fontWeight: fontWeight),
+    TextSpan(
+      style:
+          ((currentPrice) < (basePrice))
+              ? TextStyle(
+                decorationThickness: 2,
+                decoration: TextDecoration.lineThrough,
+              )
+              : null,
+      text:
+          ((currentPrice) < (basePrice)) ? '\$ $basePrice' : '\$ $currentPrice',
+      children:
+          ((currentPrice) < (basePrice))
+              ? [
+                TextSpan(
+                  text: ' \$ $currentPrice',
+                  style: TextStyle(decoration: TextDecoration.none),
+                ),
+              ]
+              : null,
+    ),
+  );
 }
 
 Future<String?> pickDateAndFormatIt(

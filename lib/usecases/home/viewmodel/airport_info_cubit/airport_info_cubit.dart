@@ -26,7 +26,7 @@ class AirportInfoCubit extends Cubit<AirportInfoState> {
     if (startPoint != null) {
       emit(state.copyWith(startPoint: startPoint));
     } else if (endPoint != null) {
-      emit(state.copyWith(startPoint: endPoint));
+      emit(state.copyWith(endPoint: endPoint));
     }
     fetchFlights();
   }

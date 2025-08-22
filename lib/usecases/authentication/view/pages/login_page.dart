@@ -87,10 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                 CustomTextFormField(
                   textInputAction: TextInputAction.done,
                   validator: (value) {
-                    if (checkIfEmpty(value)) {
-                      return 'Enter a valid password';
-                    } else {
-                      return null;
+                    if (value!.length < 8) {
+                      return 'Password must be at least 8 characters long';
                     }
                   },
                   obsecureText: true,

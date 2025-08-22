@@ -12,12 +12,14 @@ import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.da
 import 'package:sky_nest/common/cubits/location_cubit/location_cubit.dart';
 import 'package:sky_nest/common/repos/authentication/authentication_repo.dart';
 import 'package:sky_nest/usecases/home/repo/profile/profile_repo.dart';
+import 'package:sky_nest/usecases/home/repo/user_flights/user_flights_repo.dart';
 import 'package:sky_nest/usecases/home/repo/user_hotel/user_hotel_repo.dart';
 import 'package:sky_nest/usecases/home/viewmodel/home_bloc/home_bloc.dart';
 import 'package:sky_nest/usecases/home/viewmodel/profile_bloc/profile_bloc.dart';
 
 import '../../../custom_bloc_observer.dart';
 import '../../../usecases/home/viewmodel/cart_bloc/cart_bloc.dart';
+import '../../../usecases/home/viewmodel/flight_reservations_bloc/flight_reservations_bloc.dart';
 import '../../../usecases/home/viewmodel/hotel_reservations_bloc/hotel_reservations_bloc.dart';
 import '../notifications/notifications_service.dart';
 
@@ -59,6 +61,10 @@ class DependencyManager {
     _instance.registerSingleton<AuthenticationRepo>(AuthenticationRepo());
     _instance.registerSingleton<AuthenticationBloc>(
       AuthenticationBloc(authenticationRepo: _instance<AuthenticationRepo>()),
+    );
+    _instance.registerFactory<UserFlightsRepo>(() => UserFlightsRepo());
+    _instance.registerSingleton<FlightReservationsBloc>(
+      FlightReservationsBloc(userFlightsRepo: _instance<UserFlightsRepo>()),
     );
     _instance.registerLazySingleton<LocationCubit>(
       () => LocationCubit(authBloc: _instance<AuthenticationBloc>()),

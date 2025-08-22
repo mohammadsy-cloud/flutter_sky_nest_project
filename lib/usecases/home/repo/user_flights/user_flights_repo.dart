@@ -39,7 +39,7 @@ class UserFlightsRepo {
   Future<Either<CustomFailure, CustomResponse<List<Flight>>>>
   searchFlightsBySAndD(SearchBySdAllRequest request) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.post(
         UserFlightsEndpoints.searchByStartingAndEndingPointInAll,
         data: request.toJson(),
       );
@@ -69,7 +69,7 @@ class UserFlightsRepo {
     SearchFlightsByDateAndLocationRequest request,
   ) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.post(
         UserFlightsEndpoints.searchAvailableFlightsForDateAndLocation,
         data: request.toJson(),
       );
@@ -97,9 +97,9 @@ class UserFlightsRepo {
   Future<Either<CustomFailure, CustomResponse<List<Flight>>>>
   searchFlightsBySAndDInOne(SearchBySdAllRequest request, int airportId) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.post(
         '${UserFlightsEndpoints.searchByStartingAndEndingPoint}/$airportId',
-        data: request.toJson(),
+        queryParameters: request.toJson(),
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(

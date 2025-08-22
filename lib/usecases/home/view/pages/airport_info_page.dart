@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
 import 'package:sky_nest/common/utilities/app_utilities.dart';
@@ -35,21 +37,12 @@ class _AirportInfoPageState extends State<AirportInfoPage>
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() async {
       if (_tabController.index == 1) {
-        await _addItems(_airportInfoCubit.state.flights);
+        _airportInfoCubit.fetchFlights();
       }
       if (_tabController.index == 0) {
         _flights.clear();
       }
     });
-  }
-
-  Future<void> _addItems(List<Flight> flights) async {
-    _flights.clear();
-    for (int i = 0; i < flights.length; i++) {
-      _flights.add(flights[i]);
-      _key.currentState?.insertItem(i);
-      await Future.delayed(Duration(milliseconds: 200));
-    }
   }
 
   @override
@@ -103,7 +96,13 @@ class _AirportInfoPageState extends State<AirportInfoPage>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: TextField(
-                            onChanged: (value) {},
+                            textInputAction: TextInputAction.search,
+                            onChanged: (value) {
+                              _airportInfoCubit.changeQuery(startPoint: value);
+                            },
+                            onSubmitted: (value) {
+                              _airportInfoCubit.changeQuery(startPoint: value);
+                            },
                             controller: _startPointController,
                             style: TextStyle(fontSize: 14),
                             decoration: InputDecoration(
@@ -121,7 +120,14 @@ class _AirportInfoPageState extends State<AirportInfoPage>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: TextField(
-                            onChanged: (value) {},
+                            textInputAction: TextInputAction.search,
+
+                            onChanged: (value) {
+                              _airportInfoCubit.changeQuery(endPoint: value);
+                            },
+                            onSubmitted: (value) {
+                              _airportInfoCubit.changeQuery(endPoint: value);
+                            },
                             controller: _endPointController,
                             decoration: InputDecoration(hintText: 'End Point'),
 
@@ -138,30 +144,36 @@ class _AirportInfoPageState extends State<AirportInfoPage>
                     child: BlocConsumer<AirportInfoCubit, AirportInfoState>(
                       bloc: _airportInfoCubit,
                       builder: (context, state) {
-                        if (_flights.isEmpty && !state.status.isLoading) {
+                        if (state.flights.isEmpty && !state.status.isLoading) {
                           return Center(
                             heightFactor: 4.5,
                             child: EmptyWidget(),
                           );
                         }
-                        return SliverSkeletonizer(
+                        return Skeletonizer(
                           enabled: state.status.isLoading,
-                          child: SliverAnimatedList(
+                          child: ListView.builder(
+                            padding: EdgeInsets.only(top: 10),
+                            shrinkWrap: true,
                             key: _key,
-                            initialItemCount:
-                                state.status.isLoading ? 10 : _flights.length,
-                            itemBuilder: (_, index, animation) {
+                            itemCount:
+                                state.status.isLoading
+                                    ? 10
+                                    : state.flights.length,
+                            itemBuilder: (_, index) {
                               if (state.status.isLoading) {
                                 return _buildLoading(index);
                               }
-                              final flight = _flights[index];
-                              return ScaleTransition(
-                                scale: animation,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 10.0,
-                                    top: index == 0 ? 10 : 0,
-                                  ),
+                              final flight = state.flights[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    context.pushNamed(
+                                      Routes.flightDetails,
+                                      extra: flight,
+                                    );
+                                  },
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color:
@@ -187,19 +199,33 @@ class _AirportInfoPageState extends State<AirportInfoPage>
                                                     .colorScheme
                                                     .onTertiaryContainer,
                                           ),
+                                          child: CustomNetworkImage(
+                                            imagePath: findFirstImageUrl(
+                                              flight.flightImage,
+                                            ),
+                                          ),
                                         ),
                                         Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              flight.startingPointDate
-                                                  .toString(),
+                                              flight.startingPointDate == null
+                                                  ? ''
+                                                  : DateFormat(
+                                                    DateFormat
+                                                        .YEAR_ABBR_MONTH_DAY,
+                                                  ).format(
+                                                    flight.startingPointDate!,
+                                                  ),
                                             ),
                                             Text(flight.destination.toString()),
-                                            Text(
-                                              (flight.basePrice ?? 0.0)
-                                                  .toString(),
+                                            bestPriceWidget(
+                                              basePrice: flight.basePrice ?? -1,
+                                              currentPrice:
+                                                  flight.currentPrice ?? 0,
                                             ),
                                           ],
                                         ),
@@ -215,7 +241,9 @@ class _AirportInfoPageState extends State<AirportInfoPage>
                         );
                       },
                       listener: (BuildContext context, AirportInfoState state) {
-                        _addItems(state.flights);
+                        if (state.status.isError) {
+                          Fluttertoast.showToast(msg: state.message);
+                        }
                       },
                       listenWhen: (previous, current) {
                         return previous.flights != current.flights;

@@ -6,6 +6,7 @@ import 'package:sky_nest/common/services/dependency_manager/dependency_manager.d
 import 'package:sky_nest/custom_bloc_observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sky_nest/usecases/home/viewmodel/cart_bloc/cart_bloc.dart';
+import 'package:sky_nest/usecases/home/viewmodel/flight_reservations_bloc/flight_reservations_bloc.dart';
 import 'package:sky_nest/usecases/home/viewmodel/home_bloc/home_bloc.dart';
 import 'package:sky_nest/usecases/home/viewmodel/profile_bloc/profile_bloc.dart';
 
@@ -31,6 +32,9 @@ void main() async {
         BlocProvider.value(value: DependencyManager.instance<CartBloc>()),
         BlocProvider.value(
           value: DependencyManager.instance<HotelReservationsBloc>(),
+        ),
+        BlocProvider.value(
+          value: DependencyManager.instance<FlightReservationsBloc>(),
         ),
       ],
       child:

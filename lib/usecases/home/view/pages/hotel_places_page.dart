@@ -143,10 +143,12 @@ class _HotelPlacesPageState extends State<HotelPlacesPage> {
                               width: screenWidth(context) * 0.23,
                               child: CustomNetworkImage(
                                 imagePath:
-                                    (place.imagePlaceList ?? [])
-                                        .first
-                                        .imageUrl ??
-                                    '',
+                                    (place.imagePlaceList ?? []).isEmpty
+                                        ? ''
+                                        : (place.imagePlaceList ?? [])
+                                                .first
+                                                .imageUrl ??
+                                            '',
                               ),
                             ),
                             SizedBox(width: 10),

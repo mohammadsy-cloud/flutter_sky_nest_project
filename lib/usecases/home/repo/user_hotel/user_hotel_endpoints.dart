@@ -16,7 +16,11 @@ class UserHotelEndpoints {
   //? Rooms
   static const booking = '$prefix/reservation';
   static const bookingDirect = '$prefix/bookingDirect';
-  static const bookingCansel = '$prefix/bookingCansel';
+  static const cancelReservation = '$prefix/cancelReservation';
+  static const filterAvailableRoomsInAllHotel =
+      '$prefix/filterAvailableRoomsInAllHotel';
+  static const filterAvailableRoomsInHotel =
+      '$prefix/filterAvailableRoomsInHotel';
 
   //? Places
   static const showHotelPlaces = '$prefix/showHotelPlace';

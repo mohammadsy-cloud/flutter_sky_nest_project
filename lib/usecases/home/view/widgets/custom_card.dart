@@ -12,13 +12,13 @@ class CustomCard extends StatelessWidget {
     required this.imagePath,
     required this.title1,
     required this.title2,
-    required this.title3,
+    this.title3,
     this.onTap,
   });
   final String imagePath;
   final String title1;
   final String title2;
-  final String title3;
+  final String? title3;
   final void Function()? onTap;
 
   @override
@@ -68,16 +68,18 @@ class CustomCard extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 7),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                title3,
-                style: TextStyle(fontSize: 15, color: Colors.green[400]),
+            if (title3 != null) ...[
+              SizedBox(height: 7),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  title3!,
+                  style: TextStyle(fontSize: 15, color: Colors.green[400]),
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),

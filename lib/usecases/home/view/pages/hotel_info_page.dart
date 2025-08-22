@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sky_nest/usecases/home/view/widgets/empty_widget.dart';
+import 'package:sky_nest/usecases/home/viewmodel/cart_bloc/cart_bloc.dart';
 
 import '../../../../common/navigation/routes.dart';
 import '../../model/hotel.dart';
@@ -172,61 +173,75 @@ class _HotelInfoPageState extends State<HotelInfoPage> {
                             children: [
                               Text('Photos', style: TextStyle(fontSize: 23)),
                               IconButton(
-                                onPressed: () {
-                                  context.pushNamed(
-                                    Routes.photos,
-                                    extra:
-                                        widget.hotel.imageDTOList?.map((image) {
-                                          return image.imageUrl ?? '';
-                                        }).toList(),
-                                  );
-                                },
+                                onPressed:
+                                    (widget.hotel.imageDTOList == null ||
+                                            (widget.hotel.imageDTOList ?? [])
+                                                .isEmpty)
+                                        ? null
+                                        : () {
+                                          context.pushNamed(
+                                            Routes.photos,
+                                            extra:
+                                                widget.hotel.imageDTOList?.map((
+                                                  image,
+                                                ) {
+                                                  return image.imageUrl ?? '';
+                                                }).toList(),
+                                          );
+                                        },
                                 icon: Icon(Icons.arrow_forward_ios),
                               ),
                             ],
                           ),
                           Expanded(
-                            child: ListView.builder(
-                              itemCount:
-                                  (widget.hotel.imageDTOList ?? []).length,
-                              itemExtent: screenWidth(context) * 0.5,
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemBuilder: (_, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 5.0,
-                                  ),
-                                  child: Container(
-                                    height: screenHeight(context) * 0.05,
-                                    decoration: BoxDecoration(
-                                      color: ColorPallete.grayColor,
-                                      borderRadius: BorderRadius.circular(11),
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                          index % 2 == 0
-                                              ? 'assets/images/hotel_image4.jpg'
-                                              : 'assets/images/hotel_image6.jpg',
-                                        ),
-                                      ),
-                                    ),
-                                    child:
-                                        (widget.hotel.imageDTOList ?? [])
-                                                .isEmpty
-                                            ? Center()
-                                            : CustomNetworkImage(
-                                              imagePath:
-                                                  widget
-                                                      .hotel
-                                                      .imageDTOList?[index]
-                                                      .imageUrl ??
-                                                  '',
+                            child:
+                                (widget.hotel.imageDTOList ?? []).isEmpty
+                                    ? EmptyWidget()
+                                    : ListView.builder(
+                                      itemCount:
+                                          (widget.hotel.imageDTOList ?? [])
+                                              .length,
+                                      itemExtent: screenWidth(context) * 0.5,
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemBuilder: (_, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 5.0,
+                                          ),
+                                          child: Container(
+                                            height:
+                                                screenHeight(context) * 0.05,
+                                            decoration: BoxDecoration(
+                                              color: ColorPallete.grayColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(11),
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: AssetImage(
+                                                  index % 2 == 0
+                                                      ? 'assets/images/hotel_image4.jpg'
+                                                      : 'assets/images/hotel_image6.jpg',
+                                                ),
+                                              ),
                                             ),
-                                  ),
-                                );
-                              },
-                            ),
+                                            child:
+                                                (widget.hotel.imageDTOList ??
+                                                            [])
+                                                        .isEmpty
+                                                    ? Center()
+                                                    : CustomNetworkImage(
+                                                      imagePath:
+                                                          widget
+                                                              .hotel
+                                                              .imageDTOList?[index]
+                                                              .imageUrl ??
+                                                          '',
+                                                    ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                           ),
                         ],
                       ),
@@ -273,7 +288,8 @@ class _HotelInfoPageState extends State<HotelInfoPage> {
                               },
                               bloc: _hotelInfoCubit,
                               builder: (context, state) {
-                                if (state.nearbyPlacesPhotos.isEmpty) {
+                                if (state.nearbyPlacesPhotos.isEmpty &&
+                                    !state.nearbyPlacesPhotosStatus.isLoading) {
                                   return EmptyWidget();
                                 }
                                 return Skeletonizer(

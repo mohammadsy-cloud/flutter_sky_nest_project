@@ -56,6 +56,9 @@ class _SplashPageState extends State<SplashPage> {
                 context.goNamed(Routes.onBoarding);
               },
               icon: BlocListener<AuthenticationBloc, AuthenticationState>(
+                listenWhen: (pre, next) {
+                  return !pre.isAuthenticated && next.isAuthenticated;
+                },
                 listener: (context, state) {
                   if (state.isAuthenticated) {
                     context.goNamed(Routes.mainRoute);

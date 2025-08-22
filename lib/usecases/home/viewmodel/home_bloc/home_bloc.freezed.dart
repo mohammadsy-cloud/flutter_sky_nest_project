@@ -77,8 +77,8 @@ String toString() {
 /// @nodoc
 
 
-class NearbyFlightsFetched implements HomeEvent {
-  const NearbyFlightsFetched();
+class NearbyAirportsFetched implements HomeEvent {
+  const NearbyAirportsFetched();
   
 
 
@@ -88,7 +88,7 @@ class NearbyFlightsFetched implements HomeEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearbyFlightsFetched);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearbyAirportsFetched);
 }
 
 
@@ -107,9 +107,41 @@ String toString() {
 
 
 /// @nodoc
+
+
+class NotificationsCountFetched implements HomeEvent {
+  const NotificationsCountFetched();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NotificationsCountFetched);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'HomeEvent.notificationsCountFetched()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$HomeState {
 
- List<Hotel> get hotelsList; Data get hotelsListStatus; int get notificationCount; Data get dataStatus; String get statusMessage;
+ List<Hotel> get hotelsList; List<Airport> get airportsList; Data get hotelsListStatus; Data get airportsListStatus; int get notificationCount; Data get dataStatus; String get statusMessage;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -120,16 +152,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.hotelsList, hotelsList)&&(identical(other.hotelsListStatus, hotelsListStatus) || other.hotelsListStatus == hotelsListStatus)&&(identical(other.notificationCount, notificationCount) || other.notificationCount == notificationCount)&&(identical(other.dataStatus, dataStatus) || other.dataStatus == dataStatus)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&const DeepCollectionEquality().equals(other.hotelsList, hotelsList)&&const DeepCollectionEquality().equals(other.airportsList, airportsList)&&(identical(other.hotelsListStatus, hotelsListStatus) || other.hotelsListStatus == hotelsListStatus)&&(identical(other.airportsListStatus, airportsListStatus) || other.airportsListStatus == airportsListStatus)&&(identical(other.notificationCount, notificationCount) || other.notificationCount == notificationCount)&&(identical(other.dataStatus, dataStatus) || other.dataStatus == dataStatus)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(hotelsList),hotelsListStatus,notificationCount,dataStatus,statusMessage);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(hotelsList),const DeepCollectionEquality().hash(airportsList),hotelsListStatus,airportsListStatus,notificationCount,dataStatus,statusMessage);
 
 @override
 String toString() {
-  return 'HomeState(hotelsList: $hotelsList, hotelsListStatus: $hotelsListStatus, notificationCount: $notificationCount, dataStatus: $dataStatus, statusMessage: $statusMessage)';
+  return 'HomeState(hotelsList: $hotelsList, airportsList: $airportsList, hotelsListStatus: $hotelsListStatus, airportsListStatus: $airportsListStatus, notificationCount: $notificationCount, dataStatus: $dataStatus, statusMessage: $statusMessage)';
 }
 
 
@@ -140,7 +172,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- List<Hotel> hotelsList, Data hotelsListStatus, int notificationCount, Data dataStatus, String statusMessage
+ List<Hotel> hotelsList, List<Airport> airportsList, Data hotelsListStatus, Data airportsListStatus, int notificationCount, Data dataStatus, String statusMessage
 });
 
 
@@ -157,10 +189,12 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? hotelsList = null,Object? hotelsListStatus = null,Object? notificationCount = null,Object? dataStatus = null,Object? statusMessage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? hotelsList = null,Object? airportsList = null,Object? hotelsListStatus = null,Object? airportsListStatus = null,Object? notificationCount = null,Object? dataStatus = null,Object? statusMessage = null,}) {
   return _then(_self.copyWith(
 hotelsList: null == hotelsList ? _self.hotelsList : hotelsList // ignore: cast_nullable_to_non_nullable
-as List<Hotel>,hotelsListStatus: null == hotelsListStatus ? _self.hotelsListStatus : hotelsListStatus // ignore: cast_nullable_to_non_nullable
+as List<Hotel>,airportsList: null == airportsList ? _self.airportsList : airportsList // ignore: cast_nullable_to_non_nullable
+as List<Airport>,hotelsListStatus: null == hotelsListStatus ? _self.hotelsListStatus : hotelsListStatus // ignore: cast_nullable_to_non_nullable
+as Data,airportsListStatus: null == airportsListStatus ? _self.airportsListStatus : airportsListStatus // ignore: cast_nullable_to_non_nullable
 as Data,notificationCount: null == notificationCount ? _self.notificationCount : notificationCount // ignore: cast_nullable_to_non_nullable
 as int,dataStatus: null == dataStatus ? _self.dataStatus : dataStatus // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
@@ -175,7 +209,7 @@ as String,
 
 
 class _HomeState implements HomeState {
-  const _HomeState({required final  List<Hotel> hotelsList, required this.hotelsListStatus, required this.notificationCount, required this.dataStatus, required this.statusMessage}): _hotelsList = hotelsList;
+  const _HomeState({required final  List<Hotel> hotelsList, required final  List<Airport> airportsList, required this.hotelsListStatus, required this.airportsListStatus, required this.notificationCount, required this.dataStatus, required this.statusMessage}): _hotelsList = hotelsList,_airportsList = airportsList;
   
 
  final  List<Hotel> _hotelsList;
@@ -185,7 +219,15 @@ class _HomeState implements HomeState {
   return EqualUnmodifiableListView(_hotelsList);
 }
 
+ final  List<Airport> _airportsList;
+@override List<Airport> get airportsList {
+  if (_airportsList is EqualUnmodifiableListView) return _airportsList;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_airportsList);
+}
+
 @override final  Data hotelsListStatus;
+@override final  Data airportsListStatus;
 @override final  int notificationCount;
 @override final  Data dataStatus;
 @override final  String statusMessage;
@@ -200,16 +242,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other._hotelsList, _hotelsList)&&(identical(other.hotelsListStatus, hotelsListStatus) || other.hotelsListStatus == hotelsListStatus)&&(identical(other.notificationCount, notificationCount) || other.notificationCount == notificationCount)&&(identical(other.dataStatus, dataStatus) || other.dataStatus == dataStatus)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&const DeepCollectionEquality().equals(other._hotelsList, _hotelsList)&&const DeepCollectionEquality().equals(other._airportsList, _airportsList)&&(identical(other.hotelsListStatus, hotelsListStatus) || other.hotelsListStatus == hotelsListStatus)&&(identical(other.airportsListStatus, airportsListStatus) || other.airportsListStatus == airportsListStatus)&&(identical(other.notificationCount, notificationCount) || other.notificationCount == notificationCount)&&(identical(other.dataStatus, dataStatus) || other.dataStatus == dataStatus)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_hotelsList),hotelsListStatus,notificationCount,dataStatus,statusMessage);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_hotelsList),const DeepCollectionEquality().hash(_airportsList),hotelsListStatus,airportsListStatus,notificationCount,dataStatus,statusMessage);
 
 @override
 String toString() {
-  return 'HomeState(hotelsList: $hotelsList, hotelsListStatus: $hotelsListStatus, notificationCount: $notificationCount, dataStatus: $dataStatus, statusMessage: $statusMessage)';
+  return 'HomeState(hotelsList: $hotelsList, airportsList: $airportsList, hotelsListStatus: $hotelsListStatus, airportsListStatus: $airportsListStatus, notificationCount: $notificationCount, dataStatus: $dataStatus, statusMessage: $statusMessage)';
 }
 
 
@@ -220,7 +262,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Hotel> hotelsList, Data hotelsListStatus, int notificationCount, Data dataStatus, String statusMessage
+ List<Hotel> hotelsList, List<Airport> airportsList, Data hotelsListStatus, Data airportsListStatus, int notificationCount, Data dataStatus, String statusMessage
 });
 
 
@@ -237,10 +279,12 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? hotelsList = null,Object? hotelsListStatus = null,Object? notificationCount = null,Object? dataStatus = null,Object? statusMessage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? hotelsList = null,Object? airportsList = null,Object? hotelsListStatus = null,Object? airportsListStatus = null,Object? notificationCount = null,Object? dataStatus = null,Object? statusMessage = null,}) {
   return _then(_HomeState(
 hotelsList: null == hotelsList ? _self._hotelsList : hotelsList // ignore: cast_nullable_to_non_nullable
-as List<Hotel>,hotelsListStatus: null == hotelsListStatus ? _self.hotelsListStatus : hotelsListStatus // ignore: cast_nullable_to_non_nullable
+as List<Hotel>,airportsList: null == airportsList ? _self._airportsList : airportsList // ignore: cast_nullable_to_non_nullable
+as List<Airport>,hotelsListStatus: null == hotelsListStatus ? _self.hotelsListStatus : hotelsListStatus // ignore: cast_nullable_to_non_nullable
+as Data,airportsListStatus: null == airportsListStatus ? _self.airportsListStatus : airportsListStatus // ignore: cast_nullable_to_non_nullable
 as Data,notificationCount: null == notificationCount ? _self.notificationCount : notificationCount // ignore: cast_nullable_to_non_nullable
 as int,dataStatus: null == dataStatus ? _self.dataStatus : dataStatus // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable

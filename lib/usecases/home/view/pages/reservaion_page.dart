@@ -215,9 +215,9 @@ class _ReservaionPageState extends State<ReservaionPage> {
                       ),
                     ),
                     onPressed: () {
-                      if (_launchDate != null &&
-                          _departureDate != null &&
-                          validateFormKey(_formKey)) {
+                      if (validateFormKey(_formKey) &&
+                          _launchDate != null &&
+                          _departureDate != null) {
                         context.read<CartBloc>().add(
                           ReservationCompleted(
                             request: BookingRoomsRequest(

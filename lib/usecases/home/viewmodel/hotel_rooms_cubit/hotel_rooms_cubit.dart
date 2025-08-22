@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,10 +16,18 @@ class HotelRoomsCubit extends Cubit<HotelRoomsState> {
     : _userRoomsRepo = userRoomsRepo,
       super(HotelRoomsState.initial(hotel));
 
+  void setTimeRange(DateTimeRange? timeRange) {
+    emit(state.copyWith(timeRange: timeRange));
+    fetchAlRooms();
+  }
+
   Future<void> fetchAlRooms() async {
     emit(state.copyWith(status: Data.loading, statusMessage: 'Loading'));
     try {
-      final response = await _userRoomsRepo.fetchAllRooms(state.hotel.id ?? 0);
+      final response = await _userRoomsRepo.fetchAllRooms(
+        state.hotel.id ?? 0,
+        state.timeRange,
+      );
       final futureState = switch (response) {
         Left(value: final l) => state.copyWith(
           status: Data.error,

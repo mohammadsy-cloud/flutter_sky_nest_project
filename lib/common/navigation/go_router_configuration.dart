@@ -5,7 +5,9 @@ import 'package:sky_nest/usecases/authentication/view/pages/on_boarding_page.dar
 import 'package:sky_nest/usecases/authentication/view/pages/register_page.dart';
 import 'package:sky_nest/usecases/authentication/view/pages/reset_password_page.dart';
 import 'package:sky_nest/usecases/authentication/view/pages/verification_code_page.dart';
+import 'package:sky_nest/usecases/home/model/airport.dart';
 import 'package:sky_nest/usecases/home/model/room.dart';
+import 'package:sky_nest/usecases/home/view/pages/all_rooms_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/browse_hotels_by_country_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/browse_hotels_page.dart';
 import 'package:sky_nest/usecases/home/view/pages/change_password_page.dart';
@@ -19,6 +21,10 @@ import '../../usecases/authentication/view/pages/choose_location_page.dart';
 import '../../usecases/authentication/view/pages/splash_page.dart';
 import '../../usecases/authentication/view/pages/verification_code_change_page.dart';
 import '../../usecases/home/model/hotel.dart';
+import '../../usecases/home/model/reservation.dart';
+import '../../usecases/home/view/pages/airport_info_page.dart';
+import '../../usecases/home/view/pages/booking_detais_screen.dart';
+import '../../usecases/home/view/pages/browse_airports_page.dart';
 import '../../usecases/home/view/pages/cart_hotel_rooms_page.dart';
 import '../../usecases/home/view/pages/edit_profile_page.dart';
 import '../../usecases/home/view/pages/hotel_places_page.dart';
@@ -27,6 +33,7 @@ import '../../usecases/home/view/pages/my_wallet_page.dart';
 import '../../usecases/home/view/pages/notifications_page.dart';
 import '../../usecases/home/view/pages/photos_page.dart';
 import '../../usecases/home/view/pages/reservaion_page.dart';
+import '../../usecases/home/view/pages/room_info_page.dart';
 
 class GlobalAppRouter {
   static final GoRouter _goRouter = GoRouter(
@@ -57,6 +64,20 @@ class GlobalAppRouter {
         path: '/browse_hotels',
         pageBuilder:
             (context, state) => MaterialPage(child: BrowseHotelsPage()),
+      ),
+      GoRoute(
+        name: Routes.browseAirportsRoute,
+        path: '/browse_airports',
+        pageBuilder:
+            (context, state) => MaterialPage(child: BrowseAirportsPage()),
+      ),
+      GoRoute(
+        name: Routes.airportInfoRoute,
+        path: '/airport_info',
+        pageBuilder: (context, state) {
+          final airport = state.extra as Airport;
+          return MaterialPage(child: AirportInfoPage(airport: airport));
+        },
       ),
       GoRoute(
         name: Routes.mainRoute,
@@ -115,11 +136,11 @@ class GlobalAppRouter {
         },
       ),
       GoRoute(
-        name: Routes.hotelRooms,
-        path: '/hotel_rooms',
+        name: Routes.roomDetails,
+        path: '/room_details',
         pageBuilder: (context, state) {
-          final hotel = state.extra as Hotel;
-          return MaterialPage(child: HotelRoomsPage(hotel: hotel));
+          final room = state.extra as Room;
+          return MaterialPage(child: RoomInfoPage(room: room));
         },
       ),
       GoRoute(
@@ -151,6 +172,29 @@ class GlobalAppRouter {
         pageBuilder: (context, state) {
           final hotel = state.extra as Hotel;
           return MaterialPage(child: CartHotelRoomsPage(hotel: hotel));
+        },
+      ),
+      GoRoute(
+        name: Routes.hotelRooms,
+        path: '/hotel_rooms',
+        pageBuilder: (context, state) {
+          final hotel = state.extra as Hotel;
+          return MaterialPage(child: HotelRoomsPage(hotel: hotel));
+        },
+      ),
+      GoRoute(
+        name: Routes.bookingDetails,
+        path: '/booking_details',
+        pageBuilder: (context, state) {
+          final booking = state.extra as Reservation;
+          return MaterialPage(child: BookingDetaisScreen(booking: booking));
+        },
+      ),
+      GoRoute(
+        name: Routes.allRooms,
+        path: '/all_rooms',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: AllRoomsPage());
         },
       ),
       GoRoute(

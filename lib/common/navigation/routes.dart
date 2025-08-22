@@ -6,6 +6,8 @@ class Routes {
   //? Home
   static final String mainRoute = '/main_page';
   static final String browseHotelsRoute = '/browse_hotels';
+  static final String browseAirportsRoute = '/browse_airports';
+  static final String airportInfoRoute = '/airport_info';
   static final String splashRoute = '/splash';
   static final String verificationCodeRoute = '/verify';
   static final String resetPasswordRoute = '/reset_password';
@@ -22,7 +24,9 @@ class Routes {
   static final String hotelRooms = '/hotel_rooms';
   static final String hotelPlaces = '/hotel_places';
   static final String cartHotelRooms = '/cart_hotel_rooms';
+  static final String allRooms = '/all_rooms';
   static final String roomDetails = '/room_details';
+  static final String bookingDetails = '/booking_details';
   static final String photos = '/photos';
   static final String notifications = '/notifications';
 }

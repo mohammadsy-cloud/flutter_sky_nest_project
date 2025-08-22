@@ -7,6 +7,7 @@ sealed class HotelRoomsState with _$HotelRoomsState {
     required String statusMessage,
     required List<Room> rooms,
     required Hotel hotel,
+    DateTimeRange? timeRange,
   }) = _HotelRoomsState;
   factory HotelRoomsState.initial(Hotel hotel) {
     return HotelRoomsState(

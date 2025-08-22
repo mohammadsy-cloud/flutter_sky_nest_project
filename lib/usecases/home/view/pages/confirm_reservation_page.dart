@@ -152,7 +152,9 @@ class _ConfirmReservationPageState extends State<ConfirmReservationPage> {
                         onPressed: () {
                           // context.read<CartBloc>().add(
                           //   ReservationCompleted(
-                          //     request: BookingRoomsRequest(),
+                          //     request: BookingRoomsRequest(
+
+                          //     ),
                           //   ),
                           // );
                         },

@@ -1,6 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:intl/intl.dart';
 import 'package:sky_nest/common/services/api_service/api_service.dart';
+import 'package:sky_nest/common/utilities/app_utilities.dart';
+import 'package:sky_nest/common/utilities/date_only_converter.dart';
+import 'package:sky_nest/usecases/home/repo/user_hotel/user_hotel_endpoints.dart';
 import 'package:sky_nest/usecases/home/repo/user_rooms/user_rooms_endpoints.dart';
 
 import '../../../../common/models/custom_failure.dart';
@@ -9,11 +14,19 @@ import '../../model/room.dart';
 
 class UserRoomsRepo {
   Future<Either<CustomFailure, CustomResponse<List<Room>>>> fetchAllRooms(
-    int hotelId,
-  ) async {
+    int hotelId, [
+    DateTimeRange? timeRange,
+  ]) async {
     try {
       final response = await _dio.get(
-        '${UserRoomsEndpoints.viewRooms}/$hotelId',
+        '${timeRange == null ? UserRoomsEndpoints.viewRooms : UserHotelEndpoints.filterAvailableRoomsInHotel}/$hotelId',
+        queryParameters:
+            timeRange == null
+                ? null
+                : {
+                  'startDate': DateOnlyConverter().toJson(timeRange.start),
+                  'endDate': DateOnlyConverter().toJson(timeRange.end),
+                },
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(

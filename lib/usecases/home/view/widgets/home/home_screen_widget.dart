@@ -7,6 +7,7 @@ import 'package:sky_nest/common/widgets/delayed_display.dart';
 import 'package:sky_nest/usecases/home/view/widgets/empty_widget.dart';
 
 import '../../../../../common/utilities/app_utilities.dart';
+import '../../../model/airport.dart';
 import '../../../viewmodel/home_bloc/home_bloc.dart';
 import '../custom_card.dart';
 import 'home_header.dart';
@@ -23,7 +24,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => context.read<HomeBloc>().add(NearbyHotelsFetched()),
+      (_) =>
+          context.read<HomeBloc>()
+            ..add(NearbyHotelsFetched())
+            ..add(NearbyAirportsFetched())
+            ..add(NotificationsCountFetched()),
     );
   }
 
@@ -33,7 +38,10 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
       canPop: false,
       child: RefreshIndicator(
         onRefresh: () async {
-          context.read<HomeBloc>().add(NearbyHotelsFetched());
+          context.read<HomeBloc>()
+            ..add(NearbyHotelsFetched())
+            ..add(NearbyAirportsFetched())
+            ..add(NotificationsCountFetched());
         },
         child: CustomScrollView(
           slivers: [_buildHeader(context), _buildBody(context)],
@@ -60,7 +68,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             SizedBox(height: 10),
             SizedBox(
               width: screenWidth(context),
-              height: screenHeight(context) * 0.25,
+              height: screenHeight(context) * 0.23,
               child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state.hotelsList.isEmpty &&
@@ -84,7 +92,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                               imagePath: 'assets/images/hotel_image1.jpeg',
                               title1: 'Popular Destinations',
                               title2: '12$index Destinations from',
-                              title3: 'US\$${index + 1}50',
                             ),
                           );
                         }
@@ -113,7 +120,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                                             '',
                                 title1: hotel.name ?? 'No name',
                                 title2: hotel.description ?? 'No description',
-                                title3: 'US\$${index + 1}50',
                               ),
                             ),
                           ),
@@ -137,18 +143,40 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             SizedBox(
               width: screenWidth(context),
               height: screenHeight(context) * 0.25,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemExtent: screenWidth(context) * 0.5,
-                itemCount: 5,
-                itemBuilder: (_, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: CustomCard(
-                      imagePath: 'assets/images/airport.jpeg',
-                      title1: 'Popular Destinations',
-                      title2: '12$index Destinations from',
-                      title3: 'US\$${index + 1}50',
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state.airportsList.isEmpty &&
+                      !state.airportsListStatus.isLoading) {
+                    return EmptyWidget();
+                  }
+                  return Skeletonizer(
+                    enabled: state.airportsListStatus.isLoading,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemExtent: screenWidth(context) * 0.5,
+                      itemCount:
+                          state.airportsListStatus.isLoading
+                              ? 4
+                              : state.airportsList.length,
+                      itemBuilder: (_, index) {
+                        Airport airport = Airport();
+                        if (!state.airportsListStatus.isLoading) {
+                          airport = state.airportsList[index];
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: CustomCard(
+                            imagePath:
+                                (airport.airportImages ?? []).isEmpty
+                                    ? ''
+                                    : airport.airportImages?.first.imageUrl ??
+                                        '',
+                            title1: airport.name ?? 'No airport',
+                            title2: airport.description ?? 'No description',
+                            title3: airport.location ?? '',
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
@@ -234,7 +262,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
-                      context.pushNamed(Routes.browseHotelsRoute);
+                      context.pushNamed(Routes.browseAirportsRoute);
                     },
                     child: Container(
                       width: screenWidth(context) * 0.33,
@@ -253,7 +281,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                             color: Colors.white,
                           ),
                           Text(
-                            'Flights',
+                            'Airports',
                             style: TextStyle(color: Colors.white),
                           ),
                         ],

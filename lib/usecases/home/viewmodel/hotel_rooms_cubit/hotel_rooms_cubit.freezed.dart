@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HotelRoomsState {
 
- Data get status; String get statusMessage; List<Room> get rooms; Hotel get hotel;
+ Data get status; String get statusMessage; List<Room> get rooms; Hotel get hotel; DateTimeRange? get timeRange;
 /// Create a copy of HotelRoomsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $HotelRoomsStateCopyWith<HotelRoomsState> get copyWith => _$HotelRoomsStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelRoomsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other.rooms, rooms)&&(identical(other.hotel, hotel) || other.hotel == hotel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelRoomsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other.rooms, rooms)&&(identical(other.hotel, hotel) || other.hotel == hotel)&&(identical(other.timeRange, timeRange) || other.timeRange == timeRange));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(rooms),hotel);
+int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(rooms),hotel,timeRange);
 
 @override
 String toString() {
-  return 'HotelRoomsState(status: $status, statusMessage: $statusMessage, rooms: $rooms, hotel: $hotel)';
+  return 'HotelRoomsState(status: $status, statusMessage: $statusMessage, rooms: $rooms, hotel: $hotel, timeRange: $timeRange)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $HotelRoomsStateCopyWith<$Res>  {
   factory $HotelRoomsStateCopyWith(HotelRoomsState value, $Res Function(HotelRoomsState) _then) = _$HotelRoomsStateCopyWithImpl;
 @useResult
 $Res call({
- Data status, String statusMessage, List<Room> rooms, Hotel hotel
+ Data status, String statusMessage, List<Room> rooms, Hotel hotel, DateTimeRange? timeRange
 });
 
 
@@ -63,13 +63,14 @@ class _$HotelRoomsStateCopyWithImpl<$Res>
 
 /// Create a copy of HotelRoomsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? statusMessage = null,Object? rooms = null,Object? hotel = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? statusMessage = null,Object? rooms = null,Object? hotel = null,Object? timeRange = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
 as String,rooms: null == rooms ? _self.rooms : rooms // ignore: cast_nullable_to_non_nullable
 as List<Room>,hotel: null == hotel ? _self.hotel : hotel // ignore: cast_nullable_to_non_nullable
-as Hotel,
+as Hotel,timeRange: freezed == timeRange ? _self.timeRange : timeRange // ignore: cast_nullable_to_non_nullable
+as DateTimeRange?,
   ));
 }
 /// Create a copy of HotelRoomsState
@@ -89,7 +90,7 @@ $HotelCopyWith<$Res> get hotel {
 
 
 class _HotelRoomsState implements HotelRoomsState {
-  const _HotelRoomsState({required this.status, required this.statusMessage, required final  List<Room> rooms, required this.hotel}): _rooms = rooms;
+  const _HotelRoomsState({required this.status, required this.statusMessage, required final  List<Room> rooms, required this.hotel, this.timeRange}): _rooms = rooms;
   
 
 @override final  Data status;
@@ -102,6 +103,7 @@ class _HotelRoomsState implements HotelRoomsState {
 }
 
 @override final  Hotel hotel;
+@override final  DateTimeRange? timeRange;
 
 /// Create a copy of HotelRoomsState
 /// with the given fields replaced by the non-null parameter values.
@@ -113,16 +115,16 @@ _$HotelRoomsStateCopyWith<_HotelRoomsState> get copyWith => __$HotelRoomsStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelRoomsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other._rooms, _rooms)&&(identical(other.hotel, hotel) || other.hotel == hotel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelRoomsState&&(identical(other.status, status) || other.status == status)&&(identical(other.statusMessage, statusMessage) || other.statusMessage == statusMessage)&&const DeepCollectionEquality().equals(other._rooms, _rooms)&&(identical(other.hotel, hotel) || other.hotel == hotel)&&(identical(other.timeRange, timeRange) || other.timeRange == timeRange));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(_rooms),hotel);
+int get hashCode => Object.hash(runtimeType,status,statusMessage,const DeepCollectionEquality().hash(_rooms),hotel,timeRange);
 
 @override
 String toString() {
-  return 'HotelRoomsState(status: $status, statusMessage: $statusMessage, rooms: $rooms, hotel: $hotel)';
+  return 'HotelRoomsState(status: $status, statusMessage: $statusMessage, rooms: $rooms, hotel: $hotel, timeRange: $timeRange)';
 }
 
 
@@ -133,7 +135,7 @@ abstract mixin class _$HotelRoomsStateCopyWith<$Res> implements $HotelRoomsState
   factory _$HotelRoomsStateCopyWith(_HotelRoomsState value, $Res Function(_HotelRoomsState) _then) = __$HotelRoomsStateCopyWithImpl;
 @override @useResult
 $Res call({
- Data status, String statusMessage, List<Room> rooms, Hotel hotel
+ Data status, String statusMessage, List<Room> rooms, Hotel hotel, DateTimeRange? timeRange
 });
 
 
@@ -150,13 +152,14 @@ class __$HotelRoomsStateCopyWithImpl<$Res>
 
 /// Create a copy of HotelRoomsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? statusMessage = null,Object? rooms = null,Object? hotel = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? statusMessage = null,Object? rooms = null,Object? hotel = null,Object? timeRange = freezed,}) {
   return _then(_HotelRoomsState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
 as String,rooms: null == rooms ? _self._rooms : rooms // ignore: cast_nullable_to_non_nullable
 as List<Room>,hotel: null == hotel ? _self.hotel : hotel // ignore: cast_nullable_to_non_nullable
-as Hotel,
+as Hotel,timeRange: freezed == timeRange ? _self.timeRange : timeRange // ignore: cast_nullable_to_non_nullable
+as DateTimeRange?,
   ));
 }
 

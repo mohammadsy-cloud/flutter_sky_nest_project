@@ -35,25 +35,38 @@ class CartBloc extends HydratedBloc<CartEvent, CartState> {
   }
 
   void _addToCart(AddedToCart event, Emitter<CartState> emit) {
-    final currentRooms =
-        state.hotelRooms[event.hotel] ?? []; // Handle null case
+    final hotelKey = state.hotelRooms.keys.firstWhere((h) {
+      return event.hotel.id == h.id;
+    }, orElse: () => event.hotel);
+    final currentRooms = state.hotelRooms[hotelKey] ?? []; // Handle null case
     final updatedMap = {
       ...state.hotelRooms,
-      event.hotel: [...currentRooms, event.room], // Overwrite entry
+      hotelKey: [...currentRooms, event.room], // Overwrite entry
     };
     emit(state.copyWith(hotelRooms: updatedMap));
   }
 
   void _removeFromCart(RemovedFromCart event, Emitter<CartState> emit) {
+    final hotelKey = state.hotelRooms.keys.firstWhere((h) {
+      return event.hotel.id == h.id;
+    }, orElse: () => event.hotel);
     final newMap = Map.of(state.hotelRooms);
     if (event.room == null) {
-      newMap.remove(event.hotel);
+      newMap.remove(hotelKey);
     } else {
-      final oldRooms = newMap[event.hotel] ?? [];
-      final updatedRooms = List<Room>.from(oldRooms)..remove(event.room);
-      newMap[event.hotel] = updatedRooms;
+      final oldRooms = newMap[hotelKey] ?? [];
+      final updatedRooms = List<Room>.from(oldRooms)..remove(
+        oldRooms.firstWhere((r) {
+          return event.room?.id == r.id;
+        }),
+      );
+      if (updatedRooms.isEmpty) {
+        newMap.remove(hotelKey);
+      } else {
+        newMap[hotelKey] = updatedRooms;
+        add(CurrentHotelSet(hotel: hotelKey));
+      }
     }
-    add(CurrentHotelSet(hotel: event.hotel));
     emit(state.copyWith(hotelRooms: newMap));
   }
 

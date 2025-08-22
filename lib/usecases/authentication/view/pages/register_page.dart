@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/navigation/routes.dart';
@@ -148,6 +149,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                         );
                         if (newLocation != null) {
+                          setState(() {
+                            _currentAddress = 'Address selected';
+                          });
+                          var addr =
+                              await getAddressFromLatLng(
+                                newLocation.longitude,
+                                newLocation.latitude,
+                              ) ??
+                              'Address selected';
+                          setState(() {
+                            _currentAddress = addr;
+                          });
                           _authenticationBloc.add(
                             AuthAddLocation(
                               lat: newLocation.latitude,
@@ -171,8 +184,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         LoadingIndicator().show(context);
                       } else {
                         LoadingIndicator().hideAll();
-
-                        myShowSnackBar(context, state.message);
+                        if (state.dataState.isError) {
+                          Fluttertoast.showToast(msg: state.message);
+                        }
                         if (state.dataState.isData) {
                           context.pushNamed(
                             Routes.verificationCodeRoute,

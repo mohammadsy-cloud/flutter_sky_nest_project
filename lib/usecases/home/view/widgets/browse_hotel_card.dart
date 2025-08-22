@@ -76,19 +76,19 @@ class BrowseHotelCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
-                  hotel.name ?? 'No name',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                SizedBox(
+                  width: screenWidth(context) * 0.5,
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    hotel.name ?? 'No name',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Row(
                   children: [
                     Icon(Icons.location_on_sharp),
                     Text(hotel.address ?? 'No address'),
                   ],
-                ),
-                Text(
-                  '\$100/night',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

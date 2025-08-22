@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -74,11 +75,21 @@ class HotelInfoCubit extends Cubit<HotelInfoState> {
           nearbyPlacesPhotosStatus: Data.done,
           nearbyPlacesPhotos:
               (r.data ?? []).map((place) {
-                return place.imagePlaceList?.first.imageUrl ?? '';
+                if ((place.imagePlaceList == null) ||
+                    (place.imagePlaceList ?? []).isEmpty) {
+                  return '';
+                } else {
+                  return place.imagePlaceList?.first.imageUrl ?? '';
+                }
               }).toList(),
         ),
       };
-      emit(futureState);
+      final temp = List.of(futureState.nearbyPlacesPhotos);
+      temp.removeWhere((image) {
+        return image.trim().isEmpty;
+      });
+
+      emit(futureState.copyWith(nearbyPlacesPhotos: temp));
     } catch (e) {
       emit(state.copyWith(status: Data.error, statusMessage: e.toString()));
     }

@@ -40,10 +40,22 @@ class _Maintate extends State<MainPage> {
               ? AppBar(
                 foregroundColor:
                     Theme.of(context).colorScheme.secondaryContainer,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                centerTitle: true,
-                title: Text('My Cart'),
+                title: Text(
+                  'My Cart',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
                 toolbarHeight: screenHeight(context) * 0.08,
+                actions: [
+                  TextButton.icon(
+                    onPressed: () {
+                      context.pushNamed(Routes.allRooms);
+                    },
+                    label: Text('View Rooms'),
+                    icon: Icon(Icons.add),
+                  ),
+                ],
               )
               : _currentIndex == 4
               ? AppBar(

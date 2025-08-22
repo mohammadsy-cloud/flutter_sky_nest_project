@@ -10,6 +10,7 @@ _Room _$RoomFromJson(Map<String, dynamic> json) => _Room(
   id: (json['id'] as num?)?.toInt(),
   roomType: json['room_type'] as String?,
   roomCount: (json['room_count'] as num?)?.toInt(),
+  hotelId: (json['hotelId'] as num?)?.toInt(),
   basePrice: (json['basePrice'] as num?)?.toDouble(),
   hotelName: json['hotelName'] as String?,
   ownerName: json['ownerName'] as String?,
@@ -18,13 +19,14 @@ _Room _$RoomFromJson(Map<String, dynamic> json) => _Room(
       (json['imageDTOList'] as List<dynamic>?)
           ?.map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-  status: json['status'] as bool?,
+  status: json['status'] as String?,
 );
 
 Map<String, dynamic> _$RoomToJson(_Room instance) => <String, dynamic>{
   'id': instance.id,
   'room_type': instance.roomType,
   'room_count': instance.roomCount,
+  'hotelId': instance.hotelId,
   'basePrice': instance.basePrice,
   'hotelName': instance.hotelName,
   'ownerName': instance.ownerName,

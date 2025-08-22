@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:sky_nest/usecases/home/model/place.dart';
 import 'package:sky_nest/usecases/home/model/reservation.dart';
+import 'package:sky_nest/usecases/home/model/room.dart';
 import '../../../../common/models/custom_failure.dart';
 import '../../../../common/models/custom_response.dart';
 import '../../../../usecases/home/repo/user_hotel/user_hotel_endpoints.dart';
@@ -13,6 +14,7 @@ import '../../../../common/utilities/enumirations.dart';
 import '../../../../usecases/home/model/hotel.dart';
 
 import 'requests/booking_rooms_request.dart';
+import 'requests/show_all_rooms_request.dart';
 
 class UserHotelRepo {
   final Dio _dio;
@@ -204,6 +206,8 @@ class UserHotelRepo {
             statusCode: response.statusCode ?? 500,
           ),
         );
+      } else if ((response.statusCode ?? 500) == 400) {
+        throw Exception(response.data['message']);
       } else {
         throw Exception('Some error happened');
       }
@@ -244,8 +248,8 @@ class UserHotelRepo {
     int bookingID,
   ) async {
     try {
-      final response = await _dio.post(
-        '${UserHotelEndpoints.booking}/$bookingID',
+      final response = await _dio.put(
+        '${UserHotelEndpoints.cancelReservation}/$bookingID',
       );
       if ((response.statusCode ?? 500) < 300) {
         return Right(
@@ -283,6 +287,56 @@ class UserHotelRepo {
           ),
         );
       } else {
+        throw Exception('Some error happened');
+      }
+    } on DioException catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    } catch (e) {
+      return Left(CustomFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<CustomFailure, CustomResponse<Map<Hotel, List<Room>>>>>
+  filterAvailableRoomsInAllHotel(ShowAllRoomsRequest request) async {
+    try {
+      final response = await _dio.get(
+        UserHotelEndpoints.filterAvailableRoomsInAllHotel,
+        queryParameters: request.toJson(),
+      );
+      if ((response.statusCode ?? 500) < 300) {
+        (response.data as Map<String, dynamic>).remove('statusCode');
+        (response.data as Map<String, dynamic>).remove('statusMessage');
+        Map<Hotel, List<Room>> temp = {};
+        response.data.forEach((key, value) {
+          List rooms = value;
+          final hotel = Hotel(
+            id: int.parse(key),
+            name: rooms.first['hotelName'],
+          );
+          List<Room> tempRooms = [];
+          for (var room in rooms) {
+            tempRooms.add(Room.fromJson(room));
+          }
+          temp.addAll({hotel: tempRooms});
+        });
+        log(temp.toString());
+        return Right(
+          CustomResponse<Map<Hotel, List<Room>>>(
+            message: 'All Rooms fetched succesfully',
+            statusCode: response.statusCode ?? 500,
+            data: temp,
+          ),
+        );
+      } else if ((response.statusCode ?? 500) == 400) {
+        return Right(
+          CustomResponse<Map<Hotel, List<Room>>>(
+            message: 'All Rooms fetched succesfully',
+            statusCode: response.statusCode ?? 500,
+            data: {},
+          ),
+        );
+      }
+      {
         throw Exception('Some error happened');
       }
     } on DioException catch (e) {

@@ -51,7 +51,7 @@ class _MyCartPageState extends State<MyCartPage> {
                     RemovedFromCart(hotel: hotel),
                   ),
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: GestureDetector(
                   onTap: () {
                     context.read<CartBloc>().add(CurrentHotelSet(hotel: hotel));

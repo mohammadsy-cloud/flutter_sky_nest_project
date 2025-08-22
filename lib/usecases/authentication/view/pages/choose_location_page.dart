@@ -65,7 +65,10 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
         ),
         children: [
           TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            urlTemplate:
+                'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+            subdomains: ['a', 'b', 'c', 'd'],
+            retinaMode: RetinaMode.isHighDensity(context),
             tileProvider: NetworkTileProvider(),
           ),
           if (_choosenLocation != null)

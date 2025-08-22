@@ -10,6 +10,7 @@ import 'package:sky_nest/usecases/home/view/widgets/empty_widget.dart';
 import 'package:sky_nest/usecases/home/view/widgets/select_widget.dart';
 
 import '../../../viewmodel/hotel_reservations_bloc/hotel_reservations_bloc.dart';
+import '../../../viewmodel/reservation_card_cubit/reservation_card_cubit.dart';
 
 class ResevationsPage extends StatefulWidget {
   const ResevationsPage({super.key});
@@ -57,10 +58,8 @@ class _ResevationsPageState extends State<ResevationsPage> {
                 }
               },
               builder: (context, state) {
-                if (state.reservations.isEmpty) {
-                  return state.status.isLoading
-                      ? Center(child: CircularProgressIndicator())
-                      : _buildEmpty(context);
+                if (state.reservations.isEmpty && !state.status.isLoading) {
+                  return _buildEmpty(context);
                 }
                 return Skeletonizer(
                   enabled: state.status.isLoading,
@@ -73,7 +72,7 @@ class _ResevationsPageState extends State<ResevationsPage> {
                     child: ListView.builder(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       shrinkWrap: true,
-                      itemExtent: screenHeight(context) * 0.28,
+                      // itemExtent: screenHeight(context) * 0.28,
                       itemCount:
                           state.status.isLoading
                               ? 10
@@ -94,6 +93,7 @@ class _ResevationsPageState extends State<ResevationsPage> {
                             child: BookingCard(
                               isBooking: true,
                               reservation: reservation,
+                              isActivated: _currentIndex == 0,
                             ),
                           );
                         }

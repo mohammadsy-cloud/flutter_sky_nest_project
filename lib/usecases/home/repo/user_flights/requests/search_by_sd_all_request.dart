@@ -6,8 +6,8 @@ part 'search_by_sd_all_request.g.dart';
 @freezed
 sealed class SearchBySdAllRequest with _$SearchBySdAllRequest {
   factory SearchBySdAllRequest({
-    required String startPoint,
-    required String destination,
+    @JsonKey(includeIfNull: false) String? startPoint,
+    @JsonKey(includeIfNull: false) String? destination,
   }) = _SearchBySdAllRequest;
 
   factory SearchBySdAllRequest.fromJson(Map<String, dynamic> json) =>

@@ -28,6 +28,15 @@ class UserRoomsRepo {
                   'endDate': DateOnlyConverter().toJson(timeRange.end),
                 },
       );
+      if ((response.statusCode ?? 500) == 204) {
+        return Right(
+          CustomResponse<List<Room>>(
+            message: 'Rooms fetched successfully!',
+            statusCode: response.statusCode ?? 500,
+            data: [],
+          ),
+        );
+      }
       if ((response.statusCode ?? 500) < 300) {
         return Right(
           CustomResponse<List<Room>>(

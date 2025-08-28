@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SearchBySdAllRequest {
 
- String get startPoint; String get destination;
+@JsonKey(includeIfNull: false) String? get startPoint;@JsonKey(includeIfNull: false) String? get destination;
 /// Create a copy of SearchBySdAllRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $SearchBySdAllRequestCopyWith<$Res>  {
   factory $SearchBySdAllRequestCopyWith(SearchBySdAllRequest value, $Res Function(SearchBySdAllRequest) _then) = _$SearchBySdAllRequestCopyWithImpl;
 @useResult
 $Res call({
- String startPoint, String destination
+@JsonKey(includeIfNull: false) String? startPoint,@JsonKey(includeIfNull: false) String? destination
 });
 
 
@@ -66,11 +66,11 @@ class _$SearchBySdAllRequestCopyWithImpl<$Res>
 
 /// Create a copy of SearchBySdAllRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? startPoint = null,Object? destination = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? startPoint = freezed,Object? destination = freezed,}) {
   return _then(_self.copyWith(
-startPoint: null == startPoint ? _self.startPoint : startPoint // ignore: cast_nullable_to_non_nullable
-as String,destination: null == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
-as String,
+startPoint: freezed == startPoint ? _self.startPoint : startPoint // ignore: cast_nullable_to_non_nullable
+as String?,destination: freezed == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -81,11 +81,11 @@ as String,
 @JsonSerializable()
 
 class _SearchBySdAllRequest implements SearchBySdAllRequest {
-   _SearchBySdAllRequest({required this.startPoint, required this.destination});
+   _SearchBySdAllRequest({@JsonKey(includeIfNull: false) this.startPoint, @JsonKey(includeIfNull: false) this.destination});
   factory _SearchBySdAllRequest.fromJson(Map<String, dynamic> json) => _$SearchBySdAllRequestFromJson(json);
 
-@override final  String startPoint;
-@override final  String destination;
+@override@JsonKey(includeIfNull: false) final  String? startPoint;
+@override@JsonKey(includeIfNull: false) final  String? destination;
 
 /// Create a copy of SearchBySdAllRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -120,7 +120,7 @@ abstract mixin class _$SearchBySdAllRequestCopyWith<$Res> implements $SearchBySd
   factory _$SearchBySdAllRequestCopyWith(_SearchBySdAllRequest value, $Res Function(_SearchBySdAllRequest) _then) = __$SearchBySdAllRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String startPoint, String destination
+@JsonKey(includeIfNull: false) String? startPoint,@JsonKey(includeIfNull: false) String? destination
 });
 
 
@@ -137,11 +137,11 @@ class __$SearchBySdAllRequestCopyWithImpl<$Res>
 
 /// Create a copy of SearchBySdAllRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? startPoint = null,Object? destination = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? startPoint = freezed,Object? destination = freezed,}) {
   return _then(_SearchBySdAllRequest(
-startPoint: null == startPoint ? _self.startPoint : startPoint // ignore: cast_nullable_to_non_nullable
-as String,destination: null == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
-as String,
+startPoint: freezed == startPoint ? _self.startPoint : startPoint // ignore: cast_nullable_to_non_nullable
+as String?,destination: freezed == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

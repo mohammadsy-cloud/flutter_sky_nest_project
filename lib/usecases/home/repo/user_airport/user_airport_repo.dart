@@ -215,6 +215,10 @@ class UserAirportRepo {
             statusCode: response.statusCode ?? 500,
           ),
         );
+      } else if ((response.statusCode ?? 500) == 400) {
+        throw Exception(
+          'you cannot cancel whithin 7 days near the flight start date',
+        );
       } else {
         throw Exception('Flight booking is not cancelled');
       }

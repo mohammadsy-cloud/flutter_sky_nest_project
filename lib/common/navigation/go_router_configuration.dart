@@ -24,8 +24,11 @@ import '../../usecases/authentication/view/pages/verification_code_change_page.d
 import '../../usecases/home/model/hotel.dart';
 import '../../usecases/home/model/reservation.dart';
 import '../../usecases/home/view/pages/airport_info_page.dart';
+import '../../usecases/home/view/pages/all_flights_page.dart';
 import '../../usecases/home/view/pages/booking_detais_screen.dart';
 import '../../usecases/home/view/pages/browse_airports_page.dart';
+import '../../usecases/home/view/pages/browse_nearby_airports_page.dart';
+import '../../usecases/home/view/pages/browse_nearby_hotels_page.dart';
 import '../../usecases/home/view/pages/cart_hotel_rooms_page.dart';
 import '../../usecases/home/view/pages/edit_profile_page.dart';
 import '../../usecases/home/view/pages/flight_details_page.dart';
@@ -66,6 +69,18 @@ class GlobalAppRouter {
         path: '/browse_hotels',
         pageBuilder:
             (context, state) => MaterialPage(child: BrowseHotelsPage()),
+      ),
+      GoRoute(
+        name: Routes.browseNearbyHotelsRoute,
+        path: '/browse_nearby_hotels',
+        pageBuilder:
+            (context, state) => MaterialPage(child: BrowseNearbyHotelsPage()),
+      ),
+      GoRoute(
+        name: Routes.browseNearbyAirportsRoute,
+        path: '/browse_nearby_airports',
+        pageBuilder:
+            (context, state) => MaterialPage(child: BrowseNearbyAirportsPage()),
       ),
       GoRoute(
         name: Routes.browseAirportsRoute,
@@ -205,6 +220,13 @@ class GlobalAppRouter {
         path: '/all_rooms',
         pageBuilder: (context, state) {
           return MaterialPage(child: AllRoomsPage());
+        },
+      ),
+      GoRoute(
+        name: Routes.allFlights,
+        path: '/all_flights',
+        pageBuilder: (context, state) {
+          return MaterialPage(child: AllFlightsPage());
         },
       ),
       GoRoute(

@@ -57,13 +57,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               ),
               Text('New Password', style: TextStyle(fontSize: 14)),
               TextFormField(
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return 'Enter a valid password';
-                  } else {
-                    return null;
-                  }
-                },
+                validator: validatePasswordWithFeedback,
                 style: TextStyle(fontSize: 15),
                 controller: _newPasswordController,
                 textInputAction: TextInputAction.next,

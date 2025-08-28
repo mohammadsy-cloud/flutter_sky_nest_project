@@ -9,16 +9,36 @@ part of 'show_all_rooms_request.dart';
 _ShowAllRoomsRequest _$ShowAllRoomsRequestFromJson(Map<String, dynamic> json) =>
     _ShowAllRoomsRequest(
       address: json['address'] as String,
-      startDate: const DateOnlyConverter().fromJson(
-        json['startDate'] as String,
+      startDate: _$JsonConverterFromJson<String, DateTime>(
+        json['startDate'],
+        const DateOnlyConverter().fromJson,
       ),
-      endDate: const DateOnlyConverter().fromJson(json['endDate'] as String),
+      endDate: _$JsonConverterFromJson<String, DateTime>(
+        json['endDate'],
+        const DateOnlyConverter().fromJson,
+      ),
     );
 
 Map<String, dynamic> _$ShowAllRoomsRequestToJson(
   _ShowAllRoomsRequest instance,
 ) => <String, dynamic>{
   'address': instance.address,
-  'startDate': const DateOnlyConverter().toJson(instance.startDate),
-  'endDate': const DateOnlyConverter().toJson(instance.endDate),
+  'startDate': _$JsonConverterToJson<String, DateTime>(
+    instance.startDate,
+    const DateOnlyConverter().toJson,
+  ),
+  'endDate': _$JsonConverterToJson<String, DateTime>(
+    instance.endDate,
+    const DateOnlyConverter().toJson,
+  ),
 };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);

@@ -12,11 +12,13 @@ class CustomTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.onTap,
     this.readOnly,
+    this.prefixIcon,
   });
   final String label;
   final TextEditingController? controller;
   final bool obsecureText;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final String? Function(String? value)? validator;
   final void Function(String value)? onChanged;
   final TextInputAction? textInputAction;
@@ -54,6 +56,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: _obsecure ?? false,
       controller: widget.controller,
       decoration: InputDecoration(
+        prefixIcon: widget.prefixIcon,
         suffixIcon:
             widget.suffixIcon ??
             (_obsecure == null

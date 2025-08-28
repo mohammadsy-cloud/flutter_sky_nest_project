@@ -10,9 +10,11 @@ part 'browse_airports_state.dart';
 part 'browse_airports_cubit.freezed.dart';
 
 class BrowseAirportsCubit extends Cubit<BrowseAirportsState> {
-  BrowseAirportsCubit({required UserAirportRepo userAirportRepo})
-    : _userAirportRepo = userAirportRepo,
-      super(BrowseAirportsState.initial());
+  BrowseAirportsCubit({
+    required UserAirportRepo userAirportRepo,
+    bool isNearby = false,
+  }) : _userAirportRepo = userAirportRepo,
+       super(BrowseAirportsState.initial(isNearby: isNearby));
 
   void searchAirports(String query) {
     emit(state.copyWith(query: query, status: Data.data));
@@ -25,28 +27,43 @@ class BrowseAirportsCubit extends Cubit<BrowseAirportsState> {
   }
 
   Future<void> fetchAirports() async {
-    emit(state.copyWith(status: Data.loading));
     try {
-      if (state.filter.isRating) {
-        emit(state.copyWith(query: ''));
+      emit(state.copyWith(status: Data.loading));
+      if (state.isNearby) {
+        final response = await _userAirportRepo.viewNearUserAirports();
+        final futureState = switch (response) {
+          Left(value: final l) => state.copyWith(
+            status: Data.error,
+            message: l.message,
+          ),
+          Right(value: final r) => state.copyWith(
+            status: Data.data,
+            airports: (r.data ?? state.airports),
+          ),
+        };
+        emit(futureState);
+      } else {
+        if (state.filter.isRating) {
+          emit(state.copyWith(query: ''));
+        }
+        final response =
+            state.filter.isRating
+                ? await _userAirportRepo.filterAirportsByRating()
+                : state.query.trim().isEmpty
+                ? await _userAirportRepo.viewAllAirports()
+                : await _userAirportRepo.searchAirportsByName(state.query);
+        final futureState = switch (response) {
+          Left(value: final l) => state.copyWith(
+            status: Data.error,
+            message: l.message,
+          ),
+          Right(value: final r) => state.copyWith(
+            status: Data.data,
+            airports: (r.data ?? state.airports),
+          ),
+        };
+        emit(futureState);
       }
-      final response =
-          state.filter.isRating
-              ? await _userAirportRepo.filterAirportsByRating()
-              : state.query.trim().isEmpty
-              ? await _userAirportRepo.viewAllAirports()
-              : await _userAirportRepo.searchAirportsByName(state.query);
-      final futureState = switch (response) {
-        Left(value: final l) => state.copyWith(
-          status: Data.error,
-          message: l.message,
-        ),
-        Right(value: final r) => state.copyWith(
-          status: Data.data,
-          airports: (r.data ?? state.airports) as List<Airport>,
-        ),
-      };
-      emit(futureState);
     } catch (e) {
       emit(state.copyWith(status: Data.error, message: e.toString()));
     }

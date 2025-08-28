@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ShowAllRoomsRequest {
 
- String get address;@DateOnlyConverter() DateTime get startDate;@DateOnlyConverter() DateTime get endDate;
+ String get address;@DateOnlyConverter() DateTime? get startDate;@DateOnlyConverter() DateTime? get endDate;
 /// Create a copy of ShowAllRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $ShowAllRoomsRequestCopyWith<$Res>  {
   factory $ShowAllRoomsRequestCopyWith(ShowAllRoomsRequest value, $Res Function(ShowAllRoomsRequest) _then) = _$ShowAllRoomsRequestCopyWithImpl;
 @useResult
 $Res call({
- String address,@DateOnlyConverter() DateTime startDate,@DateOnlyConverter() DateTime endDate
+ String address,@DateOnlyConverter() DateTime? startDate,@DateOnlyConverter() DateTime? endDate
 });
 
 
@@ -66,12 +66,12 @@ class _$ShowAllRoomsRequestCopyWithImpl<$Res>
 
 /// Create a copy of ShowAllRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? startDate = null,Object? endDate = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? startDate = freezed,Object? endDate = freezed,}) {
   return _then(_self.copyWith(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
-as DateTime,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as String,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,endDate: freezed == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -82,12 +82,12 @@ as DateTime,
 @JsonSerializable()
 
 class _ShowAllRoomsRequest implements ShowAllRoomsRequest {
-   _ShowAllRoomsRequest({required this.address, @DateOnlyConverter() required this.startDate, @DateOnlyConverter() required this.endDate});
+   _ShowAllRoomsRequest({required this.address, @DateOnlyConverter() this.startDate, @DateOnlyConverter() this.endDate});
   factory _ShowAllRoomsRequest.fromJson(Map<String, dynamic> json) => _$ShowAllRoomsRequestFromJson(json);
 
 @override final  String address;
-@override@DateOnlyConverter() final  DateTime startDate;
-@override@DateOnlyConverter() final  DateTime endDate;
+@override@DateOnlyConverter() final  DateTime? startDate;
+@override@DateOnlyConverter() final  DateTime? endDate;
 
 /// Create a copy of ShowAllRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -122,7 +122,7 @@ abstract mixin class _$ShowAllRoomsRequestCopyWith<$Res> implements $ShowAllRoom
   factory _$ShowAllRoomsRequestCopyWith(_ShowAllRoomsRequest value, $Res Function(_ShowAllRoomsRequest) _then) = __$ShowAllRoomsRequestCopyWithImpl;
 @override @useResult
 $Res call({
- String address,@DateOnlyConverter() DateTime startDate,@DateOnlyConverter() DateTime endDate
+ String address,@DateOnlyConverter() DateTime? startDate,@DateOnlyConverter() DateTime? endDate
 });
 
 
@@ -139,12 +139,12 @@ class __$ShowAllRoomsRequestCopyWithImpl<$Res>
 
 /// Create a copy of ShowAllRoomsRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? address = null,Object? startDate = null,Object? endDate = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? address = null,Object? startDate = freezed,Object? endDate = freezed,}) {
   return _then(_ShowAllRoomsRequest(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
-as DateTime,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as String,startDate: freezed == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,endDate: freezed == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

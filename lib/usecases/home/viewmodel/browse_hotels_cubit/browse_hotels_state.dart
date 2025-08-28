@@ -7,9 +7,11 @@ sealed class BrowseHotelsState with _$BrowseHotelsState {
     required String statusMessage,
     required List<Hotel> hotels,
     required Filter currentFilter,
+    required bool isNearby,
   }) = _BrowseHotelsState;
-  factory BrowseHotelsState.initial() {
+  factory BrowseHotelsState.initial({bool isNearby = false}) {
     return BrowseHotelsState(
+      isNearby: isNearby,
       status: Data.empty,
       statusMessage: 'No data',
       hotels: [],

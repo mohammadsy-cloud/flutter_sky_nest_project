@@ -212,8 +212,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   _fetchAdress() async {
     if (_choosenLocation != null) {
       final address = await getAddressFromLatLng(
-        _choosenLocation!.latitude,
         _choosenLocation!.longitude,
+        _choosenLocation!.latitude,
       );
       setState(() {
         _currentAddress = address;

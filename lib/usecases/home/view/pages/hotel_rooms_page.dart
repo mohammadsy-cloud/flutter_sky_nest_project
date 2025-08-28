@@ -105,7 +105,7 @@ class _HotelRoomsPageState extends State<HotelRoomsPage> {
           }
         },
         builder: (context, state) {
-          if (state.status.isEmpty) {
+          if (state.rooms.isEmpty && !state.status.isLoading) {
             return RefreshIndicator(
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
               onRefresh: () async {
@@ -113,7 +113,7 @@ class _HotelRoomsPageState extends State<HotelRoomsPage> {
               },
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: Center(heightFactor: 7.0, child: EmptyWidget()),
+                child: Center(heightFactor: 5.0, child: EmptyWidget()),
               ),
             );
           }

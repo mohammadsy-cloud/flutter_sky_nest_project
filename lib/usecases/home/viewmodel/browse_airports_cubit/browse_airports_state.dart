@@ -8,9 +8,11 @@ sealed class BrowseAirportsState with _$BrowseAirportsState {
     required List<Airport> airports,
     @Default('') String query,
     @Default(Filter.all) Filter filter,
+    required bool isNearby,
   }) = _BrowseAirportsState;
-  factory BrowseAirportsState.initial() {
+  factory BrowseAirportsState.initial({bool isNearby = false}) {
     return BrowseAirportsState(
+      isNearby: isNearby,
       status: Data.empty,
       message: 'No data',
       airports: [],

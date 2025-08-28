@@ -10,9 +10,11 @@ part 'browse_hotels_state.dart';
 part 'browse_hotels_cubit.freezed.dart';
 
 class BrowseHotelsCubit extends Cubit<BrowseHotelsState> {
-  BrowseHotelsCubit({required UserHotelRepo userHotelRepo})
-    : _userHotelRepo = userHotelRepo,
-      super(BrowseHotelsState.initial());
+  BrowseHotelsCubit({
+    bool isNearby = false,
+    required UserHotelRepo userHotelRepo,
+  }) : _userHotelRepo = userHotelRepo,
+       super(BrowseHotelsState.initial(isNearby: isNearby));
 
   void changeFilter(Filter filter) {
     emit(state.copyWith(currentFilter: filter));
@@ -21,25 +23,42 @@ class BrowseHotelsCubit extends Cubit<BrowseHotelsState> {
 
   Future<void> fetchAllHotels() async {
     emit(state.copyWith(status: Data.loading));
-    if (state.currentFilter.isRating) {
-      _fetchHotelsByRating();
-      return;
-    }
     try {
-      final response = await _userHotelRepo.getAllHotels();
+      if (state.isNearby) {
+        final response = await _userHotelRepo.showNearbyHotels();
 
-      final futureState = switch (response) {
-        Left(value: final l) => state.copyWith(
-          status: Data.error,
-          statusMessage: l.message,
-        ),
-        Right(value: final r) => state.copyWith(
-          status: Data.data,
-          statusMessage: r.message,
-          hotels: r.data ?? state.hotels,
-        ),
-      };
-      emit(futureState);
+        final futureState = switch (response) {
+          Left(value: final l) => state.copyWith(
+            status: Data.error,
+            statusMessage: l.message,
+          ),
+          Right(value: final r) => state.copyWith(
+            status: Data.data,
+            statusMessage: r.message,
+            hotels: r.data ?? state.hotels,
+          ),
+        };
+        emit(futureState);
+      } else {
+        if (state.currentFilter.isRating) {
+          _fetchHotelsByRating();
+          return;
+        }
+        final response = await _userHotelRepo.getAllHotels();
+
+        final futureState = switch (response) {
+          Left(value: final l) => state.copyWith(
+            status: Data.error,
+            statusMessage: l.message,
+          ),
+          Right(value: final r) => state.copyWith(
+            status: Data.data,
+            statusMessage: r.message,
+            hotels: r.data ?? state.hotels,
+          ),
+        };
+        emit(futureState);
+      }
     } catch (e) {
       emit(state.copyWith(status: Data.error, statusMessage: e.toString()));
     }

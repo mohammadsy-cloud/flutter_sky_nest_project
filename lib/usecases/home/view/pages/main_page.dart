@@ -68,6 +68,18 @@ class _Maintate extends State<MainPage> {
                 toolbarHeight: screenHeight(context) * 0.08,
               )
               : AppBar(
+                actions:
+                    _currentIndex == 3
+                        ? [
+                          TextButton.icon(
+                            onPressed: () {
+                              context.pushNamed(Routes.allFlights);
+                            },
+                            label: Text('View flights'),
+                            icon: Icon(Icons.add),
+                          ),
+                        ]
+                        : null,
                 forceMaterialTransparency: true,
                 title: Text(
                   _currentIndex == 1 ? 'Bookings' : 'Flight bookings',
@@ -97,7 +109,11 @@ class _Maintate extends State<MainPage> {
         items: [
           TabItem(icon: Icon(Icons.home), title: 'Home'),
           TabItem(icon: Icon(Icons.book), title: 'Book'),
-          TabItem(icon: Icon(Icons.shopping_cart), title: 'Cart'),
+          TabItem(
+            icon: Icon(Icons.shopping_cart),
+            title: 'Cart',
+            isIconBlend: true,
+          ),
           TabItem(icon: Icon(Icons.flight), title: 'Flights'),
           TabItem(icon: Icon(Icons.person), title: 'Profile'),
         ],

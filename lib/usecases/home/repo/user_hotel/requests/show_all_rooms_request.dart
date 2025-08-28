@@ -8,8 +8,8 @@ part 'show_all_rooms_request.g.dart';
 sealed class ShowAllRoomsRequest with _$ShowAllRoomsRequest {
   factory ShowAllRoomsRequest({
     required String address,
-    @DateOnlyConverter() required DateTime startDate,
-    @DateOnlyConverter() required DateTime endDate,
+    @DateOnlyConverter() DateTime? startDate,
+    @DateOnlyConverter() DateTime? endDate,
   }) = _ShowAllRoomsRequest;
 
   factory ShowAllRoomsRequest.fromJson(Map<String, dynamic> json) =>

@@ -62,7 +62,13 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Hotels near you', style: TextStyle(fontSize: 20)),
-                Icon(Icons.arrow_forward_ios, size: 20),
+                IconButton(
+                  onPressed: () {
+                    context.pushNamed(Routes.browseNearbyHotelsRoute);
+                  },
+                  iconSize: 24,
+                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                ),
               ],
             ),
             SizedBox(height: 10),
@@ -136,7 +142,14 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Airports near you', style: TextStyle(fontSize: 20)),
-                Icon(Icons.arrow_forward_ios, size: 20),
+                IconButton(
+                  iconSize: 24,
+
+                  onPressed: () {
+                    context.pushNamed(Routes.browseNearbyAirportsRoute);
+                  },
+                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                ),
               ],
             ),
             SizedBox(height: 10),

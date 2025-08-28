@@ -153,9 +153,8 @@ class _AirportInfoPageState extends State<AirportInfoPage>
                         return Skeletonizer(
                           enabled: state.status.isLoading,
                           child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.only(top: 10),
-                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                             key: _key,
                             itemCount:
                                 state.status.isLoading

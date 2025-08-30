@@ -31,27 +31,6 @@ class DependencyManager {
 
     Bloc.observer = CustomBlocObserver();
 
-    await Hive.initFlutter();
-    await Hive.openBox('my_box');
-    await Firebase.initializeApp();
-
-    await _firebaseMessaging.requestPermission();
-    final token = await _firebaseMessaging.getToken();
-
-    if (token != null) {
-      log('fcm_token : $token');
-      Hive.box('my_box').put('fcm_token', token);
-    }
-
-    FirebaseMessaging.onMessage.listen((message) {
-      final not = message.notification;
-      if (not != null) {
-        NotificationsService().show(
-          title: not.title ?? 'No title',
-          body: not.body ?? 'No body',
-        );
-      }
-    });
     HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory:
           kIsWeb
@@ -85,6 +64,28 @@ class DependencyManager {
     _instance.registerLazySingleton(
       () => HotelReservationsBloc(userHotelRepo: _instance<UserHotelRepo>()),
     );
+
+    await Hive.initFlutter();
+    await Hive.openBox('my_box');
+    await Firebase.initializeApp();
+
+    await _firebaseMessaging.requestPermission();
+    final token = await _firebaseMessaging.getToken();
+
+    if (token != null) {
+      log('fcm_token : $token');
+      Hive.box('my_box').put('fcm_token', token);
+    }
+
+    FirebaseMessaging.onMessage.listen((message) {
+      final not = message.notification;
+      if (not != null) {
+        NotificationsService().show(
+          title: not.title ?? 'No title',
+          body: not.body ?? 'No body',
+        );
+      }
+    });
   }
 
   static GetIt get instance => _instance;

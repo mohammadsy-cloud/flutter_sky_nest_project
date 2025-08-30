@@ -236,11 +236,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                               return Visibility(
                                 visible: state.notificationCount != 0,
                                 child: Positioned(
-                                  top: 22,
-                                  right: 10,
+                                  top: 15,
+                                  right: 4,
                                   child: Container(
-                                    width: 10,
-                                    height: 10,
+                                    width: 7,
+                                    height: 7,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.red,

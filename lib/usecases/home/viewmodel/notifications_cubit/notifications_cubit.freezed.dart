@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NotificationsState {
 
- Data get status; String get statusMessage; List<Notification> get notifications;
+ Data get status; String get statusMessage; List<NotificationModel> get notifications;
 /// Create a copy of NotificationsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -46,7 +46,7 @@ abstract mixin class $NotificationsStateCopyWith<$Res>  {
   factory $NotificationsStateCopyWith(NotificationsState value, $Res Function(NotificationsState) _then) = _$NotificationsStateCopyWithImpl;
 @useResult
 $Res call({
- Data status, String statusMessage, List<Notification> notifications
+ Data status, String statusMessage, List<NotificationModel> notifications
 });
 
 
@@ -68,7 +68,7 @@ class _$NotificationsStateCopyWithImpl<$Res>
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
 as String,notifications: null == notifications ? _self.notifications : notifications // ignore: cast_nullable_to_non_nullable
-as List<Notification>,
+as List<NotificationModel>,
   ));
 }
 
@@ -79,13 +79,13 @@ as List<Notification>,
 
 
 class _NotificationsState implements NotificationsState {
-  const _NotificationsState({required this.status, required this.statusMessage, required final  List<Notification> notifications}): _notifications = notifications;
+  const _NotificationsState({required this.status, required this.statusMessage, required final  List<NotificationModel> notifications}): _notifications = notifications;
   
 
 @override final  Data status;
 @override final  String statusMessage;
- final  List<Notification> _notifications;
-@override List<Notification> get notifications {
+ final  List<NotificationModel> _notifications;
+@override List<NotificationModel> get notifications {
   if (_notifications is EqualUnmodifiableListView) return _notifications;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_notifications);
@@ -122,7 +122,7 @@ abstract mixin class _$NotificationsStateCopyWith<$Res> implements $Notification
   factory _$NotificationsStateCopyWith(_NotificationsState value, $Res Function(_NotificationsState) _then) = __$NotificationsStateCopyWithImpl;
 @override @useResult
 $Res call({
- Data status, String statusMessage, List<Notification> notifications
+ Data status, String statusMessage, List<NotificationModel> notifications
 });
 
 
@@ -144,7 +144,7 @@ class __$NotificationsStateCopyWithImpl<$Res>
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as Data,statusMessage: null == statusMessage ? _self.statusMessage : statusMessage // ignore: cast_nullable_to_non_nullable
 as String,notifications: null == notifications ? _self._notifications : notifications // ignore: cast_nullable_to_non_nullable
-as List<Notification>,
+as List<NotificationModel>,
   ));
 }
 

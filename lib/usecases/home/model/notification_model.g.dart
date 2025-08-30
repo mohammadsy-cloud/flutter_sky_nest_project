@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'notification.dart';
+part of 'notification_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Notification _$NotificationFromJson(Map<String, dynamic> json) =>
-    _Notification(
+_NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
+    _NotificationModel(
       id: (json['id'] as num?)?.toInt(),
       notificationDetails: json['notificationDetails'] as String?,
     );
 
-Map<String, dynamic> _$NotificationToJson(_Notification instance) =>
+Map<String, dynamic> _$NotificationModelToJson(_NotificationModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'notificationDetails': instance.notificationDetails,

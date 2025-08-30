@@ -5,9 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sky_nest/common/models/custom_failure.dart';
 import 'package:sky_nest/common/models/custom_response.dart';
 import 'package:sky_nest/common/services/api_service/api_service.dart';
+import 'package:sky_nest/usecases/home/model/notification_model.dart';
 
 import '../../../../common/utilities/enumirations.dart';
-import '../../model/notification.dart';
 import '../../repo/profile/profile_endpoints.dart';
 
 part 'notifications_state.dart';
@@ -37,7 +37,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     }
   }
 
-  Future<Either<CustomFailure, CustomResponse<List<Notification>>>>
+  Future<Either<CustomFailure, CustomResponse<List<NotificationModel>>>>
   _fetchAllNotifications() async {
     try {
       final response = await ApiService().instance.get(
@@ -46,18 +46,18 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
       if ((response.statusCode ?? 500) < 300) {
         return Right(
-          CustomResponse<List<Notification>>(
+          CustomResponse<List<NotificationModel>>(
             message: 'Notifications fetched successfully',
             statusCode: response.statusCode ?? 500,
             data:
                 (response.data['elements'] as List<dynamic>).map((not) {
-                  return Notification.fromJson(not);
+                  return NotificationModel.fromJson(not);
                 }).toList(),
           ),
         );
       } else if (response.statusCode == 400) {
         return Right(
-          CustomResponse<List<Notification>>(
+          CustomResponse<List<NotificationModel>>(
             data: [],
             message: 'Notifications fetched successfully',
             statusCode: response.statusCode ?? 500,

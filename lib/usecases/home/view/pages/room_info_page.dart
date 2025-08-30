@@ -349,6 +349,9 @@ class _ReservationOverlayWidgetState extends State<ReservationOverlayWidget> {
                   Fluttertoast.showToast(msg: 'Room booked successfully');
                   context.pop<bool>(true);
                 }
+                if (state.status.isError) {
+                  Fluttertoast.showToast(msg: state.message);
+                }
               },
               builder: (context, state) {
                 return state.status.isLoading

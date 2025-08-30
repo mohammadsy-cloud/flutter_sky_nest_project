@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:sky_nest/common/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:sky_nest/common/navigation/go_router_configuration.dart';
@@ -19,39 +21,46 @@ import 'usecases/home/view/widgets/profile/profile_page.dart';
 import 'usecases/home/viewmodel/hotel_reservations_bloc/hotel_reservations_bloc.dart';
 
 void main() async {
-  await DependencyManager.setup();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider.value(
-          value: DependencyManager.instance<AuthenticationBloc>(),
+  try {
+    await DependencyManager.setup();
+  } catch (e) {
+    log(e.toString());
+  } finally {
+    runApp(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: DependencyManager.instance<AuthenticationBloc>(),
+          ),
+          BlocProvider.value(
+            value: DependencyManager.instance<LocationCubit>(),
+          ),
+          BlocProvider.value(value: DependencyManager.instance<HomeBloc>()),
+          BlocProvider.value(value: DependencyManager.instance<ProfileBloc>()),
+          BlocProvider.value(value: DependencyManager.instance<CartBloc>()),
+          BlocProvider.value(
+            value: DependencyManager.instance<HotelReservationsBloc>(),
+          ),
+          BlocProvider.value(
+            value: DependencyManager.instance<FlightReservationsBloc>(),
+          ),
+        ],
+        child:
+        //  MaterialApp(
+        //   home: ChangePasswordPage(),
+        //   debugShowCheckedModeBanner: false,
+        //   themeMode: ThemeMode.system,
+        //   theme: AppTheme.light,
+        //   darkTheme: AppTheme.dark,
+        // ),
+        MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.system,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          routerConfig: GlobalAppRouter.instance,
         ),
-        BlocProvider.value(value: DependencyManager.instance<LocationCubit>()),
-        BlocProvider.value(value: DependencyManager.instance<HomeBloc>()),
-        BlocProvider.value(value: DependencyManager.instance<ProfileBloc>()),
-        BlocProvider.value(value: DependencyManager.instance<CartBloc>()),
-        BlocProvider.value(
-          value: DependencyManager.instance<HotelReservationsBloc>(),
-        ),
-        BlocProvider.value(
-          value: DependencyManager.instance<FlightReservationsBloc>(),
-        ),
-      ],
-      child:
-      //  MaterialApp(
-      //   home: ChangePasswordPage(),
-      //   debugShowCheckedModeBanner: false,
-      //   themeMode: ThemeMode.system,
-      //   theme: AppTheme.light,
-      //   darkTheme: AppTheme.dark,
-      // ),
-      MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.system,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        routerConfig: GlobalAppRouter.instance,
       ),
-    ),
-  );
+    );
+  }
 }

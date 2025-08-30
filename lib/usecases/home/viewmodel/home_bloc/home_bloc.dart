@@ -11,7 +11,7 @@ import '../../../../common/models/custom_response.dart';
 import '../../../../common/services/api_service/api_service.dart';
 import '../../../../common/utilities/enumirations.dart';
 import '../../model/airport.dart';
-import '../../model/notification.dart';
+import '../../model/notification_model.dart';
 import '../../repo/profile/profile_endpoints.dart';
 import '../../repo/user_airport/user_airport_endpoints.dart';
 import '../../repo/user_hotel/user_hotel_repo.dart';
@@ -99,7 +99,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<Either<CustomFailure, CustomResponse<List<Notification>>>>
+  Future<Either<CustomFailure, CustomResponse<List<NotificationModel>>>>
   _fetchAllNotifications() async {
     try {
       final response = await ApiService().instance.get(
@@ -108,18 +108,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       if ((response.statusCode ?? 500) < 300) {
         return Right(
-          CustomResponse<List<Notification>>(
+          CustomResponse<List<NotificationModel>>(
             message: 'Notifications fetched successfully',
             statusCode: response.statusCode ?? 500,
             data:
                 (response.data['elements'] as List<dynamic>).map((not) {
-                  return Notification.fromJson(not);
+                  return NotificationModel.fromJson(not);
                 }).toList(),
           ),
         );
       } else if (response.statusCode == 400) {
         return Right(
-          CustomResponse<List<Notification>>(
+          CustomResponse<List<NotificationModel>>(
             data: [],
             message: 'Notifications fetched successfully',
             statusCode: response.statusCode ?? 500,

@@ -54,15 +54,29 @@ class _EditProfilePageState extends State<EditProfilePage> {
         padding: EdgeInsets.only(
           left: 20,
           right: 20,
-          top: 80,
+          top: 60,
           bottom: MediaQuery.of(context).viewInsets.bottom * 0.3,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 20,
           children: [
+            Row(
+              children: [
+                Text('My level : ', style: TextStyle(fontSize: 17)),
+                CircleAvatar(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  child: Text(
+                    (context.read<ProfileBloc>().state.user?.level ?? -1)
+                        .toString(),
+                    style: TextStyle(fontSize: 17),
+                  ),
+                ),
+              ],
+            ),
+
             Text('Full name', style: TextStyle(fontSize: 17)),
             TextFormField(
               controller: _fullNameController,

@@ -5,7 +5,7 @@ sealed class NotificationsState with _$NotificationsState {
   const factory NotificationsState({
     required Data status,
     required String statusMessage,
-    required List<Notification> notifications,
+    required List<NotificationModel> notifications,
   }) = _NotificationsState;
   factory NotificationsState.initial() {
     return NotificationsState(

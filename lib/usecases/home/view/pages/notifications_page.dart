@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sky_nest/usecases/home/view/widgets/empty_widget.dart';
 
+import '../../../../common/theme/color_pallete.dart';
 import '../../../../common/utilities/app_utilities.dart';
+import '../../../../common/widgets/blurred_dialog.dart';
+import '../../model/notification_model.dart';
 import '../../viewmodel/notifications_cubit/notifications_cubit.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -36,9 +41,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
       ),
       body: BlocConsumer<NotificationsCubit, NotificationsState>(
         bloc: _notificationsCubit,
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state.status.isError) {
+            Fluttertoast.showToast(msg: state.statusMessage);
+          }
+        },
         builder: (context, state) {
-          if (state.notifications.isEmpty) {
+          if (!state.status.isLoading && state.notifications.isEmpty) {
             return RefreshIndicator(
               onRefresh: () async {
                 _notificationsCubit.fetchNotifications();
@@ -70,20 +79,49 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
+                          color: ColorPallete.grayColor,
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     );
                   }
-                  final notification = state.notifications[index];
+                  final n = state.notifications[index];
+
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        borderRadius: BorderRadius.circular(12),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return _buildDialog(
+                              msg: n.notificationDetails ?? '',
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: ColorPallete.grayColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            CircleAvatar(child: Text('${n.id ?? -1}')),
+                            SizedBox(
+                              width: screenWidth(context) * 0.7,
+                              child: Text(
+                                overflow: TextOverflow.ellipsis,
+                                n.notificationDetails ?? 'no notification',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -92,6 +130,42 @@ class _NotificationsPageState extends State<NotificationsPage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildDialog({String msg = 'no message'}) {
+    return BlurredDialog(
+      child: AlertDialog(
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: screenWidth(context) * 0.5,
+              child: FittedBox(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  'Notification details',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              textAlign: TextAlign.center,
+              msg,
+              style: TextStyle(fontSize: 15),
+            ),
+            SizedBox(height: 10),
+            TextButton(
+              onPressed: () {
+                context.pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        ),
       ),
     );
   }
